@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Всі екзаменаційні маршрути МВС | ТСЦ 2641</title>
+    <!-- Підключення логотипу (фавіконки) -->
+    <link rel="icon" type="image/png" href="img/logo.jpg">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #1e1e1e;
+        }
+        #app-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Вікно зі старим додатком -->
+    <iframe id="app-frame" src="index.html"></iframe>
+
+    <script>
+        // Цей скрипт автоматично додає твою нову кнопку в меню всередині iframe після завантаження
+        const iframe = document.getElementById('app-frame');
+        
+        iframe.onload = function() {
+            try {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                
+                // Знаходимо батьківський елемент кнопок меню в index.html
+                const firstBtn = iframeDoc.querySelector('.nav-btn');
+                if (firstBtn) {
+                    const oldMenu = firstBtn.parentElement; 
+                    
+                    if (oldMenu) {
+                        // Створюємо нову кнопку
+                        const newBtn = document.createElement('button');
+                        newBtn.className = 'nav-btn'; // Той самий клас, що й у стабільних кнопках
+                        newBtn.style.backgroundColor = '#28a745'; // Зелений колір
+                        newBtn.style.color = 'white';
+                        newBtn.innerText = '🚗 Знайти найближчу машину';
+                        
+                        // Дія при кліку (перехід на майбутню сторінку)
+                        newBtn.onclick = function() {
+                            window.location.href = 'near-car.html';
+                        };
+                        
+                        // Додаємо кнопку в загальне меню на рівні зі старими
+                        oldMenu.appendChild(newBtn);
+                    }
+                }
+            } catch (e) {
+                console.log("Помилка автододавання кнопки:", e);
+            }
+        };
+    </script>
+
+</body>
+</html>

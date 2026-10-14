@@ -1,0 +1,226 @@
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --accent: #00E676;
+    --accent-hover: #00C853;
+    --text-color: #ffffff;
+    --text-secondary: #b0b0b0;
+    --border-color: #333333;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: var(--card-bg);
+    padding: 12px 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--accent);
+}
+
+header p {
+    margin: 4px 0 0 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #181818;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+button {
+    background-color: #2c2c2c;
+    color: var(--text-color);
+    border: 1px solid #444;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+button:hover {
+    background-color: #3a3a3a;
+}
+
+button.active {
+    background-color: var(--accent);
+    color: #121212;
+    border-color: var(--accent);
+}
+
+.content-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.view-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-color: var(--bg-color);
+}
+
+.view-section.active {
+    display: flex;
+}
+
+.route-selector {
+    padding: 10px 15px;
+    background: var(--card-bg);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+select {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #2a2a2a;
+    color: white;
+    border: 1px solid #555;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.map-layout {
+    display: flex;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+#map, #map-my-routes {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+}
+
+.route-info-panel {
+    width: 320px;
+    background-color: var(--card-bg);
+    border-left: 1px solid var(--border-color);
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.route-info-panel h3 {
+    margin-top: 0;
+    font-size: 1rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.routes-list-container {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.route-card, .checklist-card {
+    background-color: var(--card-bg);
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--accent);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.route-card h3, .checklist-card h3 {
+    margin-top: 0;
+    color: var(--text-color);
+}
+
+.route-card a {
+    display: inline-block;
+    background-color: #d32f2f;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.route-card a:hover {
+    background-color: #b71c1c;
+}
+
+.checklist-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.checklist-items label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.checklist-items input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+/* Адаптивність для мобільних пристроїв */
+@media (max-width: 768px) {
+    .map-layout {
+        flex-direction: column;
+    }
+    .route-info-panel {
+        width: 100%;
+        height: 160px;
+    }
+}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Всі маршрути МВС | Івано-Франківськ (ТСЦ 2641)</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="img/logo.jpg">
+</head>
+<body>
+
+    <header>
+        <h1>🚗 Всі екзаменаційні маршрути МВС</h1>
+        <p>ТСЦ № 2641 (м. Івано-Франківськ) — Відео-розбори DEMICH</p>
+    </header>
+
+    <div class="nav-buttons">
+        <button id="btn-map" class="active" onclick="switchView('map')">🗺️ Карта (Малювання)</button>
+        <button id="btn-my-routes" onclick="switchView('my-routes')">📍 Маршрути МВС та Відео</button>
+        <button id="btn-list" onclick="switchView('list')">📋 Список і Чек-лист</button>
+    </div>
+
+    <div class="content-container">
+        <!-- Секція 1: Інтерактивна карта для малювання -->
+        <div id="section-map" class="view-section active">
+            <div class="route-selector" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <div>
+                    <label for="routeSelect">Обери маршрут:</label>
+                    <select id="routeSelect" onchange="changeRouteOnMap()">
+                        <option value="1">Маршрут №1</option>
+                        <option value="2">Маршрут №2</option>
+                        <option value="3">Маршрут №3</option>
+                        <option value="4">Маршрут №4</option>
+                        <option value="6">Маршрут №6</option>
+                        <option value="7">Маршрут №7</option>
+                        <option value="8">Маршрут №8</option>
+                        <option value="9">Маршрут №9</option>
+                        <option value="10">Маршрут №10</option>
+                        <option value="11">Маршрут №11</option>
+                    </select>
+                </div>
+                <!-- Кнопка Олівець -->
+                <button id="btn-pencil" onclick="toggleDrawingMode()" style="background: #2c2c2c; color: white; border: 1px solid #444; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px;">✏️ Олівець (Малювати)</button>
+
+                <!-- Додано кнопки Експорту / Імпорту -->
+                <div class="file-tools" style="display: flex; gap: 8px; margin-left: auto;">
+                    <button onclick="exportAllRoutes()" style="background: #444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;">📤 Експорт у JSON</button>
+                    <label style="background: #444; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: inline-block; font-size: 13px;">
+                        📥 Імпорт JSON <input type="file" id="importFile" accept=".json" onchange="importAllRoutes(event)" style="display: none;">
+                    </label>
+                </div>
+            </div>
+            
+            <div class="map-layout">
+                <div id="map"></div>
+                <div class="route-info-panel">
+                    <h3>📌 Деталі маршруту</h3>
+                    <div id="routeDescription">Оберіть маршрут для перегляду деталей.</div>
+                    <div id="routeVideoBtn" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція 2: Офіційні маршрути МВС з відео -->
+        <div id="section-my-routes" class="view-section">
+            <div class="route-selector" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                <label for="myRouteSelect">Обери маршрут МВС:</label>
+                <select id="myRouteSelect" onchange="changeMyRouteOnMap()">
+                    <option value="1">Маршрут №1</option>
+                    <option value="2">Маршрут №2</option>
+                    <option value="3">Маршрут №3</option>
+                    <option value="4">Маршрут №4</option>
+                    <option value="6">Маршрут №6</option>
+                    <option value="7">Маршрут №7</option>
+                    <option value="8">Маршрут №8</option>
+                    <option value="9">Маршрут №9</option>
+                    <option value="10">Маршрут №10</option>
+                    <option value="11">Маршрут №11</option>
+                </select>
+            </div>
+            
+            <div class="map-layout">
+                <div id="map-my-routes"></div>
+                <div class="route-info-panel">
+                    <h3>📌 Відео та опис маршруту</h3>
+                    <div id="myRouteDescription">Оберіть маршрут для перегляду.</div>
+                    <div id="myRouteVideoBtn" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секція 3: Список, відео та чек-лист -->
+        <div id="section-list" class="view-section">
+            <div class="routes-list-container">
+                
+                <div class="checklist-card">
+                    <h3>✅ Чек-лист перед стартом іспиту</h3>
+                    <div class="checklist-items">
+                        <label><input type="checkbox"> Регулювання сидіння та керма</label>
+                        <label><input type="checkbox"> Перевірка та налаштування всіх дзеркал</label>
+                        <label><input type="checkbox"> Пристебнутися ременем безпеки</label>
+                        <label><input type="checkbox"> Перевірити нейтральну передачу та зняти з ручника</label>
+                        <label><input type="checkbox"> Увімкнути лівий покажчик повороту перед стартом</label>
+                    </div>
+                </div>
+
+                <h2>📚 Список маршрутів ТСЦ 2641 (DEMICH)</h2>
+                
+                <div class="route-card">
+                    <h3>Маршрут №1</h3>
+                    <a href="http://www.youtube.com/watch?v=_qYDWaTN8o8" target="_blank">📺 Дивитись відео Маршруту №1</a>
+                </div>
+
+                <div class="route-card">
+                    <h3>Маршрут №2</h3>
+                    <a href="http://www.youtube.com/watch?v=zVOwi8QMUJg" target="_blank">📺 Дивитись відео Маршруту №2</a>
+                </div>
+
+                <div class="route-card">
+                    <h3>Маршрут №3</h3>
+                    <a href="http://www.youtube.com/watch?v=mzRqWfzmm1w" target="_blank">📺 Дивитись відео Маршруту №3</a>
+                </div>
+
+                <div class="route-card">
+                    <h3>Маршрут №4</h3>
+                    <a href="http://www.youtube.com/watch?v=zikFkM1mTOs" target="_blank">📺 Дивитись відео Маршруту №4</a>
+                </div>
+
+                <div class="route-card">
+                    <h3>Маршрут №6</h3>
+                    <a href="http://www.youtube.com/watch?v=4LWmWB_bTEI" target="_blank">📺 Дивитись відео Маршруту №6</a>
+                </div>
+
+                <div class="route-card">
+                    <h3>Маршрут №7</h3>
+                    <a href="http://www.youtube.com/watch?v=Ro2rL_brZHg" target="_blank">📺 Дивитись відео Маршруту №7</a>
+                </div>
+
+                <div class="route-card">
+                    <h3>Маршрут №8</h3>
+                    <a href="http://www.youtube.com/watch?v=op8rQKS2e9U" target="_blank">📺 Дивитись відео Маршруту №8</a>
+                </div>
+
+                <div class="route-card">
+                    <h3>Маршрут №9</h3>
+                    <a href="http://www.youtube.com/watch?v=HnvoZjsp2HI" target="_blank">📺 Дивитись відео Маршруту №9</a>
+                </div>
+
+                <div class="route-card">
+                    <h3>Маршрут №10</h3>
+                    <a href="http://www.youtube.com/watch?v=j66UNL1FWuY" target="_blank">📺 Дивитись відео Маршруту №10</a>
+                </div>
+
+                <div class="route-card">
+                    <h3>Маршрут №11</h3>
+                    <a href="http://www.youtube.com/watch?v=-8blmb2TSVk" target="_blank">📺 Дивитись відео Маршруту №11</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Main Script -->
+    <script src="script.js"></script>
+</body>
+</html>
