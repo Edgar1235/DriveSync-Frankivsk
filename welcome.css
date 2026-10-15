@@ -1,0 +1,64 @@
+#welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Робимо фон яскравим, без важкого чорного затемнення */
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url('img/welfon.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    transition: opacity 0.5s ease;
+}
+
+.welcome-card {
+    background: rgba(20, 20, 20, 0.75); /* Напівпрозорий темний фон картки */
+    padding: 40px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    max-width: 400px;
+    width: 100%;
+    backdrop-filter: blur(8px); /* Легке розмиття під карткою, щоб текст читався */
+}
+
+.welcome-card h1 {
+    color: #00E676;
+    margin-top: 0;
+    font-size: 1.8rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.welcome-card p {
+    color: #e0e0e0;
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.welcome-card button {
+    background: #00E676;
+    color: #121212;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s, transform 0.1s;
+    box-shadow: 0 4px 12px rgba(0, 230, 118, 0.4);
+}
+
+.welcome-card button:hover {
+    background: #00C853;
+    transform: scale(1.02);
+}
