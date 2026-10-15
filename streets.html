@@ -5,64 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Список вулиць по маршрутах | ТСЦ 2641</title>
     <link rel="icon" type="image/png" href="img/logo.jpg">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1e1e1e;
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #2d2d2d;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        h2 {
-            margin-top: 0;
-            color: #4CAF50;
-        }
-        select {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            background: #3c3c3c;
-            color: white;
-            border: 1px solid #555;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            outline: none;
-        }
-        ul {
-            line-height: 1.8;
-            font-size: 18px;
-            padding-left: 20px;
-        }
-        li {
-            margin-bottom: 8px;
-        }
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 10px 15px;
-            background: #555;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background 0.2s;
-        }
-        .back-btn:hover {
-            background: #775;
-        }
-    </style>
+    <link rel="stylesheet" href="style-streets.css">
 </head>
 <body>
 
+    <!-- Верхня шапка -->
+    <header>
+        <h1>🚗 Всі екзаменаційні маршрути МВС</h1>
+        <p>ТСЦ № 2641 (м. Івано-Франківськ) — Відео-розбори DEMICH</p>
+    </header>
+
+    <!-- Повне меню з 4 кнопками, як на інших сторінках -->
+    <div class="nav-buttons">
+        <button onclick="location.href='index.html?view=map'">🗺️ Карта (Малювання)</button>
+        <button onclick="location.href='index.html?view=my-routes'">📍 Маршрути МВС та Відео</button>
+        <button onclick="location.href='index.html?view=list'">📋 Список і Чек-лист</button>
+        <button class="active">📋 Вулиці маршрутів</button>
+    </div>
+
     <div class="container">
-        <a href="index.html" class="back-btn">← Назад на карту</a>
         <h2>📋 Список вулиць по екзаменаційних маршрутах</h2>
         
         <select id="routeSelect" onchange="showStreets()">
@@ -79,9 +40,9 @@
         </select>
 
         <div id="streetsListContainer">
-            <ul id="streetsUl">
-                <!-- Сюди підтягуватимуться вулиці -->
-            </ul>
+            <ol id="streetsUl">
+                <!-- Сюди підтягуватимуться вулиці з нумерацією -->
+            </ol>
         </div>
     </div>
 
@@ -174,8 +135,6 @@
                 "вул. Коновальця (Старт МВС)",
                 "вул. Петлюри до кільця",
                 "Поверненя на сервісний центер МВС"
-
-
             ]
         };
 

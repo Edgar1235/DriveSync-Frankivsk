@@ -199,3 +199,9 @@ function switchView(view) {
 // Первинний запуск
 changeRouteOnMap();
 changeMyRouteOnMap();
+// Автоматичне відкриття вкладки за параметром в URL (наприклад, index.html?view=list)
+    const urlParams = new URLSearchParams(window.location.search);
+    const viewParam = urlParams.get('view');
+    if (viewParam) {
+        switchView(viewParam);
+    }

@@ -12,7 +12,6 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    background-color: var(--bg-color);
     color: var(--text-color);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
@@ -21,6 +20,11 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
+    background-image: url('img/fon.jpg'); 
+    background-size: cover;          
+    background-position: center;     
+    background-repeat: no-repeat;    
+    background-attachment: fixed;    
 }
 
 header {
@@ -90,7 +94,7 @@ button.active {
     display: none;
     flex-direction: column;
     box-sizing: border-box;
-    background-color: var(--bg-color);
+    /* Прибрано сплошний фон, щоб проступала картинка */
 }
 
 .view-section.active {
