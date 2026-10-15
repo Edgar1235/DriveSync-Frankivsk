@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Всі екзаменаційні маршрути МВС | ТСЦ 2641</title>
-    <!-- Підключення логотипу (фавіконки) -->
     <link rel="icon" type="image/png" href="img/logo.jpg">
     <style>
         body, html {
@@ -28,39 +27,45 @@
     <iframe id="app-frame" src="index.html"></iframe>
 
     <script>
-        // Цей скрипт автоматично додає твою нову кнопку в меню всередині iframe після завантаження
         const iframe = document.getElementById('app-frame');
         
-        iframe.onload = function() {
+        function addStreetButton() {
             try {
                 const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
                 
-                // Знаходимо батьківський елемент кнопок меню в index.html
+                // Перевіряємо, чи кнопка вже додана, щоб не дублювати
+                if (iframeDoc.getElementById('custom-streets-btn')) return;
+
+                // Шукаємо батьківський блок існуючих кнопок меню
                 const firstBtn = iframeDoc.querySelector('.nav-btn');
                 if (firstBtn) {
-                    const oldMenu = firstBtn.parentElement; 
+                    const menuContainer = firstBtn.parentElement; 
                     
-                    if (oldMenu) {
-                        // Створюємо нову кнопку
-                        const newBtn = document.createElement('button');
-                        newBtn.className = 'nav-btn'; // Той самий клас, що й у стабільних кнопках
-                        newBtn.style.backgroundColor = '#28a745'; // Зелений колір
-                        newBtn.style.color = 'white';
-                        newBtn.innerText = '🚗 Знайти найближчу машину';
+                    if (menuContainer) {
+                        // Створюємо кнопку "Вулиці маршрутів"
+                        const streetsBtn = document.createElement('button');
+                        streetsBtn.id = 'custom-streets-btn';
+                        streetsBtn.className = 'nav-btn'; // Той самий клас, що й у старих кнопок
+                        streetsBtn.style.backgroundColor = '#17a2b8'; // Блакитний колір
+                        streetsBtn.style.color = 'white';
+                        streetsBtn.innerText = '📋 Вулиці маршрутів';
                         
-                        // Дія при кліку (перехід на майбутню сторінку)
-                        newBtn.onclick = function() {
-                            window.location.href = 'near-car.html';
+                        streetsBtn.onclick = function() {
+                            window.location.href = 'streets.html';
                         };
                         
-                        // Додаємо кнопку в загальне меню на рівні зі старими
-                        oldMenu.appendChild(newBtn);
+                        // Додаємо в кінець панелі меню
+                        menuContainer.appendChild(streetsBtn);
                     }
                 }
             } catch (e) {
-                console.log("Помилка автододавання кнопки:", e);
+                console.log("Помилка додавання кнопки:", e);
             }
-        };
+        }
+
+        // Слідкуємо за завантаженням та змінами в iframe
+        iframe.onload = addStreetButton;
+        setInterval(addStreetButton, 500);
     </script>
 
 </body>

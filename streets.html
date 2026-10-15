@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список вулиць по маршрутах | ТСЦ 2641</title>
+    <link rel="icon" type="image/png" href="img/logo.jpg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #2d2d2d;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        h2 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #3c3c3c;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            outline: none;
+        }
+        ul {
+            line-height: 1.8;
+            font-size: 18px;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background: #555;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+        .back-btn:hover {
+            background: #775;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">← Назад на карту</a>
+        <h2>📋 Список вулиць по екзаменаційних маршрутах</h2>
+        
+        <select id="routeSelect" onchange="showStreets()">
+            <option value="1">Маршрут №1 (Дудаєва)</option>
+            <option value="2">Маршрут №2 (Незалежності)</option>
+            <option value="3">Маршрут №3 (Сахарова)</option>
+            <option value="4">Маршрут №4 (Довженка)</option>
+            <option value="6">Маршрут №6 (Вокзал)</option>
+            <option value="7">Маршрут №7 (Стецького)</option>
+            <option value="8">Маршрут №8 (Микитинці )</option>
+            <option value="9">Маршрут №9 (Вокзал)</option>
+            <option value="10">Маршрут №10 (Сухомлицького)</option>
+            <option value="11">Маршрут №11 (Довженка)</option>
+        </select>
+
+        <div id="streetsListContainer">
+            <ul id="streetsUl">
+                <!-- Сюди підтягуватимуться вулиці -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const routesData = {
+            "1": [
+                "вул. Коновальця(Старт біля ТСЦ МВС)",
+                "вул. Джохара Дудаєва",
+                "Розворот у кінці вулиці",
+                "Зворотний шлях до ТСЦ МВС"
+            ],
+            "2": [
+                "вул.Коновальця (Старт МВС)",
+                "вул. Бандери",
+                "вул. Височана",
+                "вул. Шухевича",
+                "вул. Незалжності",
+                "вул. Бандери",
+                "Повернення до сервісного центру "
+            ],
+            "3": [
+                "вул. Коновальця(Старт МВС)",
+                "вул. Бандери ",
+                "вул. Сахарова ",
+                "вул. Коновальця ",
+                " повернення до МВС"
+            ],
+            "4": [
+                "вул. Коновальця (Старт МВС)",
+                "вул. Петлюри",
+                "вул. Довженка ",
+                "по колці на 4 зїзд ",
+                "Зворотний маршрут до МВС"
+            ],
+            "6": [
+                "вул. Коновальця (Старт МВС)",
+                "вул. Бандери",
+                "вул. Височана",
+                "вул. Шухевича",
+                "вул. Незалежності",
+                "вул. Залізчна",
+                "вул. Лепкого",
+                "вул. Незалежності ",
+                "вул. Мельника",
+                "вул. Мельника ",
+                "вул. Сахарова ",
+                "вул. Коновальця",
+                "Повернення до сервісного центру"
+            ],
+            "7": [
+                "вул. Коновальця(Старт біля МВС)",
+                "вул. Бандери",
+                "вул. Стецького",
+                "вул. Коновальця",
+                "Фініш біля ТСЦ МВС"
+            ],
+            "8": [
+                "вул. Коновальця (Старт МВС)",
+                "вул. Бандери",
+                "вул. Ребета",
+                "вул. Макуха",
+                "вул. Микитиньська",
+                "вул. Незалежності ",
+                "вул. Юності ",
+                "Повернення до сервісного центру"
+            ],
+            "9": [
+                "вул. Коновальця (Старт МВС)",
+                "вул. Сахарова",
+                "вул. Мельника",
+                "вул. Незалежності",
+                "вул. Лепкого",
+                "вул. Залізнична",
+                "вул. Незалежності",
+                "вул. Шухевичів",
+                "вул. Височана",
+                "вул. Зорія",
+                "вул. Бандери",
+                "Повернення до сервісного центру"
+            ],
+            "10": [
+                "вул. Коновальця(Старт МВС)",
+                "вул.Петлюри ",
+                "вул. Дорошенка",
+                "вул. Сухомлицького",
+                "вул. Довженка",
+                "Зворотний шлях до МВС"
+            ],
+            "11" :[
+                "вул. Коновальця (Старт МВС)",
+                "вул. Петлюри до кільця",
+                "Поверненя на сервісний центер МВС"
+
+
+            ]
+        };
+
+        function showStreets() {
+            const selectedRoute = document.getElementById('routeSelect').value;
+            const ul = document.getElementById('streetsUl');
+            ul.innerHTML = "";
+
+            const streets = routesData[selectedRoute] || ["Інформація про цей маршрут поки відсутня."];
+            
+            streets.forEach(street => {
+                const li = document.createElement('li');
+                li.innerText = street;
+                ul.appendChild(li);
+            });
+        }
+
+        showStreets();
+    </script>
+
+</body>
+</html>
