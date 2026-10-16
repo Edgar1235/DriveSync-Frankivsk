@@ -4,70 +4,129 @@ const tscCoords = [48.8945, 24.7170];
 // База даних світлофорів і парковок для всіх маршрутів за замовчуванням
 let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastructure')) || {
     "1": [
-        { type: "light", lat: 48.90037, lng: 24.72426 },
-        { type: "park", lat: 48.90435, lng: 24.71418 }
+        { type: "light", lat: 48.90336, lng: 24.71652 },
+        { type: "light", lat: 48.90093, lng: 24.71319 },
+        { type: "park", lat: 48.89474, lng: 24.71683 },
+        { type: "park", lat: 48.89474, lng: 24.71683 }
     ],
     "2": [
-        { type: "light", lat: 48.90453, lng: 24.71343 },
-        { type: "light", lat: 48.90807, lng: 24.71546 },
-        { type: "light", lat: 48.91419, lng: 24.71758 },
-        { type: "park", lat: 48.90524, lng: 24.714 },
-        { type: "park", lat: 48.91235, lng: 24.7204 },
-        { type: "park", lat: 48.91509, lng: 24.72153 }
+        { type: "light", lat: 48.91721, lng: 24.72379 },
+        { type: "light", lat: 48.89639, lng: 24.71317 },
+        { type: "light", lat: 48.90078, lng: 24.71325 },
+        { type: "light", lat: 48.90582, lng: 24.71454 },
+        { type: "light", lat: 48.91533, lng: 24.71843 },
+        { type: "light", lat: 48.91825, lng: 24.71997 },
+        { type: "light", lat: 48.91764, lng: 24.72395 },
+        { type: "park", lat: 48.89636, lng: 24.71317 },
+        { type: "park", lat: 48.89478, lng: 24.71672 },
+        { type: "park", lat: 48.90674, lng: 24.71498 },
+        { type: "park", lat: 48.91333, lng: 24.71741 },
+        { type: "park", lat: 48.91743, lng: 24.71942 }
     ],
-    "3": [
-        { type: "light", lat: 48.90454, lng: 24.71355 },
-        { type: "light", lat: 48.90866, lng: 24.71563 },
-        { type: "park", lat: 48.9053, lng: 24.7141 },
-        { type: "park", lat: 48.91346, lng: 24.7142 }
+   "3": [
+        { type: "light", lat: 48.89627, lng: 24.71323 },
+        { type: "light", lat: 48.90084, lng: 24.71319 },
+        { type: "light", lat: 48.90579, lng: 24.71454 },
+        { type: "light", lat: 48.91299, lng: 24.71726 },
+        { type: "light", lat: 48.9145, lng: 24.70994 },
+        { type: "park", lat: 48.89477, lng: 24.71694 },
+        { type: "park", lat: 48.90648, lng: 24.71488 },
+        { type: "park", lat: 48.91322, lng: 24.71612 },
+        { type: "park", lat: 48.9133, lng: 24.71505 },
+        { type: "park", lat: 48.91382, lng: 24.71243 },
+        { type: "park", lat: 48.91084, lng: 24.71064 },
+        { type: "park", lat: 48.90678, lng: 24.71246 }
     ],
     "4": [
-        { type: "light", lat: 48.90104, lng: 24.71203 },
-        { type: "light", lat: 48.90236, lng: 24.70538 },
-        { type: "light", lat: 48.9032, lng: 24.69139 },
-        { type: "park", lat: 48.90538, lng: 24.68179 },
-        { type: "park", lat: 48.9025, lng: 24.70332 }
+        { type: "light", lat: 48.89629, lng: 24.71322 },
+        { type: "light", lat: 48.90077, lng: 24.71331 },
+        { type: "light", lat: 48.90187, lng: 24.70942 },
+        { type: "light", lat: 48.90265, lng: 24.70277 },
+        { type: "light", lat: 48.90315, lng: 24.68841 },
+        { type: "park", lat: 48.89476, lng: 24.71679 },
+        { type: "park", lat: 48.90249, lng: 24.70503 },
+        { type: "park", lat: 48.90296, lng: 24.70083 }
     ],
     "6": [
-        { type: "light", lat: 48.90451, lng: 24.71344 },
-        { type: "light", lat: 48.90665, lng: 24.71495 },
-        { type: "light", lat: 48.91619, lng: 24.72286 },
-        { type: "park", lat: 48.90568, lng: 24.71443 },
-        { type: "park", lat: 48.91492, lng: 24.72143 }
+        { type: "light", lat: 48.89627, lng: 24.71323 },
+        { type: "light", lat: 48.90084, lng: 24.71319 },
+        { type: "light", lat: 48.90574, lng: 24.71458 },
+        { type: "light", lat: 48.91289, lng: 24.71731 },
+        { type: "light", lat: 48.9176, lng: 24.724 },
+        { type: "light", lat: 48.91758, lng: 24.72464 },
+        { type: "light", lat: 48.91861, lng: 24.71807 },
+        { type: "light", lat: 48.91899, lng: 24.71531 },
+        { type: "light", lat: 48.91446, lng: 24.70983 },
+        { type: "park", lat: 48.89477, lng: 24.71694 },
+        { type: "park", lat: 48.90644, lng: 24.71492 },
+        { type: "park", lat: 48.91716, lng: 24.72382 },
+        { type: "park", lat: 48.9232, lng: 24.72377 },
+        { type: "park", lat: 48.92128, lng: 24.72018 },
+        { type: "park", lat: 48.91727, lng: 24.71476 },
+        { type: "park", lat: 48.91565, lng: 24.7141 },
+        { type: "park", lat: 48.91376, lng: 24.71214 },
+        { type: "park", lat: 48.91208, lng: 24.71004 },
+        { type: "park", lat: 48.91047, lng: 24.71064 }
     ],
-    "7": [
-        { type: "light", lat: 48.90444, lng: 24.71337 },
-        { type: "light", lat: 48.90805, lng: 24.71546 },
-        { type: "park", lat: 48.90518, lng: 24.71397 },
-        { type: "park", lat: 48.90998, lng: 24.71584 }
+   "7": [
+        { type: "light", lat: 48.89627, lng: 24.71323 },
+        { type: "light", lat: 48.90084, lng: 24.71319 },
+        { type: "light", lat: 48.90577, lng: 24.71456 },
+        { type: "park", lat: 48.89477, lng: 24.71694 },
+        { type: "park", lat: 48.9061, lng: 24.71473 },
+        { type: "park", lat: 48.90831, lng: 24.71173 },
+        { type: "park", lat: 48.90667, lng: 24.7125 }
     ],
-    "8": [
-        { type: "light", lat: 48.90456, lng: 24.7134 },
-        { type: "light", lat: 48.90529, lng: 24.71884 },
-        { type: "light", lat: 48.91208, lng: 24.7395 },
-        { type: "park", lat: 48.90574, lng: 24.72981 },
-        { type: "park", lat: 48.90992, lng: 24.73719 }
+   "8": [
+        { type: "light", lat: 48.89638, lng: 24.71321 },
+        { type: "light", lat: 48.90092, lng: 24.7132 },
+        { type: "light", lat: 48.90092, lng: 24.7132 },
+        { type: "light", lat: 48.91515, lng: 24.7397 },
+        { type: "light", lat: 48.9114, lng: 24.76513 },
+        { type: "park", lat: 48.89476, lng: 24.71718 },
+        { type: "park", lat: 48.89476, lng: 24.71718 },
+        { type: "park", lat: 48.90511, lng: 24.71996 },
+        { type: "park", lat: 48.91101, lng: 24.73852 }
     ],
     "9": [
-        { type: "light", lat: 48.9045, lng: 24.71348 },
-        { type: "light", lat: 48.90745, lng: 24.71229 },
-        { type: "light", lat: 48.91899, lng: 24.71526 },
-        { type: "park", lat: 48.90525, lng: 24.71393 },
-        { type: "park", lat: 48.9145, lng: 24.72131 }
+        { type: "light", lat: 48.89627, lng: 24.71323 },
+        { type: "light", lat: 48.90084, lng: 24.71319 },
+        { type: "light", lat: 48.90574, lng: 24.71458 },
+        { type: "light", lat: 48.91289, lng: 24.71731 },
+        { type: "light", lat: 48.9176, lng: 24.724 },
+        { type: "light", lat: 48.91758, lng: 24.72464 },
+        { type: "light", lat: 48.91861, lng: 24.71807 },
+        { type: "light", lat: 48.91899, lng: 24.71531 },
+        { type: "light", lat: 48.91446, lng: 24.70983 },
+        { type: "park", lat: 48.89477, lng: 24.71694 },
+        { type: "park", lat: 48.90638, lng: 24.71487 },
+        { type: "park", lat: 48.9172, lng: 24.72382 },
+        { type: "park", lat: 48.92328, lng: 24.72379 },
+        { type: "park", lat: 48.92108, lng: 24.72002 },
+        { type: "park", lat: 48.9173, lng: 24.71478 },
+        { type: "park", lat: 48.91587, lng: 24.71418 },
+        { type: "park", lat: 48.91371, lng: 24.71237 },
+        { type: "park", lat: 48.91378, lng: 24.71203 },
+        { type: "park", lat: 48.91049, lng: 24.71075 }
     ],
     "10": [
-        { type: "light", lat: 48.901, lng: 24.71263 },
-        { type: "light", lat: 48.90285, lng: 24.70075 },
-        { type: "light", lat: 48.90434, lng: 24.69442 },
-        { type: "park", lat: 48.89989, lng: 24.71316 },
-        { type: "park", lat: 48.90258, lng: 24.70237 }
+        { type: "light", lat: 48.89627, lng: 24.71323 },
+        { type: "light", lat: 48.90084, lng: 24.71319 },
+        { type: "light", lat: 48.90217, lng: 24.70799 },
+        { type: "light", lat: 48.90258, lng: 24.70314 },
+        { type: "light", lat: 48.90308, lng: 24.68824 },
+        { type: "park", lat: 48.89477, lng: 24.71694 },
+        { type: "park", lat: 48.90249, lng: 24.70482 },
+        { type: "park", lat: 48.90536, lng: 24.69193 }
     ],
     "11": [
-        { type: "light", lat: 48.90091, lng: 24.71316 },
-        { type: "light", lat: 48.90236, lng: 24.7053 },
-        { type: "park", lat: 48.8979, lng: 24.71318 },
-        { type: "park", lat: 48.90268, lng: 24.70167 }
-    ]
+        { type: "light", lat: 48.89627, lng: 24.71323 },
+        { type: "light", lat: 48.90084, lng: 24.71319 },
+        { type: "light", lat: 48.90217, lng: 24.70799 },
+        { type: "light", lat: 48.90258, lng: 24.70314 },
+        { type: "park", lat: 48.89477, lng: 24.71694 },
+        { type: "park", lat: 48.90249, lng: 24.70482 }
+    ],
 };
 let activeMyRouteInfraMode = null;
 
@@ -305,10 +364,17 @@ window.deleteMyRouteInfra = function(routeNum, lat, lng) {
 };
 
 mapMyRoutes.on('click', function(e) {
-    if (!activeMyRouteInfraMode) return;
-    const selectedRoute = document.getElementById('myRouteSelect').value;
     let lat = parseFloat(e.latlng.lat.toFixed(5));
     let lng = parseFloat(e.latlng.lng.toFixed(5));
+
+    // Виводимо спливаюче вікно з точними координатами та кнопкою копіювання
+    L.popup()
+        .setLatLng(e.latlng)
+        .setContent(`<b>Координати точки:</b><br>[${lat}, ${lng}]<br><button onclick="navigator.clipboard.writeText('[${lat}, ${lng}]'); alert('Скопійовано!');" style="background:#00E676; color:#121212; border:none; padding:4px 8px; margin-top:5px; cursor:pointer; border-radius:4px; font-weight:bold;">📋 Скопіювати</button>`)
+        .openOn(mapMyRoutes);
+
+    if (!activeMyRouteInfraMode) return;
+    const selectedRoute = document.getElementById('myRouteSelect').value;
 
     if (!savedMyRoutesInfra[selectedRoute]) {
         savedMyRoutesInfra[selectedRoute] = [];
