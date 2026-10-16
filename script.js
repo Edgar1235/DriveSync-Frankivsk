@@ -1,17 +1,18 @@
 // Точні координати старту біля ТСЦ МВС № 2641
 const tscCoords = [48.8945, 24.7170];
 
-// База даних світлофорів і парковок для всіх маршрутів за замовчуванням
+// База даних світлофорів, парковок і пішохідних переходів для всіх маршрутів за замовчуванням
 let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastructure')) || {
     "1": [
         { type: "light", lat: 48.90336, lng: 24.71652 },
         { type: "light", lat: 48.90093, lng: 24.71319 },
-        { type: "park", lat: 48.89474, lng: 24.71683 },
+        { type: "light", lat: 48.90344, lng: 24.71323 },
         { type: "park", lat: 48.89474, lng: 24.71683 }
     ],
     "2": [
         { type: "light", lat: 48.91721, lng: 24.72379 },
         { type: "light", lat: 48.89639, lng: 24.71317 },
+        { type: "light", lat: 48.90344, lng: 24.71323 },
         { type: "light", lat: 48.90078, lng: 24.71325 },
         { type: "light", lat: 48.90582, lng: 24.71454 },
         { type: "light", lat: 48.91533, lng: 24.71843 },
@@ -27,6 +28,7 @@ let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastr
         { type: "light", lat: 48.89627, lng: 24.71323 },
         { type: "light", lat: 48.90084, lng: 24.71319 },
         { type: "light", lat: 48.90579, lng: 24.71454 },
+        { type: "light", lat: 48.90344, lng: 24.71323 },
         { type: "light", lat: 48.91299, lng: 24.71726 },
         { type: "light", lat: 48.9145, lng: 24.70994 },
         { type: "park", lat: 48.89477, lng: 24.71694 },
@@ -49,6 +51,7 @@ let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastr
     ],
     "6": [
         { type: "light", lat: 48.89627, lng: 24.71323 },
+        { type: "light", lat: 48.90344, lng: 24.71323 },
         { type: "light", lat: 48.90084, lng: 24.71319 },
         { type: "light", lat: 48.90574, lng: 24.71458 },
         { type: "light", lat: 48.91289, lng: 24.71731 },
@@ -71,6 +74,7 @@ let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastr
    "7": [
         { type: "light", lat: 48.89627, lng: 24.71323 },
         { type: "light", lat: 48.90084, lng: 24.71319 },
+        { type: "light", lat: 48.90344, lng: 24.71323 },
         { type: "light", lat: 48.90577, lng: 24.71456 },
         { type: "park", lat: 48.89477, lng: 24.71694 },
         { type: "park", lat: 48.9061, lng: 24.71473 },
@@ -80,10 +84,9 @@ let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastr
    "8": [
         { type: "light", lat: 48.89638, lng: 24.71321 },
         { type: "light", lat: 48.90092, lng: 24.7132 },
-        { type: "light", lat: 48.90092, lng: 24.7132 },
         { type: "light", lat: 48.91515, lng: 24.7397 },
+        { type: "light", lat: 48.90344, lng: 24.71323 },
         { type: "light", lat: 48.9114, lng: 24.76513 },
-        { type: "park", lat: 48.89476, lng: 24.71718 },
         { type: "park", lat: 48.89476, lng: 24.71718 },
         { type: "park", lat: 48.90511, lng: 24.71996 },
         { type: "park", lat: 48.91101, lng: 24.73852 }
@@ -92,6 +95,7 @@ let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastr
         { type: "light", lat: 48.89627, lng: 24.71323 },
         { type: "light", lat: 48.90084, lng: 24.71319 },
         { type: "light", lat: 48.90574, lng: 24.71458 },
+        { type: "light", lat: 48.90344, lng: 24.71323 },
         { type: "light", lat: 48.91289, lng: 24.71731 },
         { type: "light", lat: 48.9176, lng: 24.724 },
         { type: "light", lat: 48.91758, lng: 24.72464 },
@@ -125,12 +129,13 @@ let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastr
         { type: "light", lat: 48.90217, lng: 24.70799 },
         { type: "light", lat: 48.90258, lng: 24.70314 },
         { type: "park", lat: 48.89477, lng: 24.71694 },
-        { type: "park", lat: 48.90249, lng: 24.70482 }
+        { type: "park", lat: 48.90249, lng: 24.70482 },
+        { type: "crosswalk", lat: 48.90353, lng: 24.698 }
     ],
 };
 let activeMyRouteInfraMode = null;
 
-// Великі та яскраві іконки
+// Великі та яскраві іконки інфраструктури
 const trafficLightIcon = L.divIcon({
     className: 'custom-emoji-marker',
     html: '<div style="font-size: 32px; text-shadow: 0 3px 6px rgba(0,0,0,0.9); cursor: pointer;">🚦</div>',
@@ -141,6 +146,13 @@ const trafficLightIcon = L.divIcon({
 const parkingIcon = L.divIcon({
     className: 'custom-emoji-marker',
     html: '<div style="font-size: 32px; text-shadow: 0 3px 6px rgba(0,0,0,0.9); cursor: pointer;">🅿️</div>',
+    iconSize: [38, 38],
+    iconAnchor: [19, 19]
+});
+
+const crosswalkIcon = L.divIcon({
+    className: 'custom-emoji-marker',
+    html: '<img src="img/pisoxod.jpg" style="width: 34px; height: 34px; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.9)); cursor: pointer;" title="Пішохідний перехід">',
     iconSize: [38, 38],
     iconAnchor: [19, 19]
 });
@@ -187,9 +199,13 @@ L.marker(tscCoords, { draggable: true }).addTo(mapDraw).bindPopup("<b>ТСЦ М�
 
 function renderInfrastructure(targetMap) {
     savedInfrastructure.forEach(item => {
-        let icon = item.type === 'light' ? trafficLightIcon : parkingIcon;
+        let icon = trafficLightIcon;
+        if (item.type === 'park') icon = parkingIcon;
+        if (item.type === 'crosswalk') icon = crosswalkIcon;
+        
         let marker = L.marker([item.lat, item.lng], { icon: icon }).addTo(targetMap);
-        marker.bindPopup(`<b>${item.type === 'light' ? '🚦 Світлофор' : '🅿️ Парковка'}</b><br>Координати: [${item.lat}, ${item.lng}]<br><button onclick="deleteInfra(${item.lat}, ${item.lng})" style="background:#d32f2f; color:white; border:none; padding:4px 8px; margin-top:5px; cursor:pointer; border-radius:4px;">🗑️ Видалити</button>`);
+        let titleName = item.type === 'light' ? '🚦 Світлофор' : (item.type === 'park' ? '🅿️ Парковка' : '🚸 Пішохідний перехід');
+        marker.bindPopup(`<b>${titleName}</b><br>Координати: [${item.lat}, ${item.lng}]<br><button onclick="deleteInfra(${item.lat}, ${item.lng})" style="background:#d32f2f; color:white; border:none; padding:4px 8px; margin-top:5px; cursor:pointer; border-radius:4px;">🗑️ Видалити</button>`);
     });
 }
 
@@ -209,9 +225,13 @@ mapDraw.on('click', function(e) {
         savedInfrastructure.push({ type: activeInfraMode, lat: lat, lng: lng });
         localStorage.setItem('tsc_saved_infrastructure', JSON.stringify(savedInfrastructure));
         
-        let icon = activeInfraMode === 'light' ? trafficLightIcon : parkingIcon;
+        let icon = trafficLightIcon;
+        if (activeInfraMode === 'park') icon = parkingIcon;
+        if (activeInfraMode === 'crosswalk') icon = crosswalkIcon;
+
+        let titleName = activeInfraMode === 'light' ? '🚦 Світлофор' : (activeInfraMode === 'park' ? '🅿️ Парковка' : '🚸 Пішохідний перехід');
         L.marker([lat, lng], { icon: icon }).addTo(mapDraw)
-            .bindPopup(`<b>${activeInfraMode === 'light' ? '🚦 Світлофор' : '🅿️ Парковка'}</b><br>Координати: [${lat}, ${lng}]`)
+            .bindPopup(`<b>${titleName}</b><br>Координати: [${lat}, ${lng}]`)
             .openPopup();
         return;
     }
@@ -269,9 +289,10 @@ function updateCoordsOutput() {
     document.getElementById('routeDescription').innerHTML = `
         <b>Режим малювання:</b><br>
         <textarea style="width:100%; height:50px; background:#111; color:#00E676; font-family:monospace; font-size:11px;" readonly>${outputString}</textarea>
-        <div style="display: flex; gap: 4px; margin-top: 4px;">
+        <div style="display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap;">
             <button onclick="setInfraMode('light')" style="background: ${activeInfraMode === 'light' ? '#00E676' : '#333'}; color: ${activeInfraMode === 'light' ? '#121212' : '#fff'}; border:none; padding:5px; cursor:pointer; flex:1; font-size:11px; border-radius:4px;">🚦 Світлофор</button>
             <button onclick="setInfraMode('park')" style="background: ${activeInfraMode === 'park' ? '#00E676' : '#333'}; color: ${activeInfraMode === 'park' ? '#121212' : '#fff'}; border:none; padding:5px; cursor:pointer; flex:1; font-size:11px; border-radius:4px;">🅿️ Парковка</button>
+            <button onclick="setInfraMode('crosswalk')" style="background: ${activeInfraMode === 'crosswalk' ? '#00E676' : '#333'}; color: ${activeInfraMode === 'crosswalk' ? '#121212' : '#fff'}; border:none; padding:5px; cursor:pointer; flex:1; font-size:11px; border-radius:4px;">🚸 Перехід</button>
         </div>
         <div style="display: flex; gap: 6px; margin-top: 6px;">
             <button onclick="saveSingleRouteFile()" style="background: #00E676; color: #121212; border:none; padding:6px; cursor:pointer; flex:1; font-weight:bold; border-radius:4px;">💾 Зберегти</button>
@@ -348,9 +369,16 @@ function renderMyRouteInfra() {
     const routeInfra = savedMyRoutesInfra[selectedRoute] || [];
 
     routeInfra.forEach(item => {
-        let icon = item.type === 'light' ? trafficLightIcon : parkingIcon;
+        let icon = trafficLightIcon;
+        if (item.type === 'park') icon = parkingIcon;
+        if (item.type === 'crosswalk') icon = crosswalkIcon;
+
+        let titleName = '🚦 Світлофор';
+        if (item.type === 'park') titleName = '🅿️ Парковка';
+        if (item.type === 'crosswalk') titleName = '🚸 Пішохідний перехід';
+
         let marker = L.marker([item.lat, item.lng], { icon: icon }).addTo(mapMyRoutes);
-        marker.bindPopup(`<b>${item.type === 'light' ? '🚦 Світлофор' : '🅿️ Парковка'}</b><br>Маршрут №${selectedRoute}<br><button onclick="deleteMyRouteInfra('${selectedRoute}', ${item.lat}, ${item.lng})" style="background:#d32f2f; color:white; border:none; padding:4px 8px; margin-top:5px; cursor:pointer; border-radius:4px;">🗑️ Видалити</button>`);
+        marker.bindPopup(`<b>${titleName}</b><br>Маршрут №${selectedRoute}<br><button onclick="deleteMyRouteInfra('${selectedRoute}', ${item.lat}, ${item.lng})" style="background:#d32f2f; color:white; border:none; padding:4px 8px; margin-top:5px; cursor:pointer; border-radius:4px;">🗑️ Видалити</button>`);
         currentMyRouteMarkers.push(marker);
     });
 }
@@ -418,9 +446,10 @@ function updateMyRouteDescription() {
     document.getElementById('myRouteDescription').innerHTML = `
         <b>Маршрут №${selected}</b><br>Офіційний екзаменаційний шлях МВС. Точок: ${coords.length}
         <div style="margin-top: 8px; font-weight: bold; font-size: 12px;">Додати на цей маршрут:</div>
-        <div style="display: flex; gap: 4px; margin-top: 4px;">
+        <div style="display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap;">
             <button onclick="setMyRouteInfraMode('light')" style="background: ${activeMyRouteInfraMode === 'light' ? '#00E676' : '#333'}; color: ${activeMyRouteInfraMode === 'light' ? '#121212' : '#fff'}; border:none; padding:5px; cursor:pointer; flex:1; font-size:11px; border-radius:4px;">🚦 Світлофор</button>
             <button onclick="setMyRouteInfraMode('park')" style="background: ${activeMyRouteInfraMode === 'park' ? '#00E676' : '#333'}; color: ${activeMyRouteInfraMode === 'park' ? '#121212' : '#fff'}; border:none; padding:5px; cursor:pointer; flex:1; font-size:11px; border-radius:4px;">🅿️ Парковка</button>
+            <button onclick="setMyRouteInfraMode('crosswalk')" style="background: ${activeMyRouteInfraMode === 'crosswalk' ? '#00E676' : '#333'}; color: ${activeMyRouteInfraMode === 'crosswalk' ? '#121212' : '#fff'}; border:none; padding:5px; cursor:pointer; flex:1; font-size:11px; border-radius:4px;">🚸 Перехід</button>
         </div>
     `;
 }
