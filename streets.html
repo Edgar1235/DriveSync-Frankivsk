@@ -17,14 +17,14 @@
 
     <!-- Повне меню з 4 кнопками, як на інших сторінках -->
     <div class="nav-buttons">
-        <button onclick="location.href='index.html?view=map'">🗺️ Карта (Малювання)</button>
-        <button onclick="location.href='index.html?view=my-routes'">📍 Маршрути МВС та Відео</button>
-        <button onclick="location.href='index.html?view=list'">📋 Список і Чек-лист</button>
-        <button class="active">📋 Вулиці маршрутів</button>
+        <button id="s-btn-1" onclick="goToView('map')">🗺️ Карта (Малювання)</button>
+        <button id="s-btn-2" onclick="goToView('my-routes')">📍 Маршрути МВС та Відео</button>
+        <button id="s-btn-3" onclick="goToView('list')">📋 Список і Чек-лист</button>
+        <button id="s-btn-4" class="active">📋 Вулиці маршрутів</button>
     </div>
 
     <div class="container">
-        <h2>📋 Список вулиць по екзаменаційних маршрутах</h2>
+        <h2 id="streets-header">📋 Список вулиць по екзаменаційних маршрутах</h2>
         
         <select id="routeSelect" onchange="showStreets()">
             <option value="1">Маршрут №1 (Дудаєва)</option>
@@ -47,95 +47,61 @@
     </div>
 
     <script>
+        function goToView(viewName) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const lang = urlParams.get('lang') || localStorage.getItem('selected_lang') || 'uk';
+            location.href = `index.html?view=${viewName}&lang=${lang}`;
+        }
+
         const routesData = {
-            "1": [
-                "вул. Коновальця(Старт біля ТСЦ МВС)",
-                "вул. Джохара Дудаєва",
-                "Розворот у кінці вулиці",
-                "Зворотний шлях до ТСЦ МВС"
-            ],
-            "2": [
-                "вул.Коновальця (Старт МВС)",
-                "вул. Бандери",
-                "вул. Височана",
-                "вул. Шухевича",
-                "вул. Незалжності",
-                "вул. Бандери",
-                "Повернення до сервісного центру "
-            ],
-            "3": [
-                "вул. Коновальця(Старт МВС)",
-                "вул. Бандери ",
-                "вул. Сахарова ",
-                "вул. Коновальця ",
-                " повернення до МВС"
-            ],
-            "4": [
-                "вул. Коновальця (Старт МВС)",
-                "вул. Петлюри",
-                "вул. Довженка ",
-                "по колці на 4 зїзд ",
-                "Зворотний маршрут до МВС"
-            ],
-            "6": [
-                "вул. Коновальця (Старт МВС)",
-                "вул. Бандери",
-                "вул. Височана",
-                "вул. Шухевича",
-                "вул. Незалежності",
-                "вул. Залізчна",
-                "вул. Лепкого",
-                "вул. Незалежності ",
-                "вул. Мельника",
-                "вул. Мельника ",
-                "вул. Сахарова ",
-                "вул. Коновальця",
-                "Повернення до сервісного центру"
-            ],
-            "7": [
-                "вул. Коновальця(Старт біля МВС)",
-                "вул. Бандери",
-                "вул. Стецького",
-                "вул. Коновальця",
-                "Фініш біля ТСЦ МВС"
-            ],
-            "8": [
-                "вул. Коновальця (Старт МВС)",
-                "вул. Бандери",
-                "вул. Ребета",
-                "вул. Макуха",
-                "вул. Микитиньська",
-                "вул. Незалежності ",
-                "вул. Юності ",
-                "Повернення до сервісного центру"
-            ],
-            "9": [
-                "вул. Коновальця (Старт МВС)",
-                "вул. Сахарова",
-                "вул. Мельника",
-                "вул. Незалежності",
-                "вул. Лепкого",
-                "вул. Залізнична",
-                "вул. Незалежності",
-                "вул. Шухевичів",
-                "вул. Височана",
-                "вул. Зорія",
-                "вул. Бандери",
-                "Повернення до сервісного центру"
-            ],
-            "10": [
-                "вул. Коновальця(Старт МВС)",
-                "вул.Петлюри ",
-                "вул. Дорошенка",
-                "вул. Сухомлицького",
-                "вул. Довженка",
-                "Зворотний шлях до МВС"
-            ],
-            "11" :[
-                "вул. Коновальця (Старт МВС)",
-                "вул. Петлюри до кільця",
-                "Поверненя на сервісний центер МВС"
-            ]
+            uk: {
+                "1": ["вул. Коновальця (Старт біля ТСЦ МВС)", "вул. Джохара Дудаєва", "Розворот у кінці вулиці", "Зворотний шлях до ТСЦ МВС"],
+                "2": ["вул. Коновальця (Старт МВС)", "вул. Бандери", "вул. Височана", "вул. Шухевича", "вул. Незалежності", "вул. Бандери", "Повернення до сервісного центру"],
+                "3": ["вул. Коновальця (Старт МВС)", "вул. Бандери", "вул. Сахарова", "вул. Коновальця", "Повернення до МВС"],
+                "4": ["вул. Коновальця (Старт МВС)", "вул. Петлюри", "вул. Довженка", "По кільцю на 4-й з'їзд", "Зворотний маршрут до МВС"],
+                "6": ["вул. Коновальця (Старт МВС)", "вул. Бандери", "вул. Височана", "вул. Шухевича", "вул. Незалежності", "вул. Залізнична", "вул. Лепкого", "вул. Незалежності", "вул. Мельника", "вул. Сахарова", "вул. Коновальця", "Повернення до сервісного центру"],
+                "7": ["вул. Коновальця (Старт біля МВС)", "вул. Бандери", "вул. Стецького", "вул. Коновальця", "Фініш біля ТСЦ МВС"],
+                "8": ["вул. Коновальця (Старт МВС)", "вул. Бандери", "вул. Ребета", "вул. Макуха", "вул. Микитинецька", "вул. Незалежності", "вул. Юності", "Повернення до сервісного центру"],
+                "9": ["вул. Коновальця (Старт МВС)", "вул. Сахарова", "вул. Мельника", "вул. Незалежності", "вул. Лепкого", "вул. Залізнична", "вул. Незалежності", "вул. Шухевича", "вул. Височана", "вул. Зорія", "вул. Бандери", "Повернення до сервісного центру"],
+                "10": ["вул. Коновальця (Старт МВС)", "вул. Петлюри", "вул. Дорошенка", "вул. Сухомлицького", "вул. Довженка", "Зворотний шлях до МВС"],
+                "11": ["вул. Коновальця (Старт МВС)", "вул. Петлюри до кільця", "Повернення на сервісний центр МВС"]
+            },
+            en: {
+                "1": ["Konovaltsia St. (Start near MIA TSC)", "Dzhokhar Dudayev St.", "U-turn at the end of the street", "Return path to MIA TSC"],
+                "2": ["Konovaltsia St. (MIA Start)", "Bandery St.", "Vysochana St.", "Shukhevycha St.", "Nezalezhnosti St.", "Bandery St.", "Return to Service Center"],
+                "3": ["Konovaltsia St. (MIA Start)", "Bandery St.", "Sakharova St.", "Konovaltsia St.", "Return to MIA"],
+                "4": ["Konovaltsia St. (MIA Start)", "Petliury St.", "Dovzhenka St.", "Roundabout to the 4th exit", "Return route to MIA"],
+                "6": ["Konovaltsia St. (MIA Start)", "Bandery St.", "Vysochana St.", "Shukhevycha St.", "Nezalezhnosti St.", "Zaliznychna St.", "Lepkoho St.", "Nezalezhnosti St.", "Melnyka St.", "Sakharova St.", "Konovaltsia St.", "Return to Service Center"],
+                "7": ["Konovaltsia St. (Start near MIA)", "Bandery St.", "Stetskoho St.", "Konovaltsia St.", "Finish near MIA TSC"],
+                "8": ["Konovaltsia St. (MIA Start)", "Bandery St.", "Rebeta St.", "Makuha St.", "Mykynytska St.", "Nezalezhnosti St.", "Yunosti St.", "Return to Service Center"],
+                "9": ["Konovaltsia St. (MIA Start)", "Sakharova St.", "Melnyka St.", "Nezalezhnosti St.", "Lepkoho St.", "Zaliznychna St.", "Nezalezhnosti St.", "Shukhevychiv St.", "Vysochana St.", "Zoria St.", "Bandery St.", "Return to Service Center"],
+                "10": ["Konovaltsia St. (MIA Start)", "Petliury St.", "Doroshenka St.", "Sukhomlytskoho St.", "Dovzhenka St.", "Return path to MIA"],
+                "11": ["Konovaltsia St. (MIA Start)", "Petliury St. to the roundabout", "Return to MIA Service Center"]
+            },
+            pl: {
+                "1": ["ul. Konowalskiego (Start koło TSC MSW)", "ul. Dżohara Dudajewa", "Zawrót na końcu ulicy", "Droga powrotna do TSC MSW"],
+                "2": ["ul. Konowalskiego (Start MSW)", "ul. Bandery", "ul. Wysoczana", "ul. Szuchewycza", "ul. Niepodległości", "ul. Bandery", "Powrót do centrum obsługi"],
+                "3": ["ul. Konowalskiego (Start MSW)", "ul. Bandery", "ul. Sacharowa", "ul. Konowalskiego", "Powrót do MSW"],
+                "4": ["ul. Konowalskiego (Start MSW)", "ul. Petlury", "ul. Dowżenki", "Rondo do 4. zjazdu", "Trasa powrotna do MSW"],
+                "6": ["ul. Konowalskiego (Start MSW)", "ul. Bandery", "ul. Wysoczana", "ul. Szuchewycza", "ul. Niepodległości", "ul. Kolejowa", "ul. Lepkiego", "ul. Niepodległości", "ul. Melnyka", "ul. Sacharowa", "ul. Konowalskiego", "Powrót do centrum obsługi"],
+                "7": ["ul. Konowalskiego (Start koło MSW)", "ul. Bandery", "ul. Steckiego", "ul. Konowalskiego", "Meta koło TSC MSW"],
+                "8": ["ul. Konowalskiego (Start MSW)", "ul. Bandery", "ul. Rebeta", "ul. Makucha", "ul. Mykynyckiej", "ul. Niepodległości", "ul. Młodości", "Powrót do centrum obsługi"],
+                "9": ["ul. Konowalskiego (Start MSW)", "ul. Sacharowa", "ul. Melnyka", "ul. Niepodległości", "ul. Kolejowa", "ul. Niepodległości", "ul. Szuchewyczów", "ul. Wysoczana", "ul. Zoria", "ul. Bandery", "Powrót do centrum obsługi"],
+                "10": ["ul. Konowalskiego (Start MSW)", "ul. Petlury", "ul. Doroszenki", "ul. Suchomłyńskiego", "ul. Dowżenki", "Droga powrotna do MSW"],
+                "11": ["ul. Konowalskiego (Start MSW)", "ul. Petlury do ronda", "Powrót do centrum obsługi MSW"]
+            },
+            de: {
+                "1": ["Konowalsky-Str. (Start in der Nähe von MWD TSC)", "Dzhokhar-Dudayev-Str.", "Wende am Ende der Straße", "Rückweg zum MWD TSC"],
+                "2": ["Konowalsky-Str. (MWD Start)", "Bandera-Str.", "Wysochana-Str.", "Schuchewytsch-Str.", "Unabhängigkeitsstr.", "Bandera-Str.", "Rückkehr zum Servicecenter"],
+                "3": ["Konowalsky-Str. (MWD Start)", "Bandera-Str.", "Sacharow-Str.", "Konowalsky-Str.", "Rückkehr zu MWD"],
+                "4": ["Konowalsky-Str. (MWD Start)", "Petljura-Str.", "Dowschenko-Str.", "Kreisverkehr zur 4. Ausfahrt", "Rückroute zu MWD"],
+                "6": ["Konowalsky-Str. (MWD Start)", "Bandera-Str.", "Wysochana-Str.", "Schuchewytsch-Str.", "Unabhängigkeitsstr.", "Eisenbahnstr.", "Lepkyj-Str.", "Unabhängigkeitsstr.", "Melnyk-Str.", "Sacharow-Str.", "Konowalsky-Str.", "Rückkehr zum Servicecenter"],
+                "7": ["Konowalsky-Str. (Start in der Nähe von MWD)", "Bandera-Str.", "Stezko-Str.", "Konowalsky-Str.", "Ziel in der Nähe von MWD TSC"],
+                "8": ["Konowalsky-Str. (MWD Start)", "Bandera-Str.", "Rebet-Str.", "Makuch-Str.", "Mykynytska-Str.", "Unabhängigkeitsstr.", "Jugendstr.", "Rückkehr zum Servicecenter"],
+                "9": ["Konowalsky-Str. (MWD Start)", "Sacharow-Str.", "Melnyk-Str.", "Unabhängigkeitsstr.", "Eisenbahnstr.", "Unabhängigkeitsstr.", "Schuchewytsch-Str.", "Wysochana-Str.", "Zoria-Str.", "Bandera-Str.", "Rückkehr zum Servicecenter"],
+                "10": ["Konowalsky-Str. (MWD Start)", "Petljura-Str.", "Doroschenko-Str.", "Suchomlyskyj-Str.", "Dowschenko-Str.", "Rückweg zu MWD"],
+                "11": ["Konowalsky-Str. (MWD Start)", "Petljura-Str. zum Kreisverkehr", "Rückkehr zum MWD-Servicecenter"]
+            }
         };
 
         function showStreets() {
@@ -143,7 +109,11 @@
             const ul = document.getElementById('streetsUl');
             ul.innerHTML = "";
 
-            const streets = routesData[selectedRoute] || ["Інформація про цей маршрут поки відсутня."];
+            const urlParams = new URLSearchParams(window.location.search);
+            let lang = urlParams.get('lang') || localStorage.getItem('selected_lang') || 'uk';
+            if (!routesData[lang]) lang = 'uk';
+
+            const streets = routesData[lang][selectedRoute] || ["Information is missing."];
             
             streets.forEach(street => {
                 const li = document.createElement('li');
@@ -152,7 +122,46 @@
             });
         }
 
-        showStreets();
+        const streetTranslations = {
+            uk: { title: "🚗 Всі екзаменаційні маршрути МВС", sub: "ТСЦ № 2641 (м. Івано-Франківськ) — Відео-розбори DEMICH", h2: "📋 Список вулиць по екзаменаційних маршрутах", b1: "🗺️ Карта (Малювання)", b2: "📍 Маршрути МВС та Відео", b3: "📋 Список і Чек-лист", b4: "📋 Вулиці маршрутів", routeWord: "Маршрут №" },
+            en: { title: "🚗 All MIA Exam Routes", sub: "TSC № 2641 (Ivano-Frankivsk) — DEMICH Reviews", h2: "📋 Street List by Exam Routes", b1: "🗺️ Map (Drawing)", b2: "📍 MIA Routes & Video", b3: "📋 List & Checklist", b4: "📋 Route Streets", routeWord: "Route №" },
+            pl: { title: "🚗 Wszystkie trasy egzaminacyjne MSW", sub: "TSC № 2641 (Iwano-Frankiwsk) — Analiza DEMICH", h2: "📋 Lista ulic według tras egzaminacyjnych", b1: "🗺️ Mapa (Rysowanie)", b2: "📍 Trasy MSW i Wideo", b3: "📋 Lista i Lista kontrolna", b4: "📋 Ulice tras", routeWord: "Trasa №" },
+            de: { title: "🚗 Alle MWD-Prüfungsstrecken", sub: "TSC № 2641 (Iwano-Frankiwsk) — DEMICH Analysen", h2: "📋 Straßenliste nach Prüfungsstrecken", b1: "🗺️ Karte (Zeichnen)", b2: "📍 MWD-Strecken & Video", b3: "📋 Liste & Checkliste", b4: "📋 Routenstraßen", routeWord: "Route №" }
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            let lang = urlParams.get('lang') || localStorage.getItem('selected_lang') || 'uk';
+            const t = streetTranslations[lang];
+
+            if (t) {
+                const h1 = document.querySelector('header h1');
+                const p = document.querySelector('header p');
+                const h2 = document.getElementById('streets-header');
+                const b1 = document.getElementById('s-btn-1');
+                const b2 = document.getElementById('s-btn-2');
+                const b3 = document.getElementById('s-btn-3');
+                const b4 = document.getElementById('s-btn-4');
+
+                if (h1) h1.innerText = t.title;
+                if (p) p.innerText = t.sub;
+                if (h2) h2.innerText = t.h2;
+                if (b1) b1.innerText = t.b1;
+                if (b2) b2.innerText = t.b2;
+                if (b3) b3.innerText = t.b3;
+                if (b4) b4.innerText = t.b4;
+
+                const sel = document.getElementById('routeSelect');
+                if (sel) {
+                    Array.from(sel.options).forEach(opt => {
+                        const val = opt.value;
+                        opt.text = `${t.routeWord}${val}`;
+                    });
+                }
+            }
+
+            showStreets();
+        });
     </script>
 
 </body>

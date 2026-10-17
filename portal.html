@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Всі екзаменаційні маршрути МВС | ТСЦ 2641</title>
     <link rel="icon" type="image/png" href="img/logo.jpg">
-    <!-- Підключаємо окремі стилі екрана привітання -->
     <link rel="stylesheet" href="welcome.css">
     <style>
         body, html {
@@ -21,64 +20,170 @@
             height: 100%;
             border: none;
         }
+        .language-selector-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .lang-btn {
+            background: rgba(30, 30, 30, 0.85);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            backdrop-filter: blur(6px);
+            transition: background 0.2s, border-color 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+        .lang-btn:hover {
+            background: rgba(50, 50, 50, 0.95);
+            border-color: #00E676;
+        }
+        .lang-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 42px;
+            background: rgba(25, 25, 25, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            min-width: 140px;
+            backdrop-filter: blur(8px);
+        }
+        .lang-dropdown.show {
+            display: block;
+        }
+        .lang-option {
+            width: 100%;
+            padding: 10px 14px;
+            background: none;
+            border: none;
+            color: #e0e0e0;
+            text-align: left;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background 0.15s, color 0.15s;
+        }
+        .lang-option:hover {
+            background: #00E676;
+            color: #121212;
+        }
     </style>
 </head>
 <body>
 
-   <!-- Екран привітання (головне меню) -->
+   <div class="language-selector-container">
+       <button class="lang-btn" id="lang-menu-btn" onclick="toggleLangDropdown(event)">🌐 Мова / Language</button>
+       <div class="lang-dropdown" id="lang-dropdown-menu">
+           <button class="lang-option" onclick="changeLanguage('uk')">🇺🇦 Українська</button>
+           <button class="lang-option" onclick="changeLanguage('en')">🇬🇧 English</button>
+           <button class="lang-option" onclick="changeLanguage('pl')">🇵🇱 Polski</button>
+           <button class="lang-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+       </div>
+   </div>
+
     <div id="welcome-screen">
         <div class="welcome-card">
             <h1>🚗 DriveSync-Frankivsk</h1>
-            <p>Івано-Франківськ — Екзаменаційні маршрути МВС та розбори DEMICH</p>
+            <p id="welcome-desc">Івано-Франківськ — Екзаменаційні маршрути МВС та розбори DEMICH</p>
             <button id="enter-btn">🚀 Увійти </button>
         </div>
     </div>
 
-    <!-- Вікно з додатком -->
     <iframe id="app-frame" src="index.html"></iframe>
 
-    <!-- Підключаємо окрему логіку екрана привітання -->
     <script src="welcome.js"></script>
 
     <script>
+        function toggleLangDropdown(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('lang-dropdown-menu');
+            dropdown.classList.toggle('show');
+        }
+
+        window.addEventListener('click', function() {
+            const dropdown = document.getElementById('lang-dropdown-menu');
+            if (dropdown && dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        const translations = {
+            uk: { desc: 'Івано-Франківськ — Екзаменаційні маршрути МВС та розбори DEMICH', enter: '🚀 Увійти' },
+            en: { desc: 'Ivano-Frankivsk — Ministry of Internal Affairs Exam Routes & DEMICH Reviews', enter: '🚀 Enter' },
+            pl: { desc: 'Iwano-Frankiwsk — Trasy egzaminacyjne MSW i analiza DEMICH', enter: '🚀 Wejdź' },
+            de: { desc: 'Iwano-Frankiwsk — MWD-Prüfungsstrecken & DEMICH Analysen', enter: '🚀 Eintreten' }
+        };
+
+        function changeLanguage(lang) {
+            localStorage.setItem('selected_lang', lang);
+            
+            const desc = document.getElementById('welcome-desc');
+            const enterBtn = document.getElementById('enter-btn');
+            
+            if (translations[lang]) {
+                if (desc) desc.innerText = translations[lang].desc;
+                if (enterBtn) enterBtn.innerText = translations[lang].enter;
+            }
+
+            const iframe = document.getElementById('app-frame');
+            if (iframe) {
+                let currentSrc = iframe.src.split('?')[0];
+                iframe.src = currentSrc + '?lang=' + lang;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('selected_lang');
+            if (savedLang) {
+                changeLanguage(savedLang);
+            }
+        });
+
         const iframe = document.getElementById('app-frame');
         
+        iframe.onload = function() {
+            addStreetButton();
+        };
+
         function addStreetButton() {
             try {
                 const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
                 
-                // Перевіряємо, чи кнопка вже додана, щоб не дублювати
-                if (iframeDoc.getElementById('custom-streets-btn')) return;
+                let btn = iframeDoc.getElementById('custom-streets-btn');
+                const savedLang = localStorage.getItem('selected_lang') || 'uk';
+                const btnText = savedLang === 'en' ? '📋 Route Streets' : (savedLang === 'pl' ? '📋 Ulice tras' : (savedLang === 'de' ? '📋 Routenstraßen' : '📋 Вулиці маршрутів'));
 
-                // Шукаємо батьківський блок існуючих кнопок меню
-                const firstBtn = iframeDoc.querySelector('.nav-btn');
-                if (firstBtn) {
-                    const menuContainer = firstBtn.parentElement; 
-                    
-                    if (menuContainer) {
-                        // Створюємо кнопку "Вулиці маршрутів"
-                        const streetsBtn = document.createElement('button');
-                        streetsBtn.id = 'custom-streets-btn';
-                        streetsBtn.className = 'nav-btn'; // Той самий клас, що й у старих кнопок
-                        streetsBtn.style.backgroundColor = '#17a2b8'; // Блакитний колір
-                        streetsBtn.style.color = 'white';
-                        streetsBtn.innerText = '📋 Вулиці маршрутів';
-                        
-                        streetsBtn.onclick = function() {
-                            window.location.href = 'streets.html';
+                if (!btn) {
+                    const firstBtn = iframeDoc.querySelector('.nav-btn') || iframeDoc.querySelector('.nav-buttons button:last-child');
+                    if (firstBtn && firstBtn.parentElement) {
+                        btn = document.createElement('button');
+                        btn.id = 'custom-streets-btn';
+                        btn.className = 'nav-btn';
+                        btn.style.backgroundColor = '#17a2b8';
+                        btn.style.color = 'white';
+                        btn.onclick = function() {
+                            window.location.href = 'streets.html?lang=' + savedLang;
                         };
-                        
-                        // Додаємо в кінець панелі меню
-                        menuContainer.appendChild(streetsBtn);
+                        firstBtn.parentElement.appendChild(btn);
                     }
                 }
+                if (btn) {
+                    btn.innerText = btnText;
+                }
             } catch (e) {
-                console.log("Помилка додавання кнопки:", e);
+                console.log("Помилка оновлення кнопки вулиць:", e);
             }
         }
 
-        // Слідкуємо за завантаженням та змінами в iframe
-        iframe.onload = addStreetButton;
         setInterval(addStreetButton, 500);
     </script>
 

@@ -21,7 +21,7 @@
         <button id="btn-map" class="active" onclick="switchView('map')">🗺️ Карта (Малювання)</button>
         <button id="btn-my-routes" onclick="switchView('my-routes')">📍 Маршрути МВС та Відео</button>
         <button id="btn-list" onclick="switchView('list')">📋 Список і Чек-лист</button>
-        <button class="nav-btn" style="background-color: #17a2b8; color: white;" onclick="location.href='streets.html'">📋 Вулиці маршрутів</button>
+        <button id="btn-streets-direct" class="nav-btn" style="background-color: #17a2b8; color: white;" onclick="goToStreets()">📋 Вулиці маршрутів</button>
     </div>
 
     <div class="content-container">
@@ -29,7 +29,7 @@
         <div id="section-map" class="view-section active">
             <div class="route-selector" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                 <div>
-                    <label for="routeSelect">Обери маршрут:</label>
+                    <label id="label-select-route" for="routeSelect">Обери маршрут:</label>
                     <select id="routeSelect" onchange="changeRouteOnMap()">
                         <option value="1">Маршрут №1</option>
                         <option value="2">Маршрут №2</option>
@@ -46,10 +46,22 @@
                 <!-- Кнопка Олівець -->
                 <button id="btn-pencil" onclick="toggleDrawingMode()" style="background: #2c2c2c; color: white; border: 1px solid #444; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px;">✏️ Олівець (Малювати)</button>
 
+                <!-- Палітра кольорів біля олівця -->
+                <div style="display: flex; align-items: center; gap: 6px; background: #1e1e1e; padding: 4px 8px; border-radius: 6px; border: 1px solid #444;">
+                    <label id="label-color" for="routeColorPicker" style="font-size: 12px; color: #b0b0b0; cursor: pointer;">Колір:</label>
+                    <input type="color" id="routeColorPicker" value="#00E676" onchange="changeRouteColor(this.value)" style="width: 28px; height: 26px; border: none; background: none; cursor: pointer; border-radius: 4px;" title="Вибрати свій колір">
+                    
+                    <!-- Швидкі кольори -->
+                    <button onclick="changeRouteColor('#00E676')" style="width: 20px; height: 20px; background: #00E676; border: none; border-radius: 50%; cursor: pointer;" title="Зелений"></button>
+                    <button onclick="changeRouteColor('#2979FF')" style="width: 20px; height: 20px; background: #2979FF; border: none; border-radius: 50%; cursor: pointer;" title="Синій"></button>
+                    <button onclick="changeRouteColor('#FF3D00')" style="width: 20px; height: 20px; background: #FF3D00; border: none; border-radius: 50%; cursor: pointer;" title="Червоний"></button>
+                    <button onclick="changeRouteColor('#FFEA00')" style="width: 20px; height: 20px; background: #FFEA00; border: none; border-radius: 50%; cursor: pointer;" title="Жовтий"></button>
+                </div>
+
                 <!-- Додано кнопки Експорту / Імпорту -->
                 <div class="file-tools" style="display: flex; gap: 8px; margin-left: auto;">
-                    <button onclick="exportAllRoutes()" style="background: #444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;">📤 Експорт у JSON</button>
-                    <label style="background: #444; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: inline-block; font-size: 13px;">
+                    <button id="btn-export" onclick="exportAllRoutes()" style="background: #444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;">📤 Експорт у JSON</button>
+                    <label id="label-import" style="background: #444; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: inline-block; font-size: 13px;">
                         📥 Імпорт JSON <input type="file" id="importFile" accept=".json" onchange="importAllRoutes(event)" style="display: none;">
                     </label>
                 </div>
@@ -58,7 +70,7 @@
             <div class="map-layout">
                 <div id="map"></div>
                 <div class="route-info-panel">
-                    <h3>📌 Деталі маршруту</h3>
+                    <h3 id="panel-details-title">📌 Деталі маршруту</h3>
                     <div id="routeDescription">Оберіть маршрут для перегляду деталей.</div>
                     <div id="routeVideoBtn" style="margin-top: 15px;"></div>
                 </div>
@@ -68,7 +80,7 @@
         <!-- Секція 2: Офіційні маршрути МВС з відео -->
         <div id="section-my-routes" class="view-section">
             <div class="route-selector" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                <label for="myRouteSelect">Обери маршрут МВС:</label>
+                <label id="label-select-official" for="myRouteSelect">Обери маршрут МВС:</label>
                 <select id="myRouteSelect" onchange="changeMyRouteOnMap()">
                     <option value="1">Маршрут №1</option>
                     <option value="2">Маршрут №2</option>
@@ -86,7 +98,7 @@
             <div class="map-layout">
                 <div id="map-my-routes"></div>
                 <div class="route-info-panel">
-                    <h3>📌 Відео та опис маршруту</h3>
+                    <h3 id="panel-video-title">📌 Відео та опис маршруту</h3>
                     <div id="myRouteDescription">Оберіть маршрут для перегляду.</div>
                     <div id="myRouteVideoBtn" style="margin-top: 15px;"></div>
                 </div>
@@ -98,66 +110,66 @@
             <div class="routes-list-container">
                 
                 <div class="checklist-card">
-                    <h3>✅ Чек-лист перед стартом іспиту</h3>
-                    <div class="checklist-items">
+                    <h3 id="checklist-title">✅ Чек-лист перед стартом іспиту</h3>
+                    <div id="checklist-items-container" class="checklist-items">
                         <label><input type="checkbox"> Регулювання сидіння та керма</label>
                         <label><input type="checkbox"> Перевірка та налаштування всіх дзеркал</label>
                         <label><input type="checkbox"> Пристебнутися ременем безпеки</label>
                         <label><input type="checkbox"> Перевірити нейтральну передачу та зняти з ручника</label>
-                        <label><input type="checkbox"> Увімкнути лівий покажчик повороту перед стартом</label>
+                        <label><input type="checkbox"> Увімкнути лівий покажчик повороту перед старом</label>
                     </div>
                 </div>
 
-                <h2>📚 Список маршрутів ТСЦ 2641 (DEMICH)</h2>
+                <h2 id="list-header-title">📚 Список маршрутів ТСЦ 2641 (DEMICH)</h2>
                 
                 <div class="route-card">
-                    <h3>Маршрут №1</h3>
-                    <a href="http://www.youtube.com/watch?v=_qYDWaTN8o8" target="_blank">📺 Дивитись відео Маршруту №1</a>
+                    <h3 id="r-title-1">Маршрут №1</h3>
+                    <a id="r-link-1" href="http://www.youtube.com/watch?v=_qYDWaTN8o8" target="_blank">📺 Дивитись відео Маршруту №1</a>
                 </div>
 
                 <div class="route-card">
-                    <h3>Маршрут №2</h3>
-                    <a href="http://www.youtube.com/watch?v=zVOwi8QMUJg" target="_blank">📺 Дивитись відео Маршруту №2</a>
+                    <h3 id="r-title-2">Маршрут №2</h3>
+                    <a id="r-link-2" href="http://www.youtube.com/watch?v=zVOwi8QMUJg" target="_blank">📺 Дивитись відео Маршруту №2</a>
                 </div>
 
                 <div class="route-card">
-                    <h3>Маршрут №3</h3>
-                    <a href="http://www.youtube.com/watch?v=mzRqWfzmm1w" target="_blank">📺 Дивитись відео Маршруту №3</a>
+                    <h3 id="r-title-3">Маршрут №3</h3>
+                    <a id="r-link-3" href="http://www.youtube.com/watch?v=mzRqWfzmm1w" target="_blank">📺 Дивитись відео Маршруту №3</a>
                 </div>
 
                 <div class="route-card">
-                    <h3>Маршрут №4</h3>
-                    <a href="http://www.youtube.com/watch?v=zikFkM1mTOs" target="_blank">📺 Дивитись відео Маршруту №4</a>
+                    <h3 id="r-title-4">Маршрут №4</h3>
+                    <a id="r-link-4" href="http://www.youtube.com/watch?v=zikFkM1mTOs" target="_blank">📺 Дивитись відео Маршруту №4</a>
                 </div>
 
                 <div class="route-card">
-                    <h3>Маршрут №6</h3>
-                    <a href="http://www.youtube.com/watch?v=4LWmWB_bTEI" target="_blank">📺 Дивитись відео Маршруту №6</a>
+                    <h3 id="r-title-6">Маршрут №6</h3>
+                    <a id="r-link-6" href="http://www.youtube.com/watch?v=4LWmWB_bTEI" target="_blank">📺 Дивитись відео Маршруту №6</a>
                 </div>
 
                 <div class="route-card">
-                    <h3>Маршрут №7</h3>
-                    <a href="http://www.youtube.com/watch?v=Ro2rL_brZHg" target="_blank">📺 Дивитись відео Маршруту №7</a>
+                    <h3 id="r-title-7">Маршрут №7</h3>
+                    <a id="r-link-7" href="http://www.youtube.com/watch?v=Ro2rL_brZHg" target="_blank">📺 Дивитись відео Маршруту №7</a>
                 </div>
 
                 <div class="route-card">
-                    <h3>Маршрут №8</h3>
-                    <a href="http://www.youtube.com/watch?v=op8rQKS2e9U" target="_blank">📺 Дивитись відео Маршруту №8</a>
+                    <h3 id="r-title-8">Маршрут №8</h3>
+                    <a id="r-link-8" href="http://www.youtube.com/watch?v=op8rQKS2e9U" target="_blank">📺 Дивитись відео Маршруту №8</a>
                 </div>
 
                 <div class="route-card">
-                    <h3>Маршрут №9</h3>
-                    <a href="http://www.youtube.com/watch?v=HnvoZjsp2HI" target="_blank">📺 Дивитись відео Маршруту №9</a>
+                    <h3 id="r-title-9">Маршрут №9</h3>
+                    <a id="r-link-9" href="http://www.youtube.com/watch?v=HnvoZjsp2HI" target="_blank">📺 Дивитись відео Маршруту №9</a>
                 </div>
 
                 <div class="route-card">
-                    <h3>Маршрут №10</h3>
-                    <a href="http://www.youtube.com/watch?v=j66UNL1FWuY" target="_blank">📺 Дивитись відео Маршруту №10</a>
+                    <h3 id="r-title-10">Маршрут №10</h3>
+                    <a id="r-link-10" href="http://www.youtube.com/watch?v=j66UNL1FWuY" target="_blank">📺 Дивитись відео Маршруту №10</a>
                 </div>
 
                 <div class="route-card">
-                    <h3>Маршрут №11</h3>
-                    <a href="http://www.youtube.com/watch?v=-8blmb2TSVk" target="_blank">📺 Дивитись відео Маршруту №11</a>
+                    <h3 id="r-title-11">Маршрут №11</h3>
+                    <a id="r-link-11" href="http://www.youtube.com/watch?v=-8blmb2TSVk" target="_blank">📺 Дивитись відео Маршруту №11</a>
                 </div>
 
             </div>
@@ -168,5 +180,183 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- Main Script -->
     <script src="script.js"></script>
+
+    <script>
+        function goToStreets() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const lang = urlParams.get('lang') || localStorage.getItem('selected_lang') || 'uk';
+            location.href = 'streets.html?lang=' + lang;
+        }
+
+        const appTranslations = {
+            uk: {
+                title: "🚗 Всі екзаменаційні маршрути МВС",
+                sub: "ТСЦ № 2641 (м. Івано-Франківськ) — Відео-розбори DEMICH",
+                btnMap: "🗺️ Карта (Малювання)",
+                btnRoutes: "📍 Маршрути МВС та Відео",
+                btnList: "📋 Список і Чек-лист",
+                streets: "📋 Вулиці маршрутів",
+                colorLabel: "Колір:",
+                exportBtn: "📤 Експорт у JSON",
+                importLabel: "Імпорт JSON",
+                detailsTitle: "📌 Деталі маршруту",
+                selectRoute: "Обери маршрут:",
+                selectOfficial: "Обери маршрут МВС:",
+                videoTitle: "📌 Відео та опис маршруту",
+                watchVideoList: "📺 Дивитись відео Маршруту",
+                checklistTitle: "✅ Чек-лист перед стартом іспиту",
+                check1: "Регулювання сидіння та керма",
+                check2: "Перевірка та налаштування всіх дзеркал",
+                check3: "Пристебнутися ременем безпеки",
+                check4: "Перевірити нейтральну передачу та зняти з ручника",
+                check5: "Увімкнути лівий покажчик повороту перед старом",
+                listHeader: "📚 Список маршрутів ТСЦ 2641 (DEMICH)",
+                routeWord: "Маршрут №"
+            },
+            en: {
+                title: "🚗 All MIA Exam Routes",
+                sub: "TSC № 2641 (Ivano-Frankivsk) — DEMICH Reviews",
+                btnMap: "🗺️ Map (Drawing)",
+                btnRoutes: "📍 MIA Routes & Video",
+                btnList: "📋 List & Checklist",
+                streets: "📋 Route Streets",
+                colorLabel: "Color:",
+                exportBtn: "📤 Export JSON",
+                importLabel: "Import JSON",
+                detailsTitle: "📌 Route Details",
+                selectRoute: "Select route:",
+                selectOfficial: "Select MIA route:",
+                videoTitle: "📌 Video & Route Description",
+                watchVideoList: "📺 Watch Route Video",
+                checklistTitle: "✅ Exam Start Checklist",
+                check1: "Adjust seat and steering wheel",
+                check2: "Check and adjust all mirrors",
+                check3: "Fasten seat belt",
+                check4: "Check neutral gear and release handbrake",
+                check5: "Turn on left turn signal before starting",
+                listHeader: "📚 TSC 2641 Route List (DEMICH)",
+                routeWord: "Route №"
+            },
+            pl: {
+                title: "🚗 Wszystkie trasy egzaminacyjne MSW",
+                sub: "TSC № 2641 (Iwano-Frankiwsk) — Analiza DEMICH",
+                btnMap: "🗺️ Mapa (Rysowanie)",
+                btnRoutes: "📍 Trasy MSW i Wideo",
+                btnList: "📋 Lista i Lista kontrolna",
+                streets: "📋 Ulice tras",
+                colorLabel: "Kolor:",
+                exportBtn: "📤 Eksportuj JSON",
+                importLabel: "Importuj JSON",
+                detailsTitle: "📌 Szczegóły trasy",
+                selectRoute: "Wybierz trasę:",
+                selectOfficial: "Wybierz trasę MSW:",
+                videoTitle: "📌 Wideo i opis trasy",
+                watchVideoList: "📺 Oglądaj wideo trasy",
+                checklistTitle: "✅ Lista kontrolna przed startem",
+                check1: "Regulacja siedzenia i kierownicy",
+                check2: "Sprawdzenie i regulacja wszystkich lusterek",
+                check3: "Zapinanie pasów bezpieczeństwa",
+                check4: "Sprawdzenie biegu jałowego i zwolnienie hamulca ręcznego",
+                check5: "Włączenie lewego kierunkowskazu przed startem",
+                listHeader: "📚 Lista tras TSC 2641 (DEMICH)",
+                routeWord: "Trasa №"
+            },
+            de: {
+                title: "🚗 Alle MWD-Prüfungsstrecken",
+                sub: "TSC № 2641 (Iwano-Frankiwsk) — DEMICH Analysen",
+                btnMap: "🗺️ Karte (Zeichnen)",
+                btnRoutes: "📍 MWD-Strecken & Video",
+                btnList: "📋 Liste & Checkliste",
+                streets: "📋 Routenstraßen",
+                colorLabel: "Farbe:",
+                exportBtn: "📤 JSON exportieren",
+                importLabel: "JSON importieren",
+                detailsTitle: "📌 Routendetails",
+                selectRoute: "Route wählen:",
+                selectOfficial: "MWD-Route wählen:",
+                videoTitle: "📌 Video & Routenbeschreibung",
+                watchVideoList: "📺 Routenvideo ansehen",
+                checklistTitle: "✅ Checkliste vor Prüfungsstart",
+                check1: "Sitz und Lenkrad einstellen",
+                check2: "Alle Spiegel prüfen und einstellen",
+                check3: "Sicherheitsgurt anlegen",
+                check4: "Leerlauf prüfen und Handbremse lösen",
+                check5: "Vor dem Start linken Blinker setzen",
+                listHeader: "📚 TSC 2641 Routenliste (DEMICH)",
+                routeWord: "Route №"
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            let lang = urlParams.get('lang') || localStorage.getItem('selected_lang') || 'uk';
+            const t = appTranslations[lang];
+            if (!t) return;
+
+            const h1 = document.querySelector('header h1');
+            const p = document.querySelector('header p');
+            const btnMap = document.getElementById('btn-map');
+            const btnMyRoutes = document.getElementById('btn-my-routes');
+            const btnList = document.getElementById('btn-list');
+            const btnStreetsDirect = document.getElementById('btn-streets-direct');
+            const labelSelectRoute = document.getElementById('label-select-route');
+            const labelColor = document.getElementById('label-color');
+            const btnExport = document.getElementById('btn-export');
+            const labelImport = document.getElementById('label-import');
+            const detailsTitle = document.getElementById('panel-details-title');
+            const labelSelectOfficial = document.getElementById('label-select-official');
+            const videoTitle = document.getElementById('panel-video-title');
+            const checklistTitle = document.getElementById('checklist-title');
+            const listHeaderTitle = document.getElementById('list-header-title');
+
+            if (h1) h1.innerText = t.title;
+            if (p) p.innerText = t.sub;
+            if (btnMap) btnMap.innerText = t.btnMap;
+            if (btnMyRoutes) btnMyRoutes.innerText = t.btnRoutes;
+            if (btnList) btnList.innerText = t.btnList;
+            if (btnStreetsDirect) btnStreetsDirect.innerText = t.streets;
+            if (labelSelectRoute) labelSelectRoute.innerText = t.selectRoute;
+            if (labelColor) labelColor.innerText = t.colorLabel;
+            if (btnExport) btnExport.innerText = t.exportBtn;
+            if (labelImport) labelImport.innerHTML = `📥 ${t.importLabel} <input type="file" id="importFile" accept=".json" onchange="importAllRoutes(event)" style="display: none;">`;
+            if (detailsTitle) detailsTitle.innerText = t.detailsTitle;
+            if (labelSelectOfficial) labelSelectOfficial.innerText = t.selectOfficial;
+            if (videoTitle) videoTitle.innerText = t.videoTitle;
+            if (checklistTitle) checklistTitle.innerText = t.checklistTitle;
+            if (listHeaderTitle) listHeaderTitle.innerText = t.listHeader;
+
+            // Переклад пунктів у випадаючих списках (routeSelect та myRouteSelect)
+            ['routeSelect', 'myRouteSelect'].forEach(selectId => {
+                const sel = document.getElementById(selectId);
+                if (sel) {
+                    Array.from(sel.options).forEach(opt => {
+                        const val = opt.value;
+                        opt.text = `${t.routeWord}${val}`;
+                    });
+                }
+            });
+
+            const checklistLabels = document.querySelectorAll('.checklist-items label');
+            if (checklistLabels.length >= 5) {
+                checklistLabels[0].innerHTML = `<input type="checkbox"> ${t.check1}`;
+                checklistLabels[1].innerHTML = `<input type="checkbox"> ${t.check2}`;
+                checklistLabels[2].innerHTML = `<input type="checkbox"> ${t.check3}`;
+                checklistLabels[3].innerHTML = `<input type="checkbox"> ${t.check4}`;
+                checklistLabels[4].innerHTML = `<input type="checkbox"> ${t.check5}`;
+            }
+
+            for (let i = 1; i <= 11; i++) {
+                if (i === 5) continue;
+                const link = document.getElementById(`r-link-${i}`);
+                const title = document.getElementById(`r-title-${i}`);
+                if (title) {
+                    title.innerText = `${t.routeWord}${i}`;
+                }
+                if (link) {
+                    link.innerText = `${t.watchVideoList} №${i}`;
+                }
+            }
+        });
+    </script>
 </body>
 </html>
