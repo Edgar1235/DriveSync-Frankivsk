@@ -406,7 +406,16 @@ let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastr
         { type: "crosswalk", lat: 48.89636, lng: 24.71316 },
         { type: "crosswalk", lat: 48.901, lng: 24.71296 },
         { type: "crosswalk", lat: 48.90186, lng: 24.70947 },
-        { type: "crosswalk", lat: 48.90245, lng: 24.70504 }
+        { type: "crosswalk", lat: 48.90245, lng: 24.70504 },
+        { type: "bus-stop", lat: 48.89608,  lng: 24.71297 },
+        { type: "bus-stop", lat: 48.89652,  lng: 24.71328 },
+        { type: "bus-stop", lat: 48.89998,  lng: 24.71303 },
+        { type: "bus-stop", lat: 48.90149,  lng: 24.71022 },
+        { type: "bus-stop", lat: 48.90215,  lng: 24.70891 },
+        { type: "bus-stop", lat: 48.90272,  lng: 24.70248 },
+        { type: "bus-stop", lat: 48.90247,  lng: 24.7019 },
+        { type: "bus-stop", lat: 48.90326,  lng: 24.6983 },
+        { type: "bus-stop", lat: 48.90356,  lng: 24.69838 },
     ],
 };
 let activeMyRouteInfraMode = null;
