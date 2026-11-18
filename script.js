@@ -2,7 +2,7 @@
 const tscCoords = [48.8945, 24.7170];
 
 // База даних світлофорів, парковок і пішохідних переходів для всіх маршрутів за замовчуванням
-let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastructure')) || {
+let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastructure_v2')) || {
   "1": [
         { type: "light", lat: 48.90336, lng: 24.71652 },
         { type: "light", lat: 48.90093, lng: 24.71319 },
@@ -16,16 +16,16 @@ let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastr
         { type: "crosswalk", lat: 48.9043, lng: 24.71434 },
         { type: "crosswalk", lat: 48.90373, lng: 24.71573 },
         { type: "crosswalk", lat: 48.90095, lng: 24.72294 },
-        { type: "busStop", lat: 48.8961,  lng: 24.71296 },
-        { type: "busStop", lat: 48.89652, lng: 24.71333 },
-        { type: "busStop", lat: 48.90001, lng: 24.71299 },
-        { type: "busStop", lat: 48.90276, lng: 24.7131 },
-        { type: "busStop", lat: 48.90234, lng: 24.71331 },
-        { type: "busStop", lat: 48.90393, lng: 24.7151 },
-        { type: "busStop", lat: 48.90242, lng: 24.71921 },
-        { type: "busStop", lat: 48.90213, lng: 24.71964 },
-        { type: "busStop", lat: 48.90054, lng: 24.7241 },
-        { type: "busStop", lat: 48.90025, lng: 24.72535 },
+        { type: "bus-stop", lat: 48.8961,  lng: 24.71296 },
+        { type: "bus-stop", lat: 48.89652, lng: 24.71333 },
+        { type: "bus-stop", lat: 48.90001, lng: 24.71299 },
+        { type: "bus-stop", lat: 48.90276, lng: 24.7131 },
+        { type: "bus-stop", lat: 48.90234, lng: 24.71331 },
+        { type: "bus-stop", lat: 48.90393, lng: 24.7151 },
+        { type: "bus-stop", lat: 48.90242, lng: 24.71921 },
+        { type: "bus-stop", lat: 48.90213, lng: 24.71964 },
+        { type: "bus-stop", lat: 48.90054, lng: 24.7241 },
+        { type: "bus-stop", lat: 48.90025, lng: 24.72535 }
     ],
     "2": [
         { type: "light", lat: 48.91721, lng: 24.72379 },
@@ -70,19 +70,19 @@ let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastr
         { type: "crosswalk", lat: 48.91822, lng: 24.71981 },
         { type: "crosswalk", lat: 48.91594, lng: 24.71877 },
         { type: "crosswalk", lat: 48.91492, lng: 24.71796 },
-        { type: "busStop", lat: 48.89609,  lng: 24.7129  },
-        { type: "busStop", lat: 48.89665,  lng: 24.71332 },
-        { type: "busStop", lat: 48.90001,  lng: 24.71303 },
-        { type: "busStop", lat: 48.90237,  lng: 24.71334 },
-        { type: "busStop", lat: 48.90276,  lng: 24.71303 },
-        { type: "busStop", lat: 48.90624,  lng: 24.71459 },
-        { type: "busStop", lat: 48.90715,  lng: 24.71521 },
-        { type: "busStop", lat: 48.90856,  lng: 24.71541 },
-        { type: "busStop", lat: 48.91391,  lng: 24.71737 },
-        { type: "busStop", lat: 48.91517,  lng: 24.71853 },
-        { type: "busStop", lat: 48.91664,  lng: 24.71901 },
-        { type: "busStop", lat: 48.9181,   lng: 24.72195 },
-        { type: "busStop", lat: 48.91367,  lng: 24.7212 },
+        { type: "bus-stop", lat: 48.89609,  lng: 24.7129  },
+        { type: "bus-stop", lat: 48.89665,  lng: 24.71332 },
+        { type: "bus-stop", lat: 48.90001,  lng: 24.71303 },
+        { type: "bus-stop", lat: 48.90237,  lng: 24.71334 },
+        { type: "bus-stop", lat: 48.90276,  lng: 24.71303 },
+        { type: "bus-stop", lat: 48.90624,  lng: 24.71459 },
+        { type: "bus-stop", lat: 48.90715,  lng: 24.71521 },
+        { type: "bus-stop", lat: 48.90856,  lng: 24.71541 },
+        { type: "bus-stop", lat: 48.91391,  lng: 24.71737 },
+        { type: "bus-stop", lat: 48.91517,  lng: 24.71853 },
+        { type: "bus-stop", lat: 48.91664,  lng: 24.71901 },
+        { type: "bus-stop", lat: 48.9181,   lng: 24.72195 },
+        { type: "bus-stop", lat: 48.91367,  lng: 24.7212 }
     ],
    "3": [
         { type: "light", lat: 48.89627, lng: 24.71323 },
@@ -642,7 +642,7 @@ function toggleFilter(type) {
     if (btnDraw) btnDraw.style.opacity = activeFilters[type] ? "1" : "0.3";
     if (btnMy) btnMy.style.opacity = activeFilters[type] ? "1" : "0.3";
 
-    // Перерецьовуємо маркери на обох картах
+    // Перемальовуємо маркери на обох картах
     renderInfrastructure(mapDraw);
     renderMyRouteInfra();
 }
@@ -652,7 +652,7 @@ function getIconByType(type) {
     if (type === 'crosswalk') return crosswalkIcon;
     if (type === 'no-parking') return noParkingIcon;
     if (type === 'no-entry') return noEntryIcon;
-    if (type === 'busStop') return busStopIcon;
+    if (type === 'bus-stop') return busStopIcon;
     if (type === 'stop-sign') return stopSignIcon;
     if (type === 'give-way') return giveWayIcon;
     if (type === 'main-road') return mainRoadIcon;
@@ -913,7 +913,7 @@ function renderMyRouteInfra() {
 window.deleteMyRouteInfra = function(routeNum, lat, lng) {
     if (savedMyRoutesInfra[routeNum]) {
         savedMyRoutesInfra[routeNum] = savedMyRoutesInfra[routeNum].filter(i => i.lat !== lat || i.lng !== lng);
-        localStorage.setItem('tsc_my_routes_infrastructure', JSON.stringify(savedMyRoutesInfra));
+        localStorage.setItem('tsc_my_routes_infrastructure_v2', JSON.stringify(savedMyRoutesInfra));
         renderMyRouteInfra();
     }
 };
@@ -938,7 +938,7 @@ mapMyRoutes.on('click', function(e) {
     }
 
     savedMyRoutesInfra[selectedRoute].push({ type: activeMyRouteInfraMode, lat: lat, lng: lng });
-    localStorage.setItem('tsc_my_routes_infrastructure', JSON.stringify(savedMyRoutesInfra));
+    localStorage.setItem('tsc_my_routes_infrastructure_v2', JSON.stringify(savedMyRoutesInfra));
     renderMyRouteInfra();
 });
 
@@ -984,7 +984,7 @@ function updateMyRouteDescription() {
         <div style="display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap;">
             <button onclick="setMyRouteInfraMode('light')" class="${activeMyRouteInfraMode === 'light' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.trafficLight}</button>
             <button onclick="setMyRouteInfraMode('park')" class="${activeMyRouteInfraMode === 'park' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.parking}</button>
-            <button onclick="setMyRouteInf,mode('crosswalk')" class="${activeMyRouteInfraMode === 'crosswalk' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.crosswalk}</button>
+            <button onclick="setMyRouteInfraMode('crosswalk')" class="${activeMyRouteInfraMode === 'crosswalk' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.crosswalk}</button>
             <button onclick="setMyRouteInfraMode('no-parking')" class="${activeMyRouteInfraMode === 'no-parking' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.noParking}</button>
             <button onclick="setMyRouteInfraMode('no-entry')" class="${activeMyRouteInfraMode === 'no-entry' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.noEntry}</button>
             <button onclick="setMyRouteInfraMode('bus-stop')" class="${activeMyRouteInfraMode === 'bus-stop' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.busStop}</button>
