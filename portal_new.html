@@ -6,14 +6,14 @@
     <title>Всі екзаменаційні маршрути МВС | ТСЦ 2641</title>
     <link rel="icon" type="image/png" href="img/logo.jpg">
     <link rel="stylesheet" href="welcome.css">
-    <style>
+  <style>
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #1e1e1e;
+            background: #05050a;
         }
         #app-frame {
             width: 100%;
@@ -24,92 +24,93 @@
         /* Кнопка зміни фону у лівому кутку */
         .bg-change-container {
             position: fixed;
-            top: 20px;
+            top: 16px;
             left: 20px;
             z-index: 10000;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             display: flex;
             gap: 8px;
-        }
-
-        .bg-btn {
-            background: rgba(30, 30, 30, 0.85);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 8px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            backdrop-filter: blur(6px);
-            transition: background 0.2s, border-color 0.2s;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .bg-btn:hover {
-            background: rgba(50, 50, 50, 0.95);
-            border-color: #00E676;
         }
 
         /* Селектор мови у правому кутку */
         .language-selector-container {
             position: fixed;
-            top: 20px;
+            top: 16px;
             right: 20px;
             z-index: 10000;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-        .lang-btn {
-            background: rgba(30, 30, 30, 0.85);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 8px 14px;
-            border-radius: 8px;
+
+        /* Преміальний неоновий стиль для обох кнопок */
+        .bg-btn, .lang-btn {
+            background: linear-gradient(145deg, rgba(20, 24, 42, 0.92), rgba(10, 12, 22, 0.96));
+            color: #d0dcff;
+            border: 1px solid rgba(0, 243, 255, 0.35);
+            padding: 9px 16px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 14px;
-            backdrop-filter: blur(6px);
-            transition: background 0.2s, border-color 0.2s;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            font-size: 13.5px;
+            letter-spacing: 0.4px;
+            backdrop-filter: blur(12px);
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(0, 243, 255, 0.08);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-        .lang-btn:hover {
-            background: rgba(50, 50, 50, 0.95);
-            border-color: #00E676;
+
+        .bg-btn:hover, .lang-btn:hover {
+            background: linear-gradient(145deg, rgba(35, 20, 58, 0.95), rgba(16, 22, 42, 0.95));
+            color: #ffffff;
+            border-color: #ff00e5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 0, 229, 0.4), 0 0 15px rgba(0, 243, 255, 0.35), inset 0 0 12px rgba(255, 0, 229, 0.2);
         }
+
+        /* Випадаючий список мов у стилі Cyberpunk Glass */
         .lang-dropdown {
             display: none;
             position: absolute;
             right: 0;
-            top: 42px;
-            background: rgba(25, 25, 25, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            top: 46px;
+            background: linear-gradient(180deg, rgba(14, 17, 32, 0.96) 0%, rgba(8, 10, 20, 0.98) 100%);
+            border: 1px solid rgba(0, 243, 255, 0.4);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 243, 255, 0.2);
             overflow: hidden;
-            min-width: 140px;
-            backdrop-filter: blur(8px);
+            min-width: 170px;
+            backdrop-filter: blur(16px);
+            max-height: 320px;
+            overflow-y: auto;
         }
         .lang-dropdown.show {
             display: block;
         }
         .lang-option {
             width: 100%;
-            padding: 10px 14px;
+            padding: 10px 16px;
             background: none;
             border: none;
-            color: #e0e0e0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #d0dcff;
             text-align: left;
             cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            transition: background 0.15s, color 0.15s;
+            font-size: 13.5px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .lang-option:last-child {
+            border-bottom: none;
         }
         .lang-option:hover {
-            background: #00E676;
-            color: #121212;
+            background: linear-gradient(90deg, rgba(0, 243, 255, 0.2), rgba(255, 0, 229, 0.2));
+            color: #ffffff;
+            padding-left: 20px;
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.8);
         }
     </style>
 </head>
@@ -134,6 +135,9 @@
            <button class="lang-option" onclick="changeLanguage('en')">🇬🇧 English</button>
            <button class="lang-option" onclick="changeLanguage('pl')">🇵🇱 Polski</button>
            <button class="lang-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+           <button class="lang-option" onclick="changeLanguage('zh')">🇨🇳 中文</button>
+           <button class="lang-option" onclick="changeLanguage('hu')">🇭🇺 Magyar</button>
+           <button class="lang-option" onclick="changeLanguage('ro')">🇷🇴 Română</button>
        </div>
    </div>
 
@@ -184,11 +188,9 @@
 
     <iframe id="app-frame" src="index.html"></iframe>
 
-    <!-- Підключаємо новий файл скрипта -->
     <script src="welcome_new.js"></script>
 
     <script>
-        // Функції зміни власного фону
         function changeCustomBackground(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -199,9 +201,7 @@
                 applyBackground(bgUrl);
                 try {
                     localStorage.setItem('drivesync_custom_bg', bgUrl);
-                } catch(err) {
-                    console.log("Картинка занадто велика", err);
-                }
+                } catch(err) {}
             };
             reader.readAsDataURL(file);
         }
@@ -268,7 +268,10 @@
             uk: { desc: 'Івано-Франківськ — Екзаменаційні маршрути МВС та розбори DEMICH', enter: '🎟️ Увійти', saveTitle: 'Зберегти акаунт?', saveDesc: 'Бажаєте зберегти ваші дані у цьому браузері, щоб не уводити їх наново при наступному вході?', yes: 'Так, зберегти', no: 'Ні, дякую', bgBtn: '🖼️ Змінити фон', bgReset: '🔄 Скинути' },
             en: { desc: 'Ivano-Frankivsk — Ministry of Internal Affairs Exam Routes & DEMICH Reviews', enter: '🎟️ Enter', saveTitle: 'Save account?', saveDesc: 'Do you want to save your data in this browser so you don\'t have to log in again next time?', yes: 'Yes, save', no: 'No, thanks', bgBtn: '🖼️ Change BG', bgReset: '🔄 Reset' },
             pl: { desc: 'Iwano-Frankiwsk — Trasy egzaminacyjne MSW i analiza DEMICH', enter: '🎟️ Wejdź', saveTitle: 'Zapisać konto?', saveDesc: 'Czy chcesz zapisać swoje dane w tej przeglądarce, aby nie logować się ponownie następnym razem?', yes: 'Tak, zapisz', no: 'Nie, dziękuję', bgBtn: '🖼️ Zmień tło', bgReset: '🔄 Resetuj' },
-            de: { desc: 'Iwano-Frankiwsk — MWD-Prüfungsstrecken & DEMICH Analysen', enter: '🎟️ Betreten', saveTitle: 'Konto speichern?', saveDesc: 'Möchten Sie Ihre Daten in diesem Browser speichern, um sich beim nächsten Mal nicht erneut anmelden zu müssen?', yes: 'Ja, speichern', no: 'Nein, danke', bgBtn: '🖼️ Hintergrund ändern', bgReset: '🔄 Zurücksetzen' }
+            de: { desc: 'Iwano-Frankiwsk — MWD-Prüfungsstrecken & DEMICH Analysen', enter: '🎟️ Betreten', saveTitle: 'Konto speichern?', saveDesc: 'Möchten Sie Ihre Daten in diesem Browser speichern, um sich beim nächsten Mal nicht erneut anmelden zu müssen?', yes: 'Ja, speichern', no: 'Nein, danke', bgBtn: '🖼️ Hintergrund ändern', bgReset: '🔄 Zurücksetzen' },
+            zh: { desc: '伊万-弗兰科夫斯克 — 内政部考试路线与 DEMICH 评测', enter: '🎟️ 进入', saveTitle: '保存账户？', saveDesc: '您想在此浏览器中保存您的数据，以便下次无需重新登录吗？', yes: '是的，保存', no: '不用了，谢谢', bgBtn: '🖼️ 更换背景', bgReset: '🔄 重置' },
+            hu: { desc: 'Ivano-Frankivszk — Belügyminisztérium vizsgútvonalak és DEMICH elemzések', enter: '🎟️ Belépés', saveTitle: 'Fiók mentése?', saveDesc: 'Szeretné elmenteni adatait ebben a böngészőben, hogy legközelebb ne kelljen újra bejelentkeznie?', yes: 'Igen, mentés', no: 'Nem, köszönöm', bgBtn: '🖼️ Háttér módosítása', bgReset: '🔄 Visszaállítás' },
+            ro: { desc: 'Ivano-Frankivsk — Trasee de examen MAI și recenzii DEMICH', enter: '🎟️ Intră', saveTitle: 'Salvați contul?', saveDesc: 'Doriți să vă salvați datele în acest browser pentru a nu fi nevoit să vă autentificați din nou data viitoare?', yes: 'Da, salvează', no: 'Nu, mulțumesc', bgBtn: '🖼️ Schimbă fundalul', bgReset: '🔄 Resetează' }
         };
 
         function changeLanguage(lang) {
@@ -307,7 +310,7 @@
 
         const iframe = document.getElementById('app-frame');
         iframe.onload = function() {
-            addStreetButton();
+            addNavigationButtons();
             const savedBg = localStorage.getItem('drivesync_custom_bg');
             if (savedBg) {
                 try {
@@ -316,30 +319,70 @@
             }
         };
 
-        function addStreetButton() {
+        function addNavigationButtons() {
             try {
                 const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                let btn = iframeDoc.getElementById('custom-streets-btn');
                 const savedLang = localStorage.getItem('selected_lang') || 'uk';
-                const btnText = savedLang === 'en' ? '📋 Route Streets' : (savedLang === 'pl' ? '📋 Ulice tras' : (savedLang === 'de' ? '📋 Routenstraßen' : '📋 Вулиці маршрутів'));
+                
+                const streetBtnTexts = {
+                    uk: '📋 Вулиці маршрутів',
+                    en: '📋 Route Streets',
+                    pl: '📋 Ulice tras',
+                    de: '📋 Routenstraßen',
+                    zh: '📋 路线街道',
+                    hu: '📋 Útvonalak utcái',
+                    ro: '📋 Străzile traseului'
+                };
 
-                if (!btn) {
+                const carBtnTexts = {
+                    uk: '🚗 Авто МВС',
+                    en: '🚗 MIA Cars',
+                    pl: '🚗 Samochody MSW',
+                    de: '🚗 MWD-Autos',
+                    zh: '🚗 内政部汽车',
+                    hu: '🚗 BM autók',
+                    ro: '🚗 Mașini MAI'
+                };
+
+                // 1. Кнопка Вулиці
+                let btnStreets = iframeDoc.getElementById('custom-streets-btn');
+                if (!btnStreets) {
                     const firstBtn = iframeDoc.querySelector('.nav-btn') || iframeDoc.querySelector('.nav-buttons button:last-child');
                     if (firstBtn && firstBtn.parentElement) {
-                        btn = document.createElement('button');
-                        btn.id = 'custom-streets-btn';
-                        btn.className = 'nav-btn';
-                        btn.style.backgroundColor = '#17a2b8';
-                        btn.style.color = 'white';
-                        btn.onclick = function() {
+                        btnStreets = document.createElement('button');
+                        btnStreets.id = 'custom-streets-btn';
+                        btnStreets.className = 'nav-btn';
+                        btnStreets.onclick = function() {
                             window.location.href = 'streets.html?lang=' + savedLang;
                         };
-                        firstBtn.parentElement.appendChild(btn);
+                        firstBtn.parentElement.appendChild(btnStreets);
                     }
                 }
-                if (btn) {
-                    btn.innerText = btnText;
+                if (btnStreets) {
+                    btnStreets.innerText = streetBtnTexts[savedLang] || streetBtnTexts.uk;
                 }
+
+                // 2. Кнопка Авто МВС (BeamNG Style)
+                let btnCars = iframeDoc.getElementById('custom-cars-btn');
+                if (!btnCars) {
+                    const container = iframeDoc.querySelector('.nav-buttons');
+                    if (container) {
+                        btnCars = document.createElement('button');
+                        btnCars.id = 'custom-cars-btn';
+                        btnCars.className = 'nav-btn';
+                        btnCars.style.background = '#2a1f18';
+                        btnCars.style.borderColor = '#ff6600';
+                        btnCars.style.color = '#ff6600';
+                        btnCars.onclick = function() {
+                            window.location.href = 'cars.html?lang=' + savedLang;
+                        };
+                        container.appendChild(btnCars);
+                    }
+                }
+                if (btnCars) {
+                    btnCars.innerText = carBtnTexts[savedLang] || carBtnTexts.uk;
+                }
+
             } catch (e) {}
         }
     </script>

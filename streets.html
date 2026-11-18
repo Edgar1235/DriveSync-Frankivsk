@@ -5,44 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Список вулиць по маршрутах | ТСЦ 2641</title>
     <link rel="icon" type="image/png" href="img/logo.jpg">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style-streets.css">
 </head>
 <body>
 
-    <!-- Верхня шапка -->
     <header>
         <h1>🚗 Всі екзаменаційні маршрути МВС</h1>
         <p>ТСЦ № 2641 (м. Івано-Франківськ) — Відео-розбори DEMICH</p>
     </header>
 
-    <!-- Повне меню з 4 кнопками, як на інших сторінках -->
     <div class="nav-buttons">
         <button id="s-btn-1" onclick="goToView('map')">🗺️ Карта (Малювання)</button>
         <button id="s-btn-2" onclick="goToView('my-routes')">📍 Маршрути МВС та Відео</button>
         <button id="s-btn-3" onclick="goToView('list')">📋 Список і Чек-лист</button>
         <button id="s-btn-4" class="active">📋 Вулиці маршрутів</button>
+        <!-- Виправлена кнопка без зайвих інлайн-стилів, щоб виглядала ідентично -->
+        <button id="btn-cars-direct" class="nav-btn" onclick="goToCars()">🚗 Авто МВС</button>
     </div>
 
     <div class="container">
         <h2 id="streets-header">📋 Список вулиць по екзаменаційних маршрутах</h2>
         
         <select id="routeSelect" onchange="showStreets()">
-            <option value="1">Маршрут №1 (Дудаєва)</option>
-            <option value="2">Маршрут №2 (Незалежності)</option>
-            <option value="3">Маршрут №3 (Сахарова)</option>
-            <option value="4">Маршрут №4 (Довженка)</option>
-            <option value="6">Маршрут №6 (Вокзал)</option>
-            <option value="7">Маршрут №7 (Стецького)</option>
-            <option value="8">Маршрут №8 (Микитинці )</option>
-            <option value="9">Маршрут №9 (Вокзал)</option>
-            <option value="10">Маршрут №10 (Сухомлицького)</option>
-            <option value="11">Маршрут №11 (Довженка)</option>
+            <option value="1">Маршрут №1</option>
+            <option value="2">Маршрут №2</option>
+            <option value="3">Маршрут №3</option>
+            <option value="4">Маршрут №4</option>
+            <option value="6">Маршрут №6</option>
+            <option value="7">Маршрут №7</option>
+            <option value="8">Маршрут №8</option>
+            <option value="9">Маршрут №9</option>
+            <option value="10">Маршрут №10</option>
+            <option value="11">Маршрут №11</option>
         </select>
 
         <div id="streetsListContainer">
-            <ol id="streetsUl">
-                <!-- Сюди підтягуватимуться вулиці з нумерацією -->
-            </ol>
+            <ol id="streetsUl"></ol>
         </div>
     </div>
 
@@ -51,6 +50,13 @@
             const urlParams = new URLSearchParams(window.location.search);
             const lang = urlParams.get('lang') || localStorage.getItem('selected_lang') || 'uk';
             location.href = `index.html?view=${viewName}&lang=${lang}`;
+        }
+
+        // Додано функцію переходу на сторінку автопарку із збереженням мови
+        function goToCars() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const lang = urlParams.get('lang') || localStorage.getItem('selected_lang') || 'uk';
+            location.href = `cars.html?lang=${lang}`;
         }
 
         const routesData = {
@@ -101,6 +107,42 @@
                 "9": ["Konowalsky-Str. (MWD Start)", "Sacharow-Str.", "Melnyk-Str.", "Unabhängigkeitsstr.", "Eisenbahnstr.", "Unabhängigkeitsstr.", "Schuchewytsch-Str.", "Wysochana-Str.", "Zoria-Str.", "Bandera-Str.", "Rückkehr zum Servicecenter"],
                 "10": ["Konowalsky-Str. (MWD Start)", "Petljura-Str.", "Doroschenko-Str.", "Suchomlyskyj-Str.", "Dowschenko-Str.", "Rückweg zu MWD"],
                 "11": ["Konowalsky-Str. (MWD Start)", "Petljura-Str. zum Kreisverkehr", "Rückkehr zum MWD-Servicecenter"]
+            },
+            zh: {
+                "1": ["科诺瓦利西亚街 (内政部服务中心起点)", "杜达耶夫街", "街尽头掉头", "返回内政部服务中心"],
+                "2": ["科诺瓦利西亚街 (起点)", "班德拉街", "维索恰纳街", "舒赫维奇街", "独立大街", "班德拉街", "返回服务中心"],
+                "3": ["科诺瓦利西亚街 (起点)", "班德拉街", "萨哈罗夫街", "科诺瓦利西亚街", "返回内政部"],
+                "4": ["科诺瓦利西亚街 (起点)", "彼特留拉街", "多夫任科街", "环岛第四出口", "返回内政部路线"],
+                "6": ["科诺瓦利西亚街 (起点)", "班德拉街", "维索恰纳街", "舒赫维奇街", "独立大街", "铁路街", "列普基街", "独立大街", "梅尔尼克街", "萨哈罗夫街", "科诺瓦利西亚街", "返回服务中心"],
+                "7": ["科诺瓦利西亚街 (起点)", "班德拉街", "斯泰茨基街", "科诺瓦利西亚街", "终点"],
+                "8": ["科诺瓦利西亚街 (起点)", "班德拉街", "雷贝特街", "马库哈街", "米基宁齐街", "独立大街", "青年街", "返回服务中心"],
+                "9": ["科诺瓦利西亚街 (起点)", "萨哈罗夫街", "梅尔尼克街", "独立大街", "列普基街", "铁路街", "独立大街", "舒赫维奇街", "维索恰纳街", "佐里亚街", "班德拉街", "返回服务中心"],
+                "10": ["科诺瓦利西亚街 (起点)", "彼特留拉街", "多罗申科街", "苏霍姆利茨基街", "多夫任科街", "返回路线"],
+                "11": ["科诺瓦利西亚街 (起点)", "彼特留拉街至环岛", "返回内政部服务中心"]
+            },
+            hu: {
+                "1": ["Konovaltsia u. (Start a BM TSC közelében)", "Dzhokhar Dudayev u.", "Megfordulás az utca végén", "Visszaút a BM TSC-hez"],
+                "2": ["Konovaltsia u. (BM Start)", "Bandery u.", "Vysochana u.", "Shukhevycha u.", "Nezalezhnosti u.", "Bandery u.", "Visszatérés a szolgáltató központba"],
+                "3": ["Konovaltsia u. (BM Start)", "Bandery u.", "Sakharova u.", "Konovaltsia u.", "Visszatérés a BM-hez"],
+                "4": ["Konovaltsia u. (BM Start)", "Petliury u.", "Dovzhenka u.", "Körforgalom a 4. kijjárathoz", "Visszaút a BM-hez"],
+                "6": ["Konovaltsia u. (BM Start)", "Bandery u.", "Vysochana u.", "Shukhevycha u.", "Nezalezhnosti u.", "Zaliznychna u.", "Lepkoho u.", "Nezalezhnosti u.", "Melnyka u.", "Sakharova u.", "Konovaltsia u.", "Visszatérés a központba"],
+                "7": ["Konovaltsia u. (Start a BM közelében)", "Bandery u.", "Stetskoho u.", "Konovaltsia u.", "Cél"],
+                "8": ["Konovaltsia u. (BM Start)", "Bandery u.", "Rebeta u.", "Makuha u.", "Mykynytska u.", "Nezalezhnosti u.", "Yunosti u.", "Visszatérés a központba"],
+                "9": ["Konovaltsia u. (BM Start)", "Sakharova u.", "Melnyka u.", "Nezalezhnosti u.", "Lepkoho u.", "Zaliznychna u.", "Nezalezhnosti u.", "Shukhevychiv u.", "Vysochana u.", "Zoria u.", "Bandery u.", "Visszatérés a központba"],
+                "10": ["Konovaltsia u. (BM Start)", "Petliury u.", "Doroshenka u.", "Sukhomlytskoho u.", "Dovzhenka u.", "Visszaút a BM-hez"],
+                "11": ["Konovaltsia u. (BM Start)", "Petliury u. a körforgalomig", "Visszatérés a BM központba"]
+            },
+            ro: {
+                "1": ["Str. Konovaltsia (Start lângă TSC MAI)", "Str. Dzhokhar Dudayev", "Întoarcere la capătul străzii", "Drumul înapoi la TSC MAI"],
+                "2": ["Str. Konovaltsia (Start MAI)", "Str. Bandery", "Str. Vysochana", "Str. Shukhevycha", "Str. Nezalezhnosti", "Str. Bandery", "Întoarcere la Centrul de Servicii"],
+                "3": ["Str. Konovaltsia (Start MAI)", "Str. Bandery", "Str. Sakharova", "Str. Konovaltsia", "Întoarcere la MAI"],
+                "4": ["Str. Konovaltsia (Start MAI)", "Str. Petliury", "Str. Dovzhenka", "Sens giratoriu spre a 4-a ieșire", "Traseu de întoarcere la MAI"],
+                "6": ["Str. Konovaltsia (Start MAI)", "Str. Bandery", "Str. Vysochana", "Str. Shukhevycha", "Str. Nezalezhnosti", "Str. Zaliznychna", "Str. Lepkoho", "Str. Nezalezhnosti", "Str. Melnyka", "Str. Sakharova", "Str. Konovaltsia", "Întoarcere la centru"],
+                "7": ["Str. Konovaltsia (Start lângă MAI)", "Str. Bandery", "Str. Stetskoho", "Str. Konovaltsia", "Sosire"],
+                "8": ["Str. Konovaltsia (Start MAI)", "Str. Bandery", "Str. Rebeta", "Str. Makuha", "Str. Mykynytska", "Str. Nezalezhnosti", "Str. Yunosti", "Întoarcere la centru"],
+                "9": ["Str. Konovaltsia (Start MAI)", "Str. Sakharova", "Str. Melnyka", "Str. Nezalezhnosti", "Str. Lepkoho", "Str. Zaliznychna", "Str. Nezalezhnosti", "Str. Shukhevychiv", "Str. Vysochana", "Str. Zoria", "Str. Bandery", "Întoarcere la centru"],
+                "10": ["Str. Konovaltsia (Start MAI)", "Str. Petliury", "Str. Doroshenka", "Str. Sukhomlytskoho", "Str. Dovzhenka", "Drum înapoi la MAI"],
+                "11": ["Str. Konovaltsia (Start MAI)", "Str. Petliury până la sensul giratoriu", "Întoarcere la MAI"]
             }
         };
 
@@ -123,46 +165,48 @@
         }
 
         const streetTranslations = {
-            uk: { title: "🚗 Всі екзаменаційні маршрути МВС", sub: "ТСЦ № 2641 (м. Івано-Франківськ) — Відео-розбори DEMICH", h2: "📋 Список вулиць по екзаменаційних маршрутах", b1: "🗺️ Карта (Малювання)", b2: "📍 Маршрути МВС та Відео", b3: "📋 Список і Чек-лист", b4: "📋 Вулиці маршрутів", routeWord: "Маршрут №" },
-            en: { title: "🚗 All MIA Exam Routes", sub: "TSC № 2641 (Ivano-Frankivsk) — DEMICH Reviews", h2: "📋 Street List by Exam Routes", b1: "🗺️ Map (Drawing)", b2: "📍 MIA Routes & Video", b3: "📋 List & Checklist", b4: "📋 Route Streets", routeWord: "Route №" },
-            pl: { title: "🚗 Wszystkie trasy egzaminacyjne MSW", sub: "TSC № 2641 (Iwano-Frankiwsk) — Analiza DEMICH", h2: "📋 Lista ulic według tras egzaminacyjnych", b1: "🗺️ Mapa (Rysowanie)", b2: "📍 Trasy MSW i Wideo", b3: "📋 Lista i Lista kontrolna", b4: "📋 Ulice tras", routeWord: "Trasa №" },
-            de: { title: "🚗 Alle MWD-Prüfungsstrecken", sub: "TSC № 2641 (Iwano-Frankiwsk) — DEMICH Analysen", h2: "📋 Straßenliste nach Prüfungsstrecken", b1: "🗺️ Karte (Zeichnen)", b2: "📍 MWD-Strecken & Video", b3: "📋 Liste & Checkliste", b4: "📋 Routenstraßen", routeWord: "Route №" }
+            uk: { title: "🚗 Всі екзаменаційні маршрути МВС", sub: "ТСЦ № 2641 (м. Івано-Франківськ) — Відео-розбори DEMICH", h2: "📋 Список вулиць по екзаменаційних маршрутах", b1: "🗺️ Карта (Малювання)", b2: "📍 Маршрути МВС та Відео", b3: "📋 Список і Чек-лист", b4: "📋 Вулиці маршрутів", carsBtn: "🚗 Авто МВС", routeWord: "Маршрут №" },
+            en: { title: "🚗 All MIA Exam Routes", sub: "TSC № 2641 (Ivano-Frankivsk) — DEMICH Reviews", h2: "📋 Street List by Exam Routes", b1: "🗺️ Map (Drawing)", b2: "📍 MIA Routes & Video", b3: "📋 List & Checklist", b4: "📋 Route Streets", carsBtn: "🚗 MIA Cars", routeWord: "Route №" },
+            pl: { title: "🚗 Wszystkie trasy egzaminacyjne MSW", sub: "TSC № 2641 (Iwano-Frankiwsk) — Analiza DEMICH", h2: "📋 Lista ulic według tras egzaminacyjnych", b1: "🗺️ Mapa (Rysowanie)", b2: "📍 Trasy MSW i Wideo", b3: "📋 Lista i Lista kontrolna", b4: "📋 Ulice tras", carsBtn: "🚗 Samochody MSW", routeWord: "Trasa №" },
+            de: { title: "🚗 Alle MWD-Prüfungsstrecken", sub: "TSC № 2641 (Iwano-Frankiwsk) — DEMICH Analysen", h2: "📋 Straßenliste nach Prüfungsstrecken", b1: "🗺️ Karte (Zeichnen)", b2: "📍 MWD-Strecken & Video", b3: "📋 Liste & Checkliste", b4: "📋 Routenstraßen", carsBtn: "🚗 MWD-Autos", routeWord: "Route №" },
+            zh: { title: "🚗 所有内政部考试路线", sub: "TSC № 2641 (伊万-弗兰科夫斯克) — DEMICH 评测", h2: "📋 考试路线街道列表", b1: "🗺️ 地图 (绘制)", b2: "📍 内政部路线与视频", b3: "📋 列表与清单", b4: "📋 路线街道", carsBtn: "🚗 内政部汽车", routeWord: "路线 №" },
+            hu: { title: "🚗 Összes Belügyminisztériumi vizsgútvonal", sub: "TSC № 2641 (Ivano-Frankivszk) — DEMICH Elemzések", h2: "📋 Utcák listája a vizsgútvonalak szerint", b1: "🗺️ Térkép (Rajzolás)", b2: "📍 BM Útvonalak és Videó", b3: "📋 Lista és Ellenőrzőlista", b4: "📋 Útvonalak utcái", carsBtn: "🚗 BM autók", routeWord: "Útvonal №" },
+            ro: { title: "🚗 Toate rasele de examen MAI", sub: "TSC № 2641 (Ivano-Frankivsk) — Recenzii DEMICH", h2: "📋 Lista străzilor după rutele de examen", b1: "🗺️ Hartă (Desenare)", b2: "📍 Trasee MAI și Video", b3: "📋 Listă și Listă de verificare", b4: "📋 Străzile traseului", carsBtn: "🚗 Mașini MAI", routeWord: "Traseul №" }
         };
 
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             let lang = urlParams.get('lang') || localStorage.getItem('selected_lang') || 'uk';
-            const t = streetTranslations[lang];
+            const t = streetTranslations[lang] || streetTranslations.uk;
 
-            if (t) {
-                const h1 = document.querySelector('header h1');
-                const p = document.querySelector('header p');
-                const h2 = document.getElementById('streets-header');
-                const b1 = document.getElementById('s-btn-1');
-                const b2 = document.getElementById('s-btn-2');
-                const b3 = document.getElementById('s-btn-3');
-                const b4 = document.getElementById('s-btn-4');
+            const h1 = document.querySelector('header h1');
+            const p = document.querySelector('header p');
+            const h2 = document.getElementById('streets-header');
+            const b1 = document.getElementById('s-btn-1');
+            const b2 = document.getElementById('s-btn-2');
+            const b3 = document.getElementById('s-btn-3');
+            const b4 = document.getElementById('s-btn-4');
+            const btnCars = document.getElementById('btn-cars-direct');
 
-                if (h1) h1.innerText = t.title;
-                if (p) p.innerText = t.sub;
-                if (h2) h2.innerText = t.h2;
-                if (b1) b1.innerText = t.b1;
-                if (b2) b2.innerText = t.b2;
-                if (b3) b3.innerText = t.b3;
-                if (b4) b4.innerText = t.b4;
+            if (h1) h1.innerText = t.title;
+            if (p) p.innerText = t.sub;
+            if (h2) h2.innerText = t.h2;
+            if (b1) b1.innerText = t.b1;
+            if (b2) b2.innerText = t.b2;
+            if (b3) b3.innerText = t.b3;
+            if (b4) b4.innerText = t.b4;
+            if (btnCars) btnCars.innerText = t.carsBtn;
 
-                const sel = document.getElementById('routeSelect');
-                if (sel) {
-                    Array.from(sel.options).forEach(opt => {
-                        const val = opt.value;
-                        opt.text = `${t.routeWord}${val}`;
-                    });
-                }
+            const sel = document.getElementById('routeSelect');
+            if (sel) {
+                Array.from(sel.options).forEach(opt => {
+                    const val = opt.value;
+                    opt.text = `${t.routeWord}${val}`;
+                });
             }
 
             showStreets();
         });
     </script>
-
 </body>
 </html>

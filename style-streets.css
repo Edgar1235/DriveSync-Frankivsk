@@ -1,117 +1,184 @@
+:root {
+    --bg-color: #05050a;
+    --neon-cyan: #00f3ff;
+    --neon-pink: #ff00e5;
+    --neon-purple: #9d00ff;
+    --text-color: #ffffff;
+}
+
 * {
     box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background-image: url('img/fon.jpg');
     background-size: cover;          
     background-position: center;     
     background-repeat: no-repeat;    
     background-attachment: fixed;    
-    color: #e0e0e0;
+    color: var(--text-color);
     margin: 0;
     padding: 0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background-color: var(--bg-color);
 }
 
-/* Шапка сайту */
+/* 1. ШАПКА В СТИЛІ CYBERPUNK NEON */
 header {
-    background-color: #1e1e1e;
-    padding: 12px 20px;
+    background: linear-gradient(180deg, #0b0d1a 0%, #060710 100%);
+    padding: 13px 20px 9px 20px;
     text-align: center;
-    border-bottom: 1px solid #333333;
+    position: relative;
     flex-shrink: 0;
+    box-shadow: 0 5px 30px rgba(0, 243, 255, 0.15);
+    border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+}
+
+header::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-pink), var(--neon-cyan), transparent);
+    box-shadow: 0 0 15px var(--neon-cyan), 0 0 25px var(--neon-pink);
 }
 
 header h1 {
     margin: 0;
-    font-size: 1.3rem;
-    color: #00E676;
+    font-size: 1.42rem;
+    font-weight: 900;
+    letter-spacing: 0.8px;
+    background: linear-gradient(90deg, #00f3ff 0%, #ffffff 50%, #ff00e5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 18px rgba(0, 243, 255, 0.45));
 }
 
 header p {
     margin: 4px 0 0 0;
-    font-size: 0.85rem;
-    color: #b0b0b0;
+    font-size: 0.78rem;
+    color: #98a8d8;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(157, 0, 255, 0.5);
 }
 
-/* Навігаційне меню з 4 кнопок */
+/* 2. ПАНЕЛЬ НАВІГАЦІЇ */
 .nav-buttons {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    padding: 10px;
-    background-color: #181818;
-    border-bottom: 1px solid #333333;
+    gap: 12px;
+    padding: 12px 20px;
+    background: radial-gradient(circle at top center, rgba(157, 0, 255, 0.14) 0%, rgba(7, 9, 18, 0.96) 70%);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 0, 229, 0.25);
     flex-shrink: 0;
     margin-bottom: 30px;
     flex-wrap: wrap;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.75);
 }
 
 .nav-buttons button {
-    background-color: #2c2c2c;
-    color: #ffffff;
-    border: 1px solid #444;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    cursor: pointer;
+    position: relative;
+    background: linear-gradient(145deg, rgba(20, 24, 42, 0.9), rgba(10, 12, 22, 0.95));
+    color: #d0dcff;
+    border: 1px solid rgba(0, 243, 255, 0.25);
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-size: 0.88rem;
     font-weight: 600;
-    transition: all 0.2s;
+    cursor: pointer;
+    letter-spacing: 0.4px;
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 243, 255, 0.05);
 }
 
 .nav-buttons button:hover {
-    background-color: #3a3a3a;
+    background: linear-gradient(145deg, rgba(35, 20, 58, 0.95), rgba(16, 22, 42, 0.95));
+    color: #ffffff;
+    border-color: var(--neon-pink);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 0, 229, 0.35), 0 0 15px rgba(0, 243, 255, 0.3), inset 0 0 12px rgba(255, 0, 229, 0.2);
 }
 
 .nav-buttons button.active {
-    background-color: #00E676;
-    color: #121212;
-    border-color: #00E676;
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.22) 0%, rgba(255, 0, 229, 0.22) 100%);
+    color: #ffffff;
+    border: 1px solid var(--neon-cyan);
+    font-weight: 800;
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.8);
+    box-shadow: 
+        0 0 22px rgba(0, 243, 255, 0.45),
+        0 0 35px rgba(255, 0, 229, 0.25),
+        inset 0 0 15px rgba(0, 243, 255, 0.25);
+    transform: translateY(-1px);
 }
 
-/* Основний контейнер */
+.nav-buttons button.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 12%;
+    right: 12%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 0 12px var(--neon-cyan), 0 0 20px var(--neon-pink);
+}
+
+/* 3. ОСНОВНИЙ КОНТЕЙНЕР У СТИЛІ NEON GLASS */
 .container {
-    max-width: 750px;
-    margin: 0 auto 30px auto;
-    background: rgba(30, 30, 30, 0.95);
+    max-width: 760px;
+    width: 92%;
+    margin: 0 auto 35px auto;
+    background: linear-gradient(180deg, rgba(12, 15, 28, 0.94) 0%, rgba(7, 9, 18, 0.96) 100%);
     padding: 35px;
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 243, 255, 0.12);
+    border: 1px solid rgba(0, 243, 255, 0.25);
+    backdrop-filter: blur(16px);
 }
 
 h2 {
     margin-top: 0;
-    margin-bottom: 20px;
-    color: #00E676;
+    margin-bottom: 22px;
+    background: linear-gradient(90deg, #00f3ff 0%, #ffffff 60%, #ff00e5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 800;
+    filter: drop-shadow(0 0 12px rgba(0, 243, 255, 0.35));
 }
 
 select {
     width: 100%;
-    padding: 15px 20px;
+    padding: 14px 18px;
     font-size: 16px;
-    font-weight: 600;
-    background: #252525;
-    color: #ffffff;
-    border: 2px solid #3d3d3d;
+    font-weight: 700;
+    background: #0f1324;
+    color: var(--neon-cyan);
+    border: 1px solid rgba(0, 243, 255, 0.4);
     border-radius: 10px;
     outline: none;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 243, 255, 0.15);
+    transition: all 0.25s ease;
 }
 
-select:focus {
-    border-color: #00E676;
+select:hover, select:focus {
+    border-color: var(--neon-pink);
+    color: #ffffff;
+    box-shadow: 0 0 18px rgba(255, 0, 229, 0.45);
 }
 
-/* Оформлення списку вулиць з круглими номерами */
+/* 4. ОФОРМЛЕННЯ СПИСКУ ВУЛИЦЬ */
 ol {
     list-style: none;
     padding: 0;
@@ -123,16 +190,27 @@ ol {
 }
 
 li {
-    background: #2a2a2a;
+    background: rgba(16, 20, 36, 0.9);
     padding: 16px 20px;
     border-radius: 10px;
     font-size: 16px;
     font-weight: 500;
-    border-left: 4px solid #00E676;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #e6ecff;
+    border: 1px solid rgba(0, 243, 255, 0.15);
+    border-left: 4px solid var(--neon-pink);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
     display: flex;
     align-items: center;
     gap: 15px;
+    transition: all 0.25s ease;
+}
+
+li:hover {
+    transform: translateX(6px);
+    background: rgba(24, 28, 50, 0.95);
+    border-color: rgba(255, 0, 229, 0.45);
+    border-left-color: var(--neon-cyan);
+    box-shadow: 0 6px 18px rgba(0, 243, 255, 0.2);
 }
 
 li::before {
@@ -141,12 +219,14 @@ li::before {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
-    background: rgba(0, 230, 118, 0.15);
-    color: #00E676;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(255, 0, 229, 0.2));
+    color: var(--neon-cyan);
+    border: 1px solid rgba(0, 243, 255, 0.4);
     border-radius: 50%;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 800;
     flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
 }

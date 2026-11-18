@@ -15,7 +15,17 @@ let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastr
         { type: "crosswalk", lat: 48.90356, lng: 24.71326 },
         { type: "crosswalk", lat: 48.9043, lng: 24.71434 },
         { type: "crosswalk", lat: 48.90373, lng: 24.71573 },
-        { type: "crosswalk", lat: 48.90095, lng: 24.72294 }
+        { type: "crosswalk", lat: 48.90095, lng: 24.72294 },
+        { type: "bus_stop", lat: 48.8961,  lng: 24.71296 },
+        { type: "bus_stop", lat: 48.89652, lng: 24.71333 },
+        { type: "bus_stop", lat: 48.90001, lng: 24.71299 },
+        { type: "bus_stop", lat: 48.90276, lng: 24.7131 },
+        { type: "bus_stop", lat: 48.90234, lng: 24.71331 },
+        { type: "bus_stop", lat: 48.90393, lng: 24.7151 },
+        { type: "bus_stop", lat: 48.90242, lng: 24.71921 },
+        { type: "bus_stop", lat: 48.90213, lng: 24.71964 },
+        { type: "bus_stop", lat: 48.90054, lng: 24.7241 },
+        { type: "bus_stop", lat: 48.90025, lng: 24.72535 },
     ],
     "2": [
         { type: "light", lat: 48.91721, lng: 24.72379 },
@@ -59,7 +69,20 @@ let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastr
         { type: "crosswalk", lat: 48.91829, lng: 24.72012 },
         { type: "crosswalk", lat: 48.91822, lng: 24.71981 },
         { type: "crosswalk", lat: 48.91594, lng: 24.71877 },
-        { type: "crosswalk", lat: 48.91492, lng: 24.71796 }
+        { type: "crosswalk", lat: 48.91492, lng: 24.71796 },
+        { type: "bus_stop", lat: 48.89609,  lng: 24.7129  },
+        { type: "bus_stop", lat: 48.89665,  lng: 24.71332 },
+        { type: "bus_stop", lat: 48.90001,  lng: 24.71303 },
+        { type: "bus_stop", lat: 48.90237,  lng: 24.71334 },
+        { type: "bus_stop", lat: 48.90276,  lng: 24.71303 },
+        { type: "bus_stop", lat: 48.90624,  lng: 24.71459 },
+        { type: "bus_stop", lat: 48.90715,  lng: 24.71521 },
+        { type: "bus_stop", lat: 48.90856,  lng: 24.71541 },
+        { type: "bus_stop", lat: 48.91391,  lng: 24.71737 },
+        { type: "bus_stop", lat: 48.91517,  lng: 24.71853 },
+        { type: "bus_stop", lat: 48.91664,  lng: 24.71901 },
+        { type: "bus_stop", lat: 48.9181,   lng: 24.72195 },
+        { type: "bus_stop", lat: 48.91367,  lng: 24.7212 },
     ],
    "3": [
         { type: "light", lat: 48.89627, lng: 24.71323 },
@@ -388,7 +411,13 @@ let savedMyRoutesInfra = JSON.parse(localStorage.getItem('tsc_my_routes_infrastr
 };
 let activeMyRouteInfraMode = null;
 
-// Функція для отримання поточної мови сторінки
+// Стан активних фільтрів (за замовчуванням усі категорії увімкнені)
+let activeFilters = {
+    light: true, park: true, crosswalk: true, 
+    'no-parking': true, 'no-entry': true, 'bus-stop': true, 
+    'stop-sign': true, 'give-way': true, 'main-road': true
+};
+
 function getAppLang() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('lang') || localStorage.getItem('selected_lang') || 'uk';
@@ -396,96 +425,77 @@ function getAppLang() {
 
 const jsLangData = {
     uk: {
-        trafficLight: "🚦 Світлофор",
-        parking: "🅿️ Парковка",
-        crosswalk: "🚸 Пішохідний перехід",
-        deleteBtn: "🗑️ Видалити",
-        drawMode: "Режим малювання:",
-        pencil: "✏️ Олівець (Малювати)",
-        pencilStop: "🛑 Зупинити олівець",
-        saveBtn: "💾 Зберегти",
-        clearBtn: "Очистити",
-        emptyAlert: "Цей маршрут порожній!",
-        loadedAlert: "Маршрути успішно завантажено!",
-        errorAlert: "Помилка читання файлу!",
-        copiedAlert: "Скопійовано!",
-        copyCoordsBtn: "📋 Скопіювати",
-        routeTitle: "Маршрут",
-        officialPath: "Офіційний екзаменаційні шлях МВС. Точок:",
-        addRouteText: "Додати на цей маршрут:",
-        watchVideo: "📺 Дивитись відео-розбір",
-        coordsTitle: "Координати точки:",
-        routeWord: "Маршрут №"
+        trafficLight: "🚦 Світлофор", parking: "🅿️ Парковка", crosswalk: "🚸 Пішохідний перехід", noParking: "🚫 Зупинку заборонено", noEntry: "🛑 В'їзд заборонено", busStop: "🚏 Зупинка автобуса", stopSign: "🛑 Знак STOP", giveWay: "🔻 Дати дорогу", mainRoad: "🔶 Головна дорога",
+        deleteBtn: "🗑️ Видалити", drawMode: "Режим малювання:", pencil: "✏️ Олівець (Малювати)",
+        pencilStop: "🛑 Зупинити олівець", saveBtn: "💾 Зберегти", clearBtn: "Очистити",
+        emptyAlert: "Цей маршрут порожній!", loadedAlert: "Маршрути успішно завантажено!",
+        errorAlert: "Помилка читання файлу!", copiedAlert: "Скопійовано!", copyCoordsBtn: "📋 Скопіювати",
+        routeTitle: "Маршрут", officialPath: "Офіційний екзаменаційний шлях МВС. Точок:",
+        addRouteText: "Додати на цей маршрут:", watchVideo: "📺 Дивитись відео-розбір",
+        coordsTitle: "Координати точки:", routeWord: "Маршрут №", filterTitle: "Фільтри знаків:"
     },
     en: {
-        trafficLight: "🚦 Traffic Light",
-        parking: "🅿️ Parking",
-        crosswalk: "🚸 Crosswalk",
-        deleteBtn: "🗑️ Delete",
-        drawMode: "Drawing mode:",
-        pencil: "✏️ Pencil (Draw)",
-        pencilStop: "🛑 Stop Pencil",
-        saveBtn: "💾 Save",
-        clearBtn: "Clear",
-        emptyAlert: "This route is empty!",
-        loadedAlert: "Routes loaded successfully!",
-        errorAlert: "File reading error!",
-        copiedAlert: "Copied!",
-        copyCoordsBtn: "📋 Copy",
-        routeTitle: "Route",
-        officialPath: "Official MIA exam route. Points:",
-        addRouteText: "Add to this route:",
-        watchVideo: "📺 Watch Video Review",
-        coordsTitle: "Point coordinates:",
-        routeWord: "Route №"
+        trafficLight: "🚦 Traffic Light", parking: "🅿️ Parking", crosswalk: "🚸 Crosswalk", noParking: "🚫 No Stopping", noEntry: "🛑 No Entry", busStop: "🚏 Bus Stop", stopSign: "🛑 STOP Sign", giveWay: "🔻 Give Way", mainRoad: "🔶 Main Road",
+        deleteBtn: "🗑️ Delete", drawMode: "Drawing mode:", pencil: "✏️ Pencil (Draw)",
+        pencilStop: "🛑 Stop Pencil", saveBtn: "💾 Save", clearBtn: "Clear",
+        emptyAlert: "This route is empty!", loadedAlert: "Routes loaded successfully!",
+        errorAlert: "File reading error!", copiedAlert: "Copied!", copyCoordsBtn: "📋 Copy",
+        routeTitle: "Route", officialPath: "Official MIA exam route. Points:",
+        addRouteText: "Add to this route:", watchVideo: "📺 Watch Video Review",
+        coordsTitle: "Point coordinates:", routeWord: "Route №", filterTitle: "Sign filters:"
     },
     pl: {
-        trafficLight: "🚦 Sygnalizacja",
-        parking: "🅿️ Parking",
-        crosswalk: "🚸 Przejście dla pieszych",
-        deleteBtn: "🗑️ Usuń",
-        drawMode: "Tryb rysowania:",
-        pencil: "✏️ Ołówek (Rysuj)",
-        pencilStop: "🛑 Zatrzymaj ołówek",
-        saveBtn: "💾 Zapisz",
-        clearBtn: "Wyczyść",
-        emptyAlert: "Ta trasa jest pusta!",
-        loadedAlert: "Trasy wczytane pomyślnie!",
-        errorAlert: "Błąd odczytu pliku!",
-        copiedAlert: "Skopiowano!",
-        copyCoordsBtn: "📋 Skopiuj",
-        routeTitle: "Trasa",
-        officialPath: "Oficjalna trasa egzaminacyjna MSW. Punkty:",
-        addRouteText: "Dodaj do tej trasy:",
-        watchVideo: "📺 Oglądaj wideorecenzję",
-        coordsTitle: "Współrzędne punktu:",
-        routeWord: "Trasa №"
+        trafficLight: "🚦 Sygnalizacja", parking: "🅿️ Parking", crosswalk: "🚸 Przejście", noParking: "🚫 Zakaz zatrzymywania", noEntry: "🛑 Zakaz wjazdu", busStop: "🚏 Przystanek autobusowy", stopSign: "🛑 Znak STOP", giveWay: "🔻 Ustąp pierwszeństwa", mainRoad: "🔶 Droga z pierwszeństwem",
+        deleteBtn: "🗑️ Usuń", drawMode: "Tryb rysowania:", pencil: "✏️ Ołówek (Rysuj)",
+        pencilStop: "🛑 Zatrzymaj ołówek", saveBtn: "💾 Zapisz", clearBtn: "Wyczyść",
+        emptyAlert: "Ta trasa jest pusta!", loadedAlert: "Trasy wczytane pomyślnie!",
+        errorAlert: "Błąd odczytu pliku!", copiedAlert: "Skopiowano!", copyCoordsBtn: "📋 Skopiuj",
+        routeTitle: "Trasa", officialPath: "Oficjalna trasa egzaminacyjna MSW. Punkty:",
+        addRouteText: "Dodaj do tej trasy:", watchVideo: "📺 Oglądaj wideorecenzję",
+        coordsTitle: "Współrzędne punktu:", routeWord: "Route №", filterTitle: "Filtry znaków:"
     },
     de: {
-        trafficLight: "🚦 Ampel",
-        parking: "🅿️ Parkplatz",
-        crosswalk: "🚸 Fußgängerüberweg",
-        deleteBtn: "🗑️ Löschen",
-        drawMode: "Zeichenmodus:",
-        pencil: "✏️ Stift (Zeichnen)",
-        pencilStop: "🛑 Stift stoppen",
-        saveBtn: "💾 Speichern",
-        clearBtn: "Löschen",
-        emptyAlert: "Diese Route ist leer!",
-        loadedAlert: "Routen erfolgreich geladen!",
-        errorAlert: "Dateilesefehler!",
-        copiedAlert: "Kopiert!",
-        copyCoordsBtn: "📋 Kopieren",
-        routeTitle: "Route",
-        officialPath: "Offizielle MWD-Prüfungsstrecke. Punkte:",
-        addRouteText: "Zu dieser Route hinzufügen:",
-        watchVideo: "📺 Videobewertung ansehen",
-        coordsTitle: "Punktkoordinaten:",
-        routeWord: "Route №"
+        trafficLight: "🚦 Ampel", parking: "🅿️ Parkplatz", crosswalk: "🚸 Fußgängerüberweg", noParking: "🚫 Halteverbot", noEntry: "🛑 Einfahrt verboten", busStop: "🚏 Bushaltestelle", stopSign: "🛑 STOP-Schild", giveWay: "🔻 Vorfahrt gewähren", mainRoad: "🔶 Vorfahrtstraße",
+        deleteBtn: "🗑️ Löschen", drawMode: "Zeichenmodus:", pencil: "✏️ Stift (Zeichnen)",
+        pencilStop: "🛑 Stift stoppen", saveBtn: "💾 Speichern", clearBtn: "Löschen",
+        emptyAlert: "Diese Route ist leer!", loadedAlert: "Routen erfolgreich geladen!",
+        errorAlert: "Dateilesefehler!", copiedAlert: "Kopiert!", copyCoordsBtn: "📋 Kopieren",
+        routeTitle: "Route", officialPath: "Offizielle MWD-Prüfungsstrecke. Punkte:",
+        addRouteText: "Zu dieser Route hinzufügen:", watchVideo: "📺 Videobewertung ansehen",
+        coordsTitle: "Punktkoordinaten:", routeWord: "Route №", filterTitle: "Zeichenfilter:"
+    },
+    zh: {
+        trafficLight: "🚦 交通信号灯", parking: "🅿️ 停车场", crosswalk: "🚸 人行横道", noParking: "🚫 禁止停车", noEntry: "🛑 禁止驶入", busStop: "🚏 公交车站", stopSign: "🛑 停车标志", giveWay: "🔻 让路", mainRoad: "🔶 主路",
+        deleteBtn: "🗑️ 删除", drawMode: "绘制模式:", pencil: "✏️ 铅笔 (绘制)",
+        pencilStop: "🛑 停止绘制", saveBtn: "💾 保存", clearBtn: "清除",
+        emptyAlert: "此路线为空！", loadedAlert: "路线加载成功！",
+        errorAlert: "文件读取错误！", copiedAlert: "已复制！", copyCoordsBtn: "📋 复制",
+        routeTitle: "路线", officialPath: "内政部正式考试路线。点数:",
+        addRouteText: "添加到此路线:", watchVideo: "📺 观看视频评测",
+        coordsTitle: "点坐标:", routeWord: "Route №", filterTitle: "标志过滤器:"
+    },
+    hu: {
+        trafficLight: "🚦 Lámpa", parking: "🅿️ Parkoló", crosswalk: "🚸 Gyalogátkelő", noParking: "🚫 Megállni tilos", noEntry: "🛑 Behajtani tilos", busStop: "🚏 Buszmegálló", stopSign: "🛑 STOP tábla", giveWay: "🔻 Elsőbbségadás kötelező", mainRoad: "🔶 Főútút",
+        deleteBtn: "🗑️ Törlés", drawMode: "Rajzolási mód:", pencil: "✏️ Ceruza (Rajz)",
+        pencilStop: "🛑 Rajzolás vége", saveBtn: "💾 Mentés", clearBtn: "Törlés",
+        emptyAlert: "Ez az útvonal üres!", loadedAlert: "Útvonalak sikeresen betöltve!",
+        errorAlert: "Fájlolvasási hiba!", copiedAlert: "Másolva!", copyCoordsBtn: "📋 Másolás",
+        routeTitle: "Útvonal", officialPath: "Hivatalos BM vizsgútvonal. Pontok száma:",
+        addRouteText: "Hozzáadás az útvonalhoz:", watchVideo: "📺 Videó megtekintése",
+        coordsTitle: "Pont koordinátái:", routeWord: "Route №", filterTitle: "Jelölő szűrők:"
+    },
+    ro: {
+        trafficLight: "🚦 Semafor", parking: "🅿️ Parcare", crosswalk: "🚸 Trecere", noParking: "🚫 Oprirea interzisă", noEntry: "🛑 Acces interzis", busStop: "🚏 Stație de autobuz", stopSign: "🛑 Indicator STOP", giveWay: "🔻 Cedează trecerea", mainRoad: "🔶 Drum cu prioritate",
+        deleteBtn: "🗑️ Șterge", drawMode: "Mod desenare:", pencil: "✏️ Creion (Desenează)",
+        pencilStop: "🛑 Oprește creionul", saveBtn: "💾 Salvează", clearBtn: "Curăță",
+        emptyAlert: "Acest traseu este gol!", loadedAlert: "Trasee încărcate cu succes!",
+        errorAlert: "Eroare la citirea fișierului!", copiedAlert: "Copiat!", copyCoordsBtn: "📋 Copiază",
+        routeTitle: "Traseu", officialPath: "Traseu oficial de examen MAI. Puncte:",
+        addRouteText: "Adaugă la acest traseu:", watchVideo: "📺 Vezi recenzia video",
+        coordsTitle: "Coordonatele punctului:", routeWord: "Route №", filterTitle: "Filtre semne:"
     }
 };
 
-// Функція оновлення текстів у селекторах карт
 function updateSelectOptionsLanguage() {
     const lang = getAppLang();
     const txt = jsLangData[lang] || jsLangData.uk;
@@ -504,22 +514,83 @@ function updateSelectOptionsLanguage() {
 const trafficLightIcon = L.divIcon({
     className: 'custom-emoji-marker',
     html: '<div style="font-size: 32px; text-shadow: 0 3px 6px rgba(0,0,0,0.9); cursor: pointer;">🚦</div>',
-    iconSize: [38, 38],
-    iconAnchor: [19, 19]
+    iconSize: [38, 38], iconAnchor: [19, 19]
 });
 
 const parkingIcon = L.divIcon({
     className: 'custom-emoji-marker',
     html: '<div style="font-size: 32px; text-shadow: 0 3px 6px rgba(0,0,0,0.9); cursor: pointer;">🅿️</div>',
-    iconSize: [38, 38],
-    iconAnchor: [19, 19]
+    iconSize: [38, 38], iconAnchor: [19, 19]
 });
 
 const crosswalkIcon = L.divIcon({
     className: 'custom-emoji-marker',
     html: '<img src="img/pisoxod.jpg" style="width: 34px; height: 34px; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.9)); cursor: pointer;" title="Перехід">',
-    iconSize: [38, 38],
-    iconAnchor: [19, 19]
+    iconSize: [38, 38], iconAnchor: [19, 19]
+});
+
+const noParkingIcon = L.divIcon({
+    className: 'custom-emoji-marker',
+    html: `<svg width="34" height="34" viewBox="0 0 100 100" style="filter: drop-shadow(0 3px 6px rgba(0,0,0,0.9)); cursor: pointer; display: block;">
+        <circle cx="50" cy="50" r="46" fill="#0066b3" stroke="#ffffff" stroke-width="4"/>
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#e31e24" stroke-width="11"/>
+        <line x1="22" y1="22" x2="78" y2="78" stroke="#e31e24" stroke-width="11"/>
+        <line x1="78" y1="22" x2="22" y2="78" stroke="#e31e24" stroke-width="11"/>
+    </svg>`,
+    iconSize: [34, 34], iconAnchor: [17, 17]
+});
+
+const noEntryIcon = L.divIcon({
+    className: 'custom-emoji-marker',
+    html: `<svg width="34" height="34" viewBox="0 0 100 100" style="filter: drop-shadow(0 3px 6px rgba(0,0,0,0.9)); cursor: pointer; display: block;">
+        <circle cx="50" cy="50" r="46" fill="#e31e24" stroke="#ffffff" stroke-width="4"/>
+        <rect x="20" y="38" width="60" height="24" rx="4" fill="#ffffff"/>
+    </svg>`,
+    iconSize: [34, 34], iconAnchor: [17, 17]
+});
+
+const busStopIcon = L.divIcon({
+    className: 'custom-emoji-marker',
+    html: `<svg width="32" height="42" viewBox="0 0 120 160" style="filter: drop-shadow(0 3px 6px rgba(0,0,0,0.9)); cursor: pointer; display: block;">
+        <rect x="4" y="4" width="112" height="152" rx="16" fill="#0066b3" stroke="#ffffff" stroke-width="6"/>
+        <rect x="16" y="18" width="88" height="88" rx="8" fill="#ffffff"/>
+        <path d="M26 44 L36 32 L84 32 L94 44 L94 74 L26 74 Z" fill="#222222"/>
+        <rect x="32" y="38" width="14" height="14" rx="2" fill="#ffffff"/>
+        <rect x="52" y="38" width="16" height="14" rx="2" fill="#ffffff"/>
+        <rect x="74" y="38" width="14" height="14" rx="2" fill="#ffffff"/>
+        <path d="M26 62 L94 62 L94 74 L26 74 Z" fill="#222222"/>
+        <circle cx="40" cy="82" r="10" fill="#222222"/>
+        <circle cx="40" cy="82" r="4" fill="#ffffff"/>
+        <circle cx="80" cy="82" r="10" fill="#222222"/>
+        <circle cx="80" cy="82" r="4" fill="#ffffff"/>
+    </svg>`,
+    iconSize: [30, 38], iconAnchor: [15, 19]
+});
+
+const stopSignIcon = L.divIcon({
+    className: 'custom-emoji-marker',
+    html: `<svg width="34" height="34" viewBox="0 0 100 100" style="filter: drop-shadow(0 3px 6px rgba(0,0,0,0.9)); cursor: pointer; display: block;">
+        <polygon points="30,2 70,2 98,30 98,70 70,98 30,98 2,70 2,30" fill="#e31e24" stroke="#ffffff" stroke-width="5"/>
+        <text x="50" y="58" font-family="Arial, sans-serif" font-weight="bold" font-size="26" fill="#ffffff" text-anchor="middle">STOP</text>
+    </svg>`,
+    iconSize: [34, 34], iconAnchor: [17, 17]
+});
+
+const giveWayIcon = L.divIcon({
+    className: 'custom-emoji-marker',
+    html: `<svg width="34" height="34" viewBox="0 0 100 100" style="filter: drop-shadow(0 3px 6px rgba(0,0,0,0.9)); cursor: pointer; display: block;">
+        <polygon points="50,94 6,18 94,18" fill="#ffffff" stroke="#e31e24" stroke-width="10"/>
+    </svg>`,
+    iconSize: [34, 34], iconAnchor: [17, 17]
+});
+
+const mainRoadIcon = L.divIcon({
+    className: 'custom-emoji-marker',
+    html: `<svg width="34" height="34" viewBox="0 0 100 100" style="filter: drop-shadow(0 3px 6px rgba(0,0,0,0.9)); cursor: pointer; display: block;">
+        <polygon points="50,2 98,50 50,98 2,50" fill="#ffffff" stroke="#222222" stroke-width="4"/>
+        <polygon points="50,14 86,50 50,86 14,50" fill="#ffea00"/>
+    </svg>`,
+    iconSize: [34, 34], iconAnchor: [17, 17]
 });
 
 const predefinedRoutes = {
@@ -533,21 +604,16 @@ const predefinedRoutes = {
     "9": [[48.89462, 24.71741], [48.89458, 24.71328], [48.89465, 24.71306], [48.89789, 24.71318], [48.90085, 24.71314], [48.90434, 24.7132], [48.9045, 24.71348], [48.90463, 24.7138], [48.90491, 24.714], [48.90525, 24.71393], [48.90526, 24.71357], [48.90543, 24.71323], [48.90745, 24.71229], [48.9107, 24.71079], [48.91351, 24.70956], [48.91407, 24.70961], [48.91448, 24.7098], [48.91435, 24.71017], [48.91423, 24.71056], [48.91365, 24.71308], [48.91372, 24.71325], [48.91506, 24.71381], [48.91702, 24.71455], [48.91899, 24.71526], [48.91902, 24.71537], [48.91858, 24.718], [48.92069, 24.71962], [48.92295, 24.72156], [48.92332, 24.72186], [48.92366, 24.72244], [48.92387, 24.72338], [48.92385, 24.72356], [48.92115, 24.72482], [48.91973, 24.72549], [48.91766, 24.72467], [48.91767, 24.72396], [48.91747, 24.72385], [48.91649, 24.72319], [48.91601, 24.7226], [48.91534, 24.7219], [48.91501, 24.72153], [48.9145, 24.72131], [48.91351, 24.72141], [48.91295, 24.72106], [48.91264, 24.72085], [48.91247, 24.72068], [48.91242, 24.72057], [48.91237, 24.72049], [48.9124, 24.72036], [48.91242, 24.72024], [48.91245, 24.72006], [48.91355, 24.7186], [48.91415, 24.71781], [48.9142, 24.71769], [48.91421, 24.71766], [48.91378, 24.71826], [48.91375, 24.71825], [48.91367, 24.71822], [48.91345, 24.71816], [48.91296, 24.71802], [48.9129, 24.71799], [48.91301, 24.71729], [48.91261, 24.71708], [48.91117, 24.71665], [48.90984, 24.71617], [48.90792, 24.71529], [48.90606, 24.71459], [48.90585, 24.7145], [48.90546, 24.71412], [48.90523, 24.71375], [48.90522, 24.71331], [48.90469, 24.71311], [48.90419, 24.71329], [48.90409, 24.71313]],
     "10": [[48.89463, 24.71723], [48.89462, 24.71562], [48.89462, 24.71379], [48.89462, 24.71311], [48.89559, 24.71312], [48.8969, 24.71311], [48.89828, 24.71314], [48.89989, 24.71316], [48.9009, 24.71307], [48.901, 24.71263], [48.90207, 24.70829], [48.90215, 24.70783], [48.90258, 24.70237], [48.90285, 24.70075], [48.90354, 24.69771], [48.90372, 24.69737], [48.90374, 24.69722], [48.90364, 24.697], [48.90346, 24.69588], [48.90346, 24.6955], [48.90434, 24.69442], [48.9059, 24.69265], [48.90563, 24.69217], [48.90458, 24.69039], [48.9034, 24.68861], [48.90322, 24.68836], [48.90309, 24.68833], [48.90302, 24.68839], [48.90344, 24.69539], [48.90347, 24.69551]],
     "11": [[48.89465, 24.71741], [48.89462, 24.71317], [48.8979, 24.71318], [48.90075, 24.7132], [48.90091, 24.71316], [48.90178, 24.70957], [48.90211, 24.70804], [48.90236, 24.7053], [48.90268, 24.70167], [48.90356, 24.69772], [48.90368, 24.69754], [48.90378, 24.69727], [48.9037, 24.69707], [48.90355, 24.697], [48.9034, 24.69722], [48.90342, 24.69754], [48.90341, 24.69805], [48.9032, 24.69891], [48.9029, 24.70065], [48.9027, 24.70167]]
-}
-const routeVideos = {
-    "1": "http://www.youtube.com/watch?v=_qYDWaTN8o8",
-    "2": "http://www.youtube.com/watch?v=zVOwi8QMUJg",
-    "3": "http://www.youtube.com/watch?v=mzRqWfzmm1w",
-    "4": "http://www.youtube.com/watch?v=zikFkM1mTOs",
-    "6": "http://www.youtube.com/watch?v=4LWmWB_bTEI",
-    "7": "http://www.youtube.com/watch?v=Ro2rL_brZHg",
-    "8": "http://www.youtube.com/watch?v=op8rQKS2e9U",
-    "9": "http://www.youtube.com/watch?v=HnvoZjsp2HI",
-    "10": "http://www.youtube.com/watch?v=j66UNL1FWuY",
-    "11": "http://www.youtube.com/watch?v=-8blmb2TSVk"
 };
 
-// --- Карта 1: Інструмент для малювання власних маршрутів ---
+const routeVideos = {
+    "1": "http://www.youtube.com/watch?v=_qYDWaTN8o8", "2": "http://www.youtube.com/watch?v=zVOwi8QMUJg",
+    "3": "http://www.youtube.com/watch?v=mzRqWfzmm1w", "4": "http://www.youtube.com/watch?v=zikFkM1mTOs",
+    "6": "http://www.youtube.com/watch?v=4LWmWB_bTEI", "7": "http://www.youtube.com/watch?v=Ro2rL_brZHg",
+    "8": "http://www.youtube.com/watch?v=op8rQKS2e9U", "9": "http://www.youtube.com/watch?v=HnvoZjsp2HI",
+    "10": "http://www.youtube.com/watch?v=j66UNL1FWuY", "11": "http://www.youtube.com/watch?v=-8blmb2TSVk"
+};
+
 let mapDraw = L.map('map').setView(tscCoords, 17);
 L.tileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(mapDraw);
 
@@ -561,27 +627,63 @@ let activeInfraMode = null;
 let currentRouteColor = '#00E676';
 let savedRouteColors = JSON.parse(localStorage.getItem('tsc_route_colors')) || {};
 
+// Масиви для зберігання маркерів на картах (щоб фільтри працювали миттєво)
+let drawMapMarkers = [];
+let myRoutesMapMarkers = [];
+
 L.marker(tscCoords, { draggable: true }).addTo(mapDraw).bindPopup("<b>ТСЦ МВС № 2641 (Старт)</b>").openPopup();
 
+function toggleFilter(type) {
+    activeFilters[type] = !activeFilters[type];
+    
+    // Оновлюємо стилі кнопок фільтрації
+    const btnDraw = document.getElementById(`filter-draw-${type}`);
+    const btnMy = document.getElementById(`filter-my-${type}`);
+    if (btnDraw) btnDraw.style.opacity = activeFilters[type] ? "1" : "0.3";
+    if (btnMy) btnMy.style.opacity = activeFilters[type] ? "1" : "0.3";
+
+    // Перерецьовуємо маркери на обох картах
+    renderInfrastructure(mapDraw);
+    renderMyRouteInfra();
+}
+
+function getIconByType(type) {
+    if (type === 'park') return parkingIcon;
+    if (type === 'crosswalk') return crosswalkIcon;
+    if (type === 'no-parking') return noParkingIcon;
+    if (type === 'no-entry') return noEntryIcon;
+    if (type === 'bus-stop') return busStopIcon;
+    if (type === 'stop-sign') return stopSignIcon;
+    if (type === 'give-way') return giveWayIcon;
+    if (type === 'main-road') return mainRoadIcon;
+    return trafficLightIcon;
+}
+
 function renderInfrastructure(targetMap) {
+    // Очищаємо попередні маркери режиму малювання
+    drawMapMarkers.forEach(m => targetMap.removeLayer(m));
+    drawMapMarkers = [];
+
     const lang = getAppLang();
     const txt = jsLangData[lang] || jsLangData.uk;
 
     savedInfrastructure.forEach(item => {
-        let icon = trafficLightIcon;
-        if (item.type === 'park') icon = parkingIcon;
-        if (item.type === 'crosswalk') icon = crosswalkIcon;
+        // Якщо фільтр для цього типу вимкнений — пропускаємо
+        if (!activeFilters[item.type]) return;
+
+        let icon = getIconByType(item.type);
+        let titleName = item.type === 'light' ? txt.trafficLight : (item.type === 'park' ? txt.parking : (item.type === 'crosswalk' ? txt.crosswalk : (item.type === 'no-parking' ? txt.noParking : (item.type === 'no-entry' ? txt.noEntry : (item.type === 'bus-stop' ? txt.busStop : (item.type === 'stop-sign' ? txt.stopSign : (item.type === 'give-way' ? txt.giveWay : txt.mainRoad)))))));
         
         let marker = L.marker([item.lat, item.lng], { icon: icon }).addTo(targetMap);
-        let titleName = item.type === 'light' ? txt.trafficLight : (item.type === 'park' ? txt.parking : txt.crosswalk);
         marker.bindPopup(`<b>${titleName}</b><br>Координати: [${item.lat}, ${item.lng}]<br><button onclick="deleteInfra(${item.lat}, ${item.lng})" style="background:#d32f2f; color:white; border:none; padding:4px 8px; margin-top:5px; cursor:pointer; border-radius:4px;">${txt.deleteBtn}</button>`);
+        drawMapMarkers.push(marker);
     });
 }
 
 window.deleteInfra = function(lat, lng) {
     savedInfrastructure = savedInfrastructure.filter(i => i.lat !== lat || i.lng !== lng);
     localStorage.setItem('tsc_saved_infrastructure', JSON.stringify(savedInfrastructure));
-    location.reload();
+    renderInfrastructure(mapDraw);
 };
 
 renderInfrastructure(mapDraw);
@@ -595,15 +697,7 @@ mapDraw.on('click', function(e) {
     if (activeInfraMode) {
         savedInfrastructure.push({ type: activeInfraMode, lat: lat, lng: lng });
         localStorage.setItem('tsc_saved_infrastructure', JSON.stringify(savedInfrastructure));
-        
-        let icon = trafficLightIcon;
-        if (activeInfraMode === 'park') icon = parkingIcon;
-        if (activeInfraMode === 'crosswalk') icon = crosswalkIcon;
-
-        let titleName = activeInfraMode === 'light' ? txt.trafficLight : (activeInfraMode === 'park' ? txt.parking : txt.crosswalk);
-        L.marker([lat, lng], { icon: icon }).addTo(mapDraw)
-            .bindPopup(`<b>${titleName}</b><br>Координати: [${lat}, ${lng}]`)
-            .openPopup();
+        renderInfrastructure(mapDraw);
         return;
     }
 
@@ -676,6 +770,29 @@ function toggleDrawingMode() {
     updateCoordsOutput();
 }
 
+// Генерація панелі фільтрів для блоків
+function getFiltersHtml(prefix) {
+    const lang = getAppLang();
+    const txt = jsLangData[lang] || jsLangData.uk;
+    const types = [
+        { id: 'light', label: '🚦' }, { id: 'park', label: '🅿️' }, { id: 'crosswalk', label: '🚸' },
+        { id: 'no-parking', label: '🚫' }, { id: 'no-entry', label: '🛑(вїзд)' }, { id: 'bus-stop', label: '🚏' },
+        { id: 'stop-sign', label: '🛑(stop)' }, { id: 'give-way', label: '🔻' }, { id: 'main-road', label: '🔶' }
+    ];
+
+    let html = `<div style="margin-top: 6px; padding: 4px; background: #1a1a1a; border-radius: 4px;">
+        <div style="font-size: 10px; font-weight: bold; margin-bottom: 3px; color: #aaa;">${txt.filterTitle}</div>
+        <div style="display: flex; gap: 3px; flex-wrap: wrap;">`;
+    
+    types.forEach(t => {
+        let opacity = activeFilters[t.id] ? "1" : "0.3";
+        html += `<button id="filter-${prefix}-${t.id}" onclick="toggleFilter('${t.id}')" style="background: #333; color: white; border: 1px solid #444; padding: 2px 5px; font-size: 11px; cursor: pointer; border-radius: 3px; opacity: ${opacity};" title="${t.id}">${t.label}</button>`;
+    });
+
+    html += `</div></div>`;
+    return html;
+}
+
 function updateCoordsOutput() {
     const lang = getAppLang();
     const txt = jsLangData[lang] || jsLangData.uk;
@@ -686,15 +803,22 @@ function updateCoordsOutput() {
 
     document.getElementById('routeDescription').innerHTML = `
         <b>${txt.drawMode}</b><br>
-        <textarea style="width:100%; height:50px; background:#111; color:#00E676; font-family:monospace; font-size:11px;" readonly>${outputString}</textarea>
+        <textarea style="width:100%; height:40px; background:#111; color:#00E676; font-family:monospace; font-size:11px;" readonly>${outputString}</textarea>
+        ${getFiltersHtml('draw')}
         <div style="display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap;">
-            <button onclick="setInfraMode('light')" style="background: ${activeInfraMode === 'light' ? '#00E676' : '#333'}; color: ${activeInfraMode === 'light' ? '#121212' : '#fff'}; border:none; padding:5px; cursor:pointer; flex:1; font-size:11px; border-radius:4px;">${txt.trafficLight}</button>
-            <button onclick="setInfraMode('park')" style="background: ${activeInfraMode === 'park' ? '#00E676' : '#333'}; color: ${activeInfraMode === 'park' ? '#121212' : '#fff'}; border:none; padding:5px; cursor:pointer; flex:1; font-size:11px; border-radius:4px;">${txt.parking}</button>
-            <button onclick="setInfraMode('crosswalk')" style="background: ${activeInfraMode === 'crosswalk' ? '#00E676' : '#333'}; color: ${activeInfraMode === 'crosswalk' ? '#121212' : '#fff'}; border:none; padding:5px; cursor:pointer; flex:1; font-size:11px; border-radius:4px;">${txt.crosswalk}</button>
+            <button onclick="setInfraMode('light')" class="${activeInfraMode === 'light' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.trafficLight}</button>
+            <button onclick="setInfraMode('park')" class="${activeInfraMode === 'park' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.parking}</button>
+            <button onclick="setInfraMode('crosswalk')" class="${activeInfraMode === 'crosswalk' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.crosswalk}</button>
+            <button onclick="setInfraMode('no-parking')" class="${activeInfraMode === 'no-parking' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.noParking}</button>
+            <button onclick="setInfraMode('no-entry')" class="${activeInfraMode === 'no-entry' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.noEntry}</button>
+            <button onclick="setInfraMode('bus-stop')" class="${activeInfraMode === 'bus-stop' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.busStop}</button>
+            <button onclick="setInfraMode('stop-sign')" class="${activeInfraMode === 'stop-sign' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.stopSign}</button>
+            <button onclick="setInfraMode('give-way')" class="${activeInfraMode === 'give-way' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.giveWay}</button>
+            <button onclick="setInfraMode('main-road')" class="${activeInfraMode === 'main-road' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.mainRoad}</button>
         </div>
         <div style="display: flex; gap: 6px; margin-top: 6px;">
-            <button onclick="saveSingleRouteFile()" style="background: #00E676; color: #121212; border:none; padding:6px; cursor:pointer; flex:1; font-weight:bold; border-radius:4px;">${txt.saveBtn}</button>
-            <button onclick="clearCustomRoute()" style="background: #d32f2f; color:white; border:none; padding:6px; cursor:pointer; border-radius:4px;">${txt.clearBtn}</button>
+            <button onclick="saveSingleRouteFile()" style="background: #00E676; color: #121212; border:none; padding:5px; cursor:pointer; flex:1; font-weight:bold; border-radius:4px; font-size:11px;">${txt.saveBtn}</button>
+            <button onclick="clearCustomRoute()" style="background: #d32f2f; color:white; border:none; padding:5px; cursor:pointer; border-radius:4px; font-size:11px;">${txt.clearBtn}</button>
         </div>
     `;
 }
@@ -756,18 +880,16 @@ function importAllRoutes(event) {
     reader.readAsText(file);
 }
 
-// --- Карта 2: Офіційні маршрути МВС та власна інфраструктура на них ---
 let mapMyRoutes = L.map('map-my-routes').setView(tscCoords, 17);
 L.tileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(mapMyRoutes);
 
 L.marker(tscCoords).addTo(mapMyRoutes).bindPopup("<b>ТСЦ МВС № 2641 (Старт)</b>");
 
 let currentLayerMyRoutes = null;
-let currentMyRouteMarkers = [];
 
 function renderMyRouteInfra() {
-    currentMyRouteMarkers.forEach(m => mapMyRoutes.removeLayer(m));
-    currentMyRouteMarkers = [];
+    myRoutesMapMarkers.forEach(m => mapMyRoutes.removeLayer(m));
+    myRoutesMapMarkers = [];
 
     const lang = getAppLang();
     const txt = jsLangData[lang] || jsLangData.uk;
@@ -776,15 +898,15 @@ function renderMyRouteInfra() {
     const routeInfra = savedMyRoutesInfra[selectedRoute] || [];
 
     routeInfra.forEach(item => {
-        let icon = trafficLightIcon;
-        if (item.type === 'park') icon = parkingIcon;
-        if (item.type === 'crosswalk') icon = crosswalkIcon;
+        // Перевіряємо фільтр
+        if (!activeFilters[item.type]) return;
 
-        let titleName = item.type === 'light' ? txt.trafficLight : (item.type === 'park' ? txt.parking : txt.crosswalk);
+        let icon = getIconByType(item.type);
+        let titleName = item.type === 'light' ? txt.trafficLight : (item.type === 'park' ? txt.parking : (item.type === 'crosswalk' ? txt.crosswalk : (item.type === 'no-parking' ? txt.noParking : (item.type === 'no-entry' ? txt.noEntry : (item.type === 'bus-stop' ? txt.busStop : (item.type === 'stop-sign' ? txt.stopSign : (item.type === 'give-way' ? txt.giveWay : txt.mainRoad)))))));
 
         let marker = L.marker([item.lat, item.lng], { icon: icon }).addTo(mapMyRoutes);
         marker.bindPopup(`<b>${titleName}</b><br>${txt.routeTitle} №${selectedRoute}<br><button onclick="deleteMyRouteInfra('${selectedRoute}', ${item.lat}, ${item.lng})" style="background:#d32f2f; color:white; border:none; padding:4px 8px; margin-top:5px; cursor:pointer; border-radius:4px;">${txt.deleteBtn}</button>`);
-        currentMyRouteMarkers.push(marker);
+        myRoutesMapMarkers.push(marker);
     });
 }
 
@@ -857,16 +979,22 @@ function updateMyRouteDescription() {
 
     document.getElementById('myRouteDescription').innerHTML = `
         <b>${txt.routeTitle} №${selected}</b><br>${txt.officialPath} ${coords.length}
+        ${getFiltersHtml('my')}
         <div style="margin-top: 8px; font-weight: bold; font-size: 12px;">${txt.addRouteText}</div>
         <div style="display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap;">
-            <button onclick="setMyRouteInfraMode('light')" style="background: ${activeMyRouteInfraMode === 'light' ? '#00E676' : '#333'}; color: ${activeMyRouteInfraMode === 'light' ? '#121212' : '#fff'}; border:none; padding:5px; cursor:pointer; flex:1; font-size:11px; border-radius:4px;">${txt.trafficLight}</button>
-            <button onclick="setMyRouteInfraMode('park')" style="background: ${activeMyRouteInfraMode === 'park' ? '#00E676' : '#333'}; color: ${activeMyRouteInfraMode === 'park' ? '#121212' : '#fff'}; border:none; padding:5px; cursor:pointer; flex:1; font-size:11px; border-radius:4px;">${txt.parking}</button>
-            <button onclick="setMyRouteInfraMode('crosswalk')" style="background: ${activeMyRouteInfraMode === 'crosswalk' ? '#00E676' : '#333'}; color: ${activeMyRouteInfraMode === 'crosswalk' ? '#121212' : '#fff'}; border:none; padding:5px; cursor:pointer; flex:1; font-size:11px; border-radius:4px;">${txt.crosswalk}</button>
+            <button onclick="setMyRouteInfraMode('light')" class="${activeMyRouteInfraMode === 'light' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.trafficLight}</button>
+            <button onclick="setMyRouteInfraMode('park')" class="${activeMyRouteInfraMode === 'park' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.parking}</button>
+            <button onclick="setMyRouteInf,mode('crosswalk')" class="${activeMyRouteInfraMode === 'crosswalk' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.crosswalk}</button>
+            <button onclick="setMyRouteInfraMode('no-parking')" class="${activeMyRouteInfraMode === 'no-parking' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.noParking}</button>
+            <button onclick="setMyRouteInfraMode('no-entry')" class="${activeMyRouteInfraMode === 'no-entry' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.noEntry}</button>
+            <button onclick="setMyRouteInfraMode('bus-stop')" class="${activeMyRouteInfraMode === 'bus-stop' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.busStop}</button>
+            <button onclick="setMyRouteInfraMode('stop-sign')" class="${activeMyRouteInfraMode === 'stop-sign' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.stopSign}</button>
+            <button onclick="setMyRouteInfraMode('give-way')" class="${activeMyRouteInfraMode === 'give-way' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.giveWay}</button>
+            <button onclick="setMyRouteInfraMode('main-road')" class="${activeMyRouteInfraMode === 'main-road' ? 'infra-btn-active' : ''}" style="background: #333; color: #fff; border:1px solid #444; padding:4px; cursor:pointer; flex: 1 1 30%; font-size:9px; border-radius:4px;">${txt.mainRoad}</button>
         </div>
     `;
 }
 
-// Перемикання вкладок
 function switchView(view) {
     ['section-map', 'section-my-routes', 'section-list'].forEach(id => {
         const el = document.getElementById(id);
@@ -893,8 +1021,6 @@ function switchView(view) {
         if (document.getElementById('btn-list')) document.getElementById('btn-list').classList.add('active');
     }
 }
-
-// Первинний запуск
 updateSelectOptionsLanguage();
 changeRouteOnMap();
 changeMyRouteOnMap();

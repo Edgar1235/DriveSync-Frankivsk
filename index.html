@@ -21,7 +21,8 @@
         <button id="btn-map" class="active" onclick="switchView('map')">🗺️ Карта (Малювання)</button>
         <button id="btn-my-routes" onclick="switchView('my-routes')">📍 Маршрути МВС та Відео</button>
         <button id="btn-list" onclick="switchView('list')">📋 Список і Чек-лист</button>
-        <button id="btn-streets-direct" class="nav-btn" style="background-color: #17a2b8; color: white;" onclick="goToStreets()">📋 Вулиці маршрутів</button>
+        <button id="btn-streets-direct" class="nav-btn" onclick="goToStreets()">📋 Вулиці маршрутів</button>
+        <button id="btn-cars-direct" class="nav-btn" onclick="goToCars()" style="background: #2a1f18; border-color: #ff6600; color: #ff6600;">🚗 Авто МВС</button>
     </div>
 
     <div class="content-container">
@@ -58,7 +59,7 @@
                     <button onclick="changeRouteColor('#FFEA00')" style="width: 20px; height: 20px; background: #FFEA00; border: none; border-radius: 50%; cursor: pointer;" title="Жовтий"></button>
                 </div>
 
-                <!-- Додано кнопки Експорту / Імпорту -->
+                <!-- Кнопки Експорту / Імпорту -->
                 <div class="file-tools" style="display: flex; gap: 8px; margin-left: auto;">
                     <button id="btn-export" onclick="exportAllRoutes()" style="background: #444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;">📤 Експорт у JSON</button>
                     <label id="label-import" style="background: #444; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: inline-block; font-size: 13px;">
@@ -122,55 +123,16 @@
 
                 <h2 id="list-header-title">📚 Список маршрутів ТСЦ 2641 (DEMICH)</h2>
                 
-                <div class="route-card">
-                    <h3 id="r-title-1">Маршрут №1</h3>
-                    <a id="r-link-1" href="http://www.youtube.com/watch?v=_qYDWaTN8o8" target="_blank">📺 Дивитись відео Маршруту №1</a>
-                </div>
-
-                <div class="route-card">
-                    <h3 id="r-title-2">Маршрут №2</h3>
-                    <a id="r-link-2" href="http://www.youtube.com/watch?v=zVOwi8QMUJg" target="_blank">📺 Дивитись відео Маршруту №2</a>
-                </div>
-
-                <div class="route-card">
-                    <h3 id="r-title-3">Маршрут №3</h3>
-                    <a id="r-link-3" href="http://www.youtube.com/watch?v=mzRqWfzmm1w" target="_blank">📺 Дивитись відео Маршруту №3</a>
-                </div>
-
-                <div class="route-card">
-                    <h3 id="r-title-4">Маршрут №4</h3>
-                    <a id="r-link-4" href="http://www.youtube.com/watch?v=zikFkM1mTOs" target="_blank">📺 Дивитись відео Маршруту №4</a>
-                </div>
-
-                <div class="route-card">
-                    <h3 id="r-title-6">Маршрут №6</h3>
-                    <a id="r-link-6" href="http://www.youtube.com/watch?v=4LWmWB_bTEI" target="_blank">📺 Дивитись відео Маршруту №6</a>
-                </div>
-
-                <div class="route-card">
-                    <h3 id="r-title-7">Маршрут №7</h3>
-                    <a id="r-link-7" href="http://www.youtube.com/watch?v=Ro2rL_brZHg" target="_blank">📺 Дивитись відео Маршруту №7</a>
-                </div>
-
-                <div class="route-card">
-                    <h3 id="r-title-8">Маршрут №8</h3>
-                    <a id="r-link-8" href="http://www.youtube.com/watch?v=op8rQKS2e9U" target="_blank">📺 Дивитись відео Маршруту №8</a>
-                </div>
-
-                <div class="route-card">
-                    <h3 id="r-title-9">Маршрут №9</h3>
-                    <a id="r-link-9" href="http://www.youtube.com/watch?v=HnvoZjsp2HI" target="_blank">📺 Дивитись відео Маршруту №9</a>
-                </div>
-
-                <div class="route-card">
-                    <h3 id="r-title-10">Маршрут №10</h3>
-                    <a id="r-link-10" href="http://www.youtube.com/watch?v=j66UNL1FWuY" target="_blank">📺 Дивитись відео Маршруту №10</a>
-                </div>
-
-                <div class="route-card">
-                    <h3 id="r-title-11">Маршрут №11</h3>
-                    <a id="r-link-11" href="http://www.youtube.com/watch?v=-8blmb2TSVk" target="_blank">📺 Дивитись відео Маршруту №11</a>
-                </div>
+                <div class="route-card"><h3 id="r-title-1">Маршрут №1</h3><a id="r-link-1" href="http://www.youtube.com/watch?v=_qYDWaTN8o8" target="_blank">📺 Дивитись відео Маршруту №1</a></div>
+                <div class="route-card"><h3 id="r-title-2">Маршрут №2</h3><a id="r-link-2" href="http://www.youtube.com/watch?v=zVOwi8QMUJg" target="_blank">📺 Дивитись відео Маршруту №2</a></div>
+                <div class="route-card"><h3 id="r-title-3">Маршрут №3</h3><a id="r-link-3" href="http://www.youtube.com/watch?v=mzRqWfzmm1w" target="_blank">📺 Дивитись відео Маршруту №3</a></div>
+                <div class="route-card"><h3 id="r-title-4">Маршрут №4</h3><a id="r-link-4" href="http://www.youtube.com/watch?v=zikFkM1mTOs" target="_blank">📺 Дивитись відео Маршруту №4</a></div>
+                <div class="route-card"><h3 id="r-title-6">Маршрут №6</h3><a id="r-link-6" href="http://www.youtube.com/watch?v=4LWmWB_bTEI" target="_blank">📺 Дивитись відео Маршруту №6</a></div>
+                <div class="route-card"><h3 id="r-title-7">Маршрут №7</h3><a id="r-link-7" href="http://www.youtube.com/watch?v=Ro2rL_brZHg" target="_blank">📺 Дивитись відео Маршруту №7</a></div>
+                <div class="route-card"><h3 id="r-title-8">Маршрут №8</h3><a id="r-link-8" href="http://www.youtube.com/watch?v=op8rQKS2e9U" target="_blank">📺 Дивитись відео Маршруту №8</a></div>
+                <div class="route-card"><h3 id="r-title-9">Маршрут №9</h3><a id="r-link-9" href="http://www.youtube.com/watch?v=HnvoZjsp2HI" target="_blank">📺 Дивитись відео Маршруту №9</a></div>
+                <div class="route-card"><h3 id="r-title-10">Маршрут №10</h3><a id="r-link-10" href="http://www.youtube.com/watch?v=j66UNL1FWuY" target="_blank">📺 Дивитись відео Маршруту №10</a></div>
+                <div class="route-card"><h3 id="r-title-11">Маршрут №11</h3><a id="r-link-11" href="http://www.youtube.com/watch?v=-8blmb2TSVk" target="_blank">📺 Дивитись відео Маршруту №11</a></div>
 
             </div>
         </div>
@@ -188,110 +150,96 @@
             location.href = 'streets.html?lang=' + lang;
         }
 
+        function goToCars() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const lang = urlParams.get('lang') || localStorage.getItem('selected_lang') || 'uk';
+            location.href = 'cars.html?lang=' + lang;
+        }
+
         const appTranslations = {
             uk: {
-                title: "🚗 Всі екзаменаційні маршрути МВС",
-                sub: "ТСЦ № 2641 (м. Івано-Франківськ) — Відео-розбори DEMICH",
-                btnMap: "🗺️ Карта (Малювання)",
-                btnRoutes: "📍 Маршрути МВС та Відео",
-                btnList: "📋 Список і Чек-лист",
-                streets: "📋 Вулиці маршрутів",
-                colorLabel: "Колір:",
-                exportBtn: "📤 Експорт у JSON",
-                importLabel: "Імпорт JSON",
-                detailsTitle: "📌 Деталі маршруту",
-                selectRoute: "Обери маршрут:",
-                selectOfficial: "Обери маршрут МВС:",
-                videoTitle: "📌 Відео та опис маршруту",
-                watchVideoList: "📺 Дивитись відео Маршруту",
-                checklistTitle: "✅ Чек-лист перед стартом іспиту",
-                check1: "Регулювання сидіння та керма",
-                check2: "Перевірка та налаштування всіх дзеркал",
-                check3: "Пристебнутися ременем безпеки",
-                check4: "Перевірити нейтральну передачу та зняти з ручника",
-                check5: "Увімкнути лівий покажчик повороту перед старом",
-                listHeader: "📚 Список маршрутів ТСЦ 2641 (DEMICH)",
-                routeWord: "Маршрут №"
+                title: "🚗 Всі екзаменаційні маршрути МВС", sub: "ТСЦ № 2641 (м. Івано-Франківськ) — Відео-розбори DEMICH",
+                btnMap: "🗺️ Карта (Малювання)", btnRoutes: "📍 Маршрути МВС та Відео", btnList: "📋 Список і Чек-лист", streets: "📋 Вулиці маршрутів", carsBtn: "🚗 Авто МВС",
+                colorLabel: "Колір:", pencilText: "✏️ Олівець (Малювати)", pencilStopText: "🛑 Зупинити олівець",
+                exportBtn: "📤 Експорт у JSON", importLabel: "Імпорт JSON", detailsTitle: "📌 Деталі маршруту",
+                selectRoute: "Обери маршрут:", selectOfficial: "Обери маршрут МВС:", videoTitle: "📌 Відео та опис маршруту",
+                watchVideoList: "📺 Дивитись відео Маршруту", checklistTitle: "✅ Чек-лист перед стартом іспиту",
+                check1: "Регулювання сидіння та керма", check2: "Перевірка та налаштування всіх дзеркал", check3: "Пристебнутися ременем безпеки",
+                check4: "Перевірити нейтральну передачу та зняти з ручника", check5: "Увімкнути лівий покажчик повороту перед старом",
+                listHeader: "📚 Список маршрутів ТСЦ 2641 (DEMICH)", routeWord: "Маршрут №"
             },
             en: {
-                title: "🚗 All MIA Exam Routes",
-                sub: "TSC № 2641 (Ivano-Frankivsk) — DEMICH Reviews",
-                btnMap: "🗺️ Map (Drawing)",
-                btnRoutes: "📍 MIA Routes & Video",
-                btnList: "📋 List & Checklist",
-                streets: "📋 Route Streets",
-                colorLabel: "Color:",
-                exportBtn: "📤 Export JSON",
-                importLabel: "Import JSON",
-                detailsTitle: "📌 Route Details",
-                selectRoute: "Select route:",
-                selectOfficial: "Select MIA route:",
-                videoTitle: "📌 Video & Route Description",
-                watchVideoList: "📺 Watch Route Video",
-                checklistTitle: "✅ Exam Start Checklist",
-                check1: "Adjust seat and steering wheel",
-                check2: "Check and adjust all mirrors",
-                check3: "Fasten seat belt",
-                check4: "Check neutral gear and release handbrake",
-                check5: "Turn on left turn signal before starting",
-                listHeader: "📚 TSC 2641 Route List (DEMICH)",
-                routeWord: "Route №"
+                title: "🚗 All MIA Exam Routes", sub: "TSC № 2641 (Ivano-Frankivsk) — DEMICH Reviews",
+                btnMap: "🗺️ Map (Drawing)", btnRoutes: "📍 MIA Routes & Video", btnList: "📋 List & Checklist", streets: "📋 Route Streets", carsBtn: "🚗 MIA Cars",
+                colorLabel: "Color:", pencilText: "✏️ Pencil (Draw)", pencilStopText: "🛑 Stop Pencil",
+                exportBtn: "📤 Export JSON", importLabel: "Import JSON", detailsTitle: "📌 Route Details",
+                selectRoute: "Select route:", selectOfficial: "Select MIA route:", videoTitle: "📌 Video & Route Description",
+                watchVideoList: "📺 Watch Route Video", checklistTitle: "✅ Exam Start Checklist",
+                check1: "Adjust seat and steering wheel", check2: "Check and adjust all mirrors", check3: "Fasten seat belt",
+                check4: "Check neutral gear and release handbrake", check5: "Turn on left turn signal before starting",
+                listHeader: "📚 TSC 2641 Route List (DEMICH)", routeWord: "Route №"
             },
             pl: {
-                title: "🚗 Wszystkie trasy egzaminacyjne MSW",
-                sub: "TSC № 2641 (Iwano-Frankiwsk) — Analiza DEMICH",
-                btnMap: "🗺️ Mapa (Rysowanie)",
-                btnRoutes: "📍 Trasy MSW i Wideo",
-                btnList: "📋 Lista i Lista kontrolna",
-                streets: "📋 Ulice tras",
-                colorLabel: "Kolor:",
-                exportBtn: "📤 Eksportuj JSON",
-                importLabel: "Importuj JSON",
-                detailsTitle: "📌 Szczegóły trasy",
-                selectRoute: "Wybierz trasę:",
-                selectOfficial: "Wybierz trasę MSW:",
-                videoTitle: "📌 Wideo i opis trasy",
-                watchVideoList: "📺 Oglądaj wideo trasy",
-                checklistTitle: "✅ Lista kontrolna przed startem",
-                check1: "Regulacja siedzenia i kierownicy",
-                check2: "Sprawdzenie i regulacja wszystkich lusterek",
-                check3: "Zapinanie pasów bezpieczeństwa",
-                check4: "Sprawdzenie biegu jałowego i zwolnienie hamulca ręcznego",
-                check5: "Włączenie lewego kierunkowskazu przed startem",
-                listHeader: "📚 Lista tras TSC 2641 (DEMICH)",
-                routeWord: "Trasa №"
+                title: "🚗 Wszystkie trasy egzaminacyjne MSW", sub: "TSC № 2641 (Iwano-Frankiwsk) — Analiza DEMICH",
+                btnMap: "🗺️ Mapa (Rysowanie)", btnRoutes: "📍 Trasy MSW i Wideo", btnList: "📋 Lista i Lista kontrolna", streets: "📋 Ulice tras", carsBtn: "🚗 Samochody MSW",
+                colorLabel: "Kolor:", pencilText: "✏️ Ołówek (Rysuj)", pencilStopText: "🛑 Zatrzymaj ołówek",
+                exportBtn: "📤 Eksportuj JSON", importLabel: "Importuj JSON", detailsTitle: "📌 Szczegóły trasy",
+                selectRoute: "Wybierz trasę:", selectOfficial: "Wybierz trasę MSW:", videoTitle: "📌 Wideo i opis trasy",
+                watchVideoList: "📺 Oglądaj wideo trasy", checklistTitle: "✅ Lista kontrolna przed startem",
+                check1: "Regulacja siedzenia i kierownicy", check2: "Sprawdzenie i regulacja wszystkich lusterek", check3: "Zapinanie pasów bezpieczeństwa",
+                check4: "Sprawdzenie biegu jałowego i zwolnienie hamulca ręcznego", check5: "Włączenie lewego kierunkowskazu przed startem",
+                listHeader: "📚 Lista tras TSC 2641 (DEMICH)", routeWord: "Trasa №"
             },
             de: {
-                title: "🚗 Alle MWD-Prüfungsstrecken",
-                sub: "TSC № 2641 (Iwano-Frankiwsk) — DEMICH Analysen",
-                btnMap: "🗺️ Karte (Zeichnen)",
-                btnRoutes: "📍 MWD-Strecken & Video",
-                btnList: "📋 Liste & Checkliste",
-                streets: "📋 Routenstraßen",
-                colorLabel: "Farbe:",
-                exportBtn: "📤 JSON exportieren",
-                importLabel: "JSON importieren",
-                detailsTitle: "📌 Routendetails",
-                selectRoute: "Route wählen:",
-                selectOfficial: "MWD-Route wählen:",
-                videoTitle: "📌 Video & Routenbeschreibung",
-                watchVideoList: "📺 Routenvideo ansehen",
-                checklistTitle: "✅ Checkliste vor Prüfungsstart",
-                check1: "Sitz und Lenkrad einstellen",
-                check2: "Alle Spiegel prüfen und einstellen",
-                check3: "Sicherheitsgurt anlegen",
-                check4: "Leerlauf prüfen und Handbremse lösen",
-                check5: "Vor dem Start linken Blinker setzen",
-                listHeader: "📚 TSC 2641 Routenliste (DEMICH)",
-                routeWord: "Route №"
+                title: "🚗 Alle MWD-Prüfungsstrecken", sub: "TSC № 2641 (Iwano-Frankiwsk) — DEMICH Analysen",
+                btnMap: "🗺️ Karte (Zeichnen)", btnRoutes: "📍 MWD-Strecken & Video", btnList: "📋 Liste & Checkliste", streets: "📋 Routenstraßen", carsBtn: "🚗 MWD-Autos",
+                colorLabel: "Farbe:", pencilText: "✏️ Stift (Zeichnen)", pencilStopText: "🛑 Stift stoppen",
+                exportBtn: "📤 JSON exportieren", importLabel: "JSON importieren", detailsTitle: "📌 Routendetails",
+                selectRoute: "Route wählen:", selectOfficial: "MWD-Route wählen:", videoTitle: "📌 Video & Routenbeschreibung",
+                watchVideoList: "📺 Routenvideo ansehen", checklistTitle: "✅ Checkliste vor Prüfungsstart",
+                check1: "Sitz und Lenkrad einstellen", check2: "Alle Spiegel prüfen und einstellen", check3: "Sicherheitsgurt anlegen",
+                check4: "Leerlauf prüfen und Handbremse lösen", check5: "Vor dem Start linken Blinker setzen",
+                listHeader: "📚 TSC 2641 Routenliste (DEMICH)", routeWord: "Route №"
+            },
+            zh: {
+                title: "🚗 所有内政部考试路线", sub: "TSC № 2641 (伊万-弗兰科夫斯克) — DEMICH 评测",
+                btnMap: "🗺️ 地图 (绘制)", btnRoutes: "📍 内政部路线与视频", btnList: "📋 列表与清单", streets: "📋 路线街道", carsBtn: "🚗 内政部汽车",
+                colorLabel: "颜色:", pencilText: "✏️ 铅笔 (绘制)", pencilStopText: "🛑 停止绘制",
+                exportBtn: "📤 导出 JSON", importLabel: "导入 JSON", detailsTitle: "📌 路线详情",
+                selectRoute: "选择路线:", selectOfficial: "选择内政部路线:", videoTitle: "📌 视频与路线说明",
+                watchVideoList: "📺 观看路线视频", checklistTitle: "✅ 考试前检查清单",
+                check1: "调整座椅和方向盘", check2: "检查并调整所有后视镜", check3: "系好安全带",
+                check4: "检查空挡并松开手刹", check5: "起步前打左转向灯",
+                listHeader: "📚 TSC 2641 路线列表 (DEMICH)", routeWord: "路线 №"
+            },
+            hu: {
+                title: "🚗 Összes Belügyminisztériumi vizsgútvonal", sub: "TSC № 2641 (Ivano-Frankivszk) — DEMICH Elemzések",
+                btnMap: "🗺️ Térkép (Rajzolás)", btnRoutes: "📍 BM Útvonalak és Videó", btnList: "📋 Lista és Ellenőrzőlista", streets: "📋 Útvonalak utcái", carsBtn: "🚗 BM autók",
+                colorLabel: "Szín:", pencilText: "✏️ Ceruza (Rajzolás)", pencilStopText: "🛑 Rajzolás leállítása",
+                exportBtn: "📤 JSON Exportálás", importLabel: "JSON Importálás", detailsTitle: "📌 Útvonal részletei",
+                selectRoute: "Válasszon útvonalat:", selectOfficial: "Válasszon BM útvonalat:", videoTitle: "📌 Videó és útvonalleírás",
+                watchVideoList: "📺 Útvonal videó megtekintése", checklistTitle: "✅ Vizsga előtti ellenőrzőlista",
+                check1: "Ülés és kormány beállítása", check2: "Minden tükör ellenőrzése és beállítása", check3: "Biztonsági öv becsatolása",
+                check4: "Üres menetfokozat ellenőrzése és kézifék kiengedése", check5: "Bal irányjelző bekapcsolása indítás előtt",
+                listHeader: "📚 TSC 2641 Útvonallista (DEMICH)", routeWord: "Útvonal №"
+            },
+            ro: {
+                title: "🚗 Toate rasele de examen MAI", sub: "TSC № 2641 (Ivano-Frankivsk) — Recenzii DEMICH",
+                btnMap: "🗺️ Hartă (Desenare)", btnRoutes: "📍 Trasee MAI și Video", btnList: "📋 Listă și Listă de verificare", streets: "📋 Străzile traseului", carsBtn: "🚗 Mașini MAI",
+                colorLabel: "Culoare:", pencilText: "✏️ Creion (Desenează)", pencilStopText: "🛑 Oprește creionul",
+                exportBtn: "📤 Exportă JSON", importLabel: "Importă JSON", detailsTitle: "📌 Detalii traseu",
+                selectRoute: "Alege traseul:", selectOfficial: "Alege traseul MAI:", videoTitle: "📌 Video și descriere traseu",
+                watchVideoList: "📺 Vezi video traseu", checklistTitle: "✅ Lista de verificare înainte de examen",
+                check1: "Reglarea scaunului și a volanului", check2: "Verificarea și reglarea tuturor oglinzilor", check3: "Punerea centurii de siguranță",
+                check4: "Verificarea vitezei neutre și eliberarea frânei de mână", check5: "Pornirea semnalizatorului stânga înainte de plecare",
+                listHeader: "📚 Lista traseelor TSC 2641 (DEMICH)", routeWord: "Traseul №"
             }
         };
 
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             let lang = urlParams.get('lang') || localStorage.getItem('selected_lang') || 'uk';
-            const t = appTranslations[lang];
-            if (!t) return;
+            const t = appTranslations[lang] || appTranslations.uk;
 
             const h1 = document.querySelector('header h1');
             const p = document.querySelector('header p');
@@ -299,8 +247,10 @@
             const btnMyRoutes = document.getElementById('btn-my-routes');
             const btnList = document.getElementById('btn-list');
             const btnStreetsDirect = document.getElementById('btn-streets-direct');
+            const btnCarsDirect = document.getElementById('btn-cars-direct');
             const labelSelectRoute = document.getElementById('label-select-route');
             const labelColor = document.getElementById('label-color');
+            const btnPencil = document.getElementById('btn-pencil');
             const btnExport = document.getElementById('btn-export');
             const labelImport = document.getElementById('label-import');
             const detailsTitle = document.getElementById('panel-details-title');
@@ -315,8 +265,10 @@
             if (btnMyRoutes) btnMyRoutes.innerText = t.btnRoutes;
             if (btnList) btnList.innerText = t.btnList;
             if (btnStreetsDirect) btnStreetsDirect.innerText = t.streets;
+            if (btnCarsDirect) btnCarsDirect.innerText = t.carsBtn;
             if (labelSelectRoute) labelSelectRoute.innerText = t.selectRoute;
             if (labelColor) labelColor.innerText = t.colorLabel;
+            if (btnPencil) btnPencil.innerText = t.pencilText;
             if (btnExport) btnExport.innerText = t.exportBtn;
             if (labelImport) labelImport.innerHTML = `📥 ${t.importLabel} <input type="file" id="importFile" accept=".json" onchange="importAllRoutes(event)" style="display: none;">`;
             if (detailsTitle) detailsTitle.innerText = t.detailsTitle;
@@ -325,7 +277,6 @@
             if (checklistTitle) checklistTitle.innerText = t.checklistTitle;
             if (listHeaderTitle) listHeaderTitle.innerText = t.listHeader;
 
-            // Переклад пунктів у випадаючих списках (routeSelect та myRouteSelect)
             ['routeSelect', 'myRouteSelect'].forEach(selectId => {
                 const sel = document.getElementById(selectId);
                 if (sel) {
@@ -349,12 +300,8 @@
                 if (i === 5) continue;
                 const link = document.getElementById(`r-link-${i}`);
                 const title = document.getElementById(`r-title-${i}`);
-                if (title) {
-                    title.innerText = `${t.routeWord}${i}`;
-                }
-                if (link) {
-                    link.innerText = `${t.watchVideoList} №${i}`;
-                }
+                if (title) title.innerText = `${t.routeWord}${i}`;
+                if (link) link.innerText = `${t.watchVideoList} №${i}`;
             }
         });
     </script>

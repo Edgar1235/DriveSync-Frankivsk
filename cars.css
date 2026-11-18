@@ -1,0 +1,256 @@
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: #05050a;
+    color: #d0dcff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.beamng-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 14px;
+}
+
+/* Шапка у кіберпанк-стилі на всю ширину */
+.beamng-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    background: linear-gradient(145deg, rgba(20, 24, 42, 0.92), rgba(10, 12, 22, 0.96));
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 243, 255, 0.35);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(0, 243, 255, 0.08);
+    backdrop-filter: blur(12px);
+    flex-shrink: 0;
+    width: 100%;
+}
+
+/* Точна ідентична навігаційна панель як на другому фото */
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.nav-btn {
+    background: linear-gradient(145deg, rgba(14, 17, 32, 0.95), rgba(8, 10, 20, 0.98));
+    color: #d0dcff;
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13.5px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-btn:hover {
+    background: linear-gradient(145deg, rgba(35, 20, 58, 0.95), rgba(16, 22, 42, 0.95));
+    color: #ffffff;
+    border-color: #ff00e5;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 0, 229, 0.35);
+}
+
+.nav-btn.active {
+    background: linear-gradient(145deg, rgba(35, 20, 58, 0.95), rgba(16, 22, 42, 0.95));
+    color: #ff00e5;
+    border-color: #ff00e5;
+    box-shadow: 0 0 15px rgba(255, 0, 229, 0.5), inset 0 0 10px rgba(255, 0, 229, 0.2);
+    text-shadow: 0 0 8px rgba(255, 0, 229, 0.8);
+}
+
+/* Головний контейнер із кіберпанк-дизайном */
+.beamng-container {
+    display: flex;
+    flex: 1;
+    background: linear-gradient(145deg, rgba(14, 17, 32, 0.95), rgba(8, 10, 20, 0.98));
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 243, 255, 0.35);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 243, 255, 0.15);
+    backdrop-filter: blur(16px);
+    min-height: 0;
+}
+
+.vehicle-grid-pane {
+    flex: 1.8;
+    background: rgba(10, 12, 22, 0.9);
+    padding: 18px;
+    border-right: 1px solid rgba(0, 243, 255, 0.2);
+    overflow-y: auto;
+}
+
+.pane-header {
+    font-size: 13.5px;
+    font-weight: bold;
+    color: #00f3ff;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
+}
+
+.vehicles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.vehicle-card {
+    background: rgba(20, 24, 42, 0.8);
+    border: 2px solid rgba(0, 243, 255, 0.3);
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+}
+
+.vehicle-card:hover {
+    border-color: #ff00e5;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 0, 229, 0.3);
+}
+
+.vehicle-card.active {
+    border-color: #ff00e5;
+    background: rgba(35, 20, 58, 0.9);
+    box-shadow: 0 0 12px rgba(255, 0, 229, 0.5);
+}
+
+.vehicle-card img {
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-title {
+    font-size: 12.5px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #ffffff;
+}
+
+.card-badge {
+    font-size: 10px;
+    background: rgba(0, 243, 255, 0.15);
+    color: #00f3ff;
+    padding: 2px 5px;
+    border-radius: 4px;
+    display: inline-block;
+    border: 1px solid rgba(0, 243, 255, 0.3);
+}
+
+/* Права інформаційна панель */
+.vehicle-info-pane {
+    flex: 2.2;
+    background: rgba(16, 20, 35, 0.9);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+}
+
+.preview-box img {
+    width: 100%;
+    height: 155px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 243, 255, 0.4);
+    margin-bottom: 10px;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+}
+
+.preview-box h2 {
+    font-size: 17px;
+    margin: 0 0 4px 0;
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+.tagline {
+    font-size: 12px;
+    color: #a5b4fc;
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    background: rgba(10, 12, 22, 0.8);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 12.5px;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+.spec-item span {
+    color: #818cf8;
+}
+
+.exam-tips-box {
+    background: linear-gradient(135deg, rgba(35, 20, 58, 0.6), rgba(16, 22, 42, 0.8));
+    border-left: 4px solid #ff00e5;
+    border: 1px solid rgba(255, 0, 229, 0.3);
+    padding: 12px;
+    border-radius: 0 8px 8px 0;
+    box-shadow: inset 0 0 10px rgba(255, 0, 229, 0.1);
+}
+
+.exam-tips-box h3 {
+    font-size: 12.5px;
+    margin: 0 0 6px 0;
+    color: #ff00e5;
+    text-shadow: 0 0 8px rgba(255, 0, 229, 0.6);
+}
+
+.exam-tips-box ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 12px;
+    color: #d0dcff;
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    body, html {
+        overflow: auto;
+    }
+    .beamng-container {
+        flex-direction: column;
+        height: auto;
+    }
+    .vehicle-grid-pane {
+        max-height: 240px;
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+    }
+}

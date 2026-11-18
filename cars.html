@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Екзаменаційний автопарк МВС | ТСЦ 2641</title>
+    <!-- Підключаємо глобальний та локальний стилі -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cars.css">
+    <link rel="icon" type="image/png" href="img/logo.jpg">
+</head>
+<body>
+
+    <!-- 1. ШАПКА САЙТУ -->
+    <header>
+        <div style="display: flex; gap: 8px; align-items: center; position: absolute; left: 20px; top: 50%; transform: translateY(-50%);">
+            <label class="nav-btn" style="padding: 7px 14px; font-size: 0.8rem; cursor: pointer;">
+                🖼️ <span id="lbl-bg">Змінити фон</span>
+                <input type="file" id="bgFileInput" accept="image/*" style="display: none;" onchange="changeCustomBackground(event)">
+            </label>
+        </div>
+
+        <div>
+            <h1 id="site-title">🚗 Автопарк ТСЦ МВС № 2641</h1>
+            <p id="site-subtitle">Екзаменаційні автомобілі та лайфхаки (BeamNG / Cyberpunk Style)</p>
+        </div>
+
+        <div style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%);">
+            <button class="nav-btn" onclick="toggleLangDropdown(event)" style="padding: 7px 14px; font-size: 0.8rem;">
+                🌐 Мова / Language
+            </button>
+            <div class="lang-dropdown" id="lang-dropdown-menu" style="display: none; position: absolute; right: 0; top: 42px; background: rgba(14, 17, 32, 0.98); border: 1px solid rgba(0, 243, 255, 0.4); border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.8); z-index: 1000; min-width: 160px; overflow: hidden;">
+                <button class="lang-option" onclick="changeLanguage('uk')" style="width: 100%; padding: 9px 14px; background: none; border: none; color: #d0dcff; text-align: left; cursor: pointer; font-size: 13px; font-weight: 600;">🇺🇦 Українська</button>
+                <button class="lang-option" onclick="changeLanguage('en')" style="width: 100%; padding: 9px 14px; background: none; border: none; color: #d0dcff; text-align: left; cursor: pointer; font-size: 13px; font-weight: 600;">🇬🇧 English</button>
+                <button class="lang-option" onclick="changeLanguage('pl')" style="width: 100%; padding: 9px 14px; background: none; border: none; color: #d0dcff; text-align: left; cursor: pointer; font-size: 13px; font-weight: 600;">🇵🇱 Polski</button>
+                <button class="lang-option" onclick="changeLanguage('de')" style="width: 100%; padding: 9px 14px; background: none; border: none; color: #d0dcff; text-align: left; cursor: pointer; font-size: 13px; font-weight: 600;">🇩🇪 Deutsch</button>
+                <button class="lang-option" onclick="changeLanguage('zh')" style="width: 100%; padding: 9px 14px; background: none; border: none; color: #d0dcff; text-align: left; cursor: pointer; font-size: 13px; font-weight: 600;">🇨🇳 中文</button>
+                <button class="lang-option" onclick="changeLanguage('hu')" style="width: 100%; padding: 9px 14px; background: none; border: none; color: #d0dcff; text-align: left; cursor: pointer; font-size: 13px; font-weight: 600;">🇭🇺 Magyar</button>
+                <button class="lang-option" onclick="changeLanguage('ro')" style="width: 100%; padding: 9px 14px; background: none; border: none; color: #d0dcff; text-align: left; cursor: pointer; font-size: 13px; font-weight: 600;">🇷🇴 Română</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. ПАНЕЛЬ НАВІГАЦІЇ -->
+    <div class="nav-buttons">
+        <button class="nav-btn" id="nav-map" onclick="goToMainView('map')">🗺️ Карта (Малювання)</button>
+        <button class="nav-btn" id="nav-routes" onclick="goToMainView('my-routes')">📍 Маршрути МВС та Відео</button>
+        <button class="nav-btn" id="nav-list" onclick="goToMainView('list')">📋 Список і Чек-лист</button>
+        <button class="nav-btn" id="nav-streets" onclick="goToStreets()">📋 Вулиці маршрутів</button>
+        <button class="nav-btn active" id="nav-cars">🚗 Авто МВС</button>
+    </div>
+
+    <!-- 3. ОСНОВНИЙ КОНТЕЙНЕР АВТОПАРКУ -->
+    <div class="content-container" style="display: flex; padding: 15px; box-sizing: border-box; overflow: hidden; flex: 1;">
+        <div class="beamng-container" style="display: flex; width: 100%; height: 100%; background: linear-gradient(145deg, rgba(14, 17, 32, 0.95), rgba(8, 10, 20, 0.98)); border-radius: 14px; overflow: hidden; border: 1px solid rgba(0, 243, 255, 0.35); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 243, 255, 0.15);">
+            
+            <!-- ЛІВА ЧАСТИНА: Сітка вибору машин -->
+            <div class="vehicle-grid-pane">
+                <div class="pane-header" id="pane-header-text">Виберіть екзаменаційне авто</div>
+                <div class="vehicles-grid">
+                    <!-- 1. Toyota Corolla (Механіка) -->
+                    <div class="vehicle-card active" onclick="selectCar('corolla-mt')">
+                        <img src="img/toyota_mt.jpg" alt="Toyota Corolla MT" onerror="this.src='https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=400&q=80'">
+                        <div class="card-title">Toyota Corolla</div>
+                        <div class="card-badge" id="badge-mt">Механіка (МКПП-6)</div>
+                    </div>
+                    <!-- 2. Toyota Corolla (Автомат) -->
+                    <div class="vehicle-card" onclick="selectCar('corolla-at')">
+                        <img src="img/toyota_at.jpg" alt="Toyota Corolla AT" onerror="this.src='https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=400&q=80'">
+                        <div class="card-title">Toyota Corolla</div>
+                        <div class="card-badge" id="badge-at">Автомат (Варіатор)</div>
+                    </div>
+                    <!-- 3. Renault Duster -->
+                    <div class="vehicle-card" onclick="selectCar('duster-mt')">
+                        <img src="img/renault_duster.jpg" alt="Renault Duster" onerror="this.src='https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&q=80'">
+                        <div class="card-title">Renault Duster</div>
+                        <div class="card-badge" id="badge-duster">Кросовер (МКПП)</div>
+                    </div>
+                    <!-- 4. Nissan Juke -->
+                    <div class="vehicle-card" onclick="selectCar('juke-at')">
+                        <img src="img/nissan_juke.jpg" alt="Nissan Juke" onerror="this.src='https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&q=80'">
+                        <div class="card-title">Nissan Juke</div>
+                        <div class="card-badge" id="badge-juke">Компакт-кросовер</div>
+                    </div>
+                    <!-- 5. Renault Logan -->
+                    <div class="vehicle-card" onclick="selectCar('logan-mt')">
+                        <img src="img/renault_logan.jpg" alt="Renault Logan" onerror="this.src='https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=400&q=80'">
+                        <div class="card-title">Renault Logan</div>
+                        <div class="card-badge" id="badge-logan">Седан (МКПП)</div>
+                    </div>
+                    <!-- 6. Volkswagen Polo -->
+                    <div class="vehicle-card" onclick="selectCar('polo-mt')">
+                        <img src="img/vw_polo.jpg" alt="Volkswagen Polo" onerror="this.src='https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=400&q=80'">
+                        <div class="card-title">Volkswagen Polo</div>
+                        <div class="card-badge" id="badge-polo">Німецький хетчбек</div>
+                    </div>
+                    <!-- 7. Hyundai Sonata -->
+                    <div class="vehicle-card" onclick="selectCar('sonata-at')">
+                        <img src="img/hyundai_sonata.jpg" alt="Hyundai Sonata" onerror="this.src='https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&q=80'">
+                        <div class="card-title">Hyundai Sonata</div>
+                        <div class="card-badge" id="badge-sonata">Комфорт-седан</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПРАВА ЧАСТИНА: Панель деталей -->
+            <div class="vehicle-info-pane">
+                <div class="preview-box">
+                    <img id="selected-car-img" src="img/toyota_mt.jpg" alt="Preview" onerror="this.src='https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=600&q=80'">
+                    <h2 id="car-name">Toyota Corolla (МКПП-6)</h2>
+                    <div id="car-tagline" class="tagline">«Народний воїн» сервісного центру</div>
+                </div>
+
+                <!-- Технічні характеристики -->
+                <div class="specs-grid">
+                    <div class="spec-item"><span id="lbl-gearbox">Коробка:</span> <strong id="spec-gearbox">Механіка, 6-ступка</strong></div>
+                    <div class="spec-item"><span id="lbl-clutch">Педаль зчеплення:</span> <strong id="spec-clutch">Середня (характерна точка схоплення)</strong></div>
+                    <div class="spec-item"><span id="lbl-steering">Гідропідсилювач:</span> <strong id="spec-steering">Електричний (дуже легкий рух кермом)</strong></div>
+                    <div class="spec-item"><span id="lbl-brakes">Гальма:</span> <strong id="spec-brakes">Чутливі з першого міліметра</strong></div>
+                </div>
+
+                <!-- Блок корисної інфи (лайфхаки) -->
+                <div class="exam-tips-box">
+                    <h3 id="tips-header">💡 Лайфхаки для здачі на цій тачці:</h3>
+                    <ul id="tips-list">
+                        <li>На підйомах (особливо біля МВС) зчеплення хапає ближче до середини — не кидай різко, бо заглухнеш.</li>
+                        <li>Оглядовість через дзеркала чудова, але передні стійки широкі — уважно дивись на пішохідних переходах!</li>
+                        <li>Задня вмикається через кільце-фіксатор (не забудь потягнути вгору).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="cars.js"></script>
+    <script>
+        function toggleLangDropdown(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('lang-dropdown-menu');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        window.addEventListener('click', function() {
+            const dropdown = document.getElementById('lang-dropdown-menu');
+            if (dropdown) dropdown.style.display = 'none';
+        });
+
+        function changeLanguage(lang) {
+            localStorage.setItem('selected_lang', lang);
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('lang', lang);
+            window.location.search = urlParams.toString();
+        }
+
+        function changeCustomBackground(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const bgUrl = e.target.result;
+                document.body.style.backgroundImage = `url('${bgUrl}')`;
+                try { localStorage.setItem('drivesync_custom_bg', bgUrl); } catch(err) {}
+            };
+            reader.readAsDataURL(file);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedBg = localStorage.getItem('drivesync_custom_bg');
+            if (savedBg) {
+                document.body.style.backgroundImage = `url('${savedBg}')`;
+            }
+        });
+
+        function goToMainView(viewName) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const lang = urlParams.get('lang') || localStorage.getItem('selected_lang') || 'uk';
+            location.href = `index.html?view=${viewName}&lang=${lang}`;
+        }
+
+        function goToStreets() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const lang = urlParams.get('lang') || localStorage.getItem('selected_lang') || 'uk';
+            location.href = `streets.html?lang=${lang}`;
+        }
+    </script>
+</body>
+</html>
