@@ -652,7 +652,7 @@ function getIconByType(type) {
     if (type === 'crosswalk') return crosswalkIcon;
     if (type === 'no-parking') return noParkingIcon;
     if (type === 'no-entry') return noEntryIcon;
-    if (type === 'bus-stop') return busStopIcon;
+    if (type === 'busStop') return busStopIcon;
     if (type === 'stop-sign') return stopSignIcon;
     if (type === 'give-way') return giveWayIcon;
     if (type === 'main-road') return mainRoadIcon;
